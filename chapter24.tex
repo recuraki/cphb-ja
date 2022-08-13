@@ -231,80 +231,56 @@ $P(X=x)$ & $1/36$ & $2/36$ & $3/36$ & $4/36$ & $5/36$ & $6/36$ & $5/36$ & $4/36$
 \end{center}
 
 \index{一様分布 - uniform distribution}
-\key{一様分布 - uniform distribution},
-the random variable $X$ has $n$ possible
-values $a,a+1,\ldots,b$ and the probability of each value is $1/n$.
-For example, when throwing a dice,
-$a=1$, $b=6$ and $P(X=x)=1/6$ for each value $x$.
-
-The expected value of $X$ in a uniform distribution is
+\key{一様分布 - uniform distribution}では、
+確率変数$X$は$n$個の値 $a,a+1,\ldots,b$を取る時、
+各値を取る確率は$1/n$とします。
+サイコロをに当てはめれば$a = 1, b = 6$ で、各値 $x$ に対 して $P(X = x) = 1/6$ です。
+この様な一様分布における$X$の期待値は
 \[E[X] = \frac{a+b}{2}.\]
 
-\index{binomial distribution}
-In a \key{binomial distribution}, $n$ attempts
-are made
-and the probability that a single attempt succeeds
-is $p$.
-The random variable $X$ counts the number of
-successful attempts,
-and the probability of a value $x$ is
+\index{二項分布 - binomial distribution}
+\key{二項分布 - binomial distribution}において、$n$回の試行があった時、
+1回の試行が成功する確率を$p$とすると、確率変数$X$は試行の成功回数を数ることになります。
+つまり、ある値$x$の確率は次のとおりです。
 \[P(X=x)=p^x (1-p)^{n-x} {n \choose x},\]
-where $p^x$ and $(1-p)^{n-x}$ correspond to
-successful and unsuccessful attemps,
-and ${n \choose x}$ is the number of ways
-we can choose the order of the attempts.
+ここで、$p^x$ と $(1-p)^{n-x}$ はそれぞれ成功と失敗に対応しています。
+${n \choose x}$ はその試行が選ばれる回数です。
 
-For example, when throwing a dice ten times,
-the probability of throwing a six exactly
-three times is $(1/6)^3 (5/6)^7 {10 \choose 3}$.
+例えばサイコロを10回投げ、6が3回出る確率は、
+$(1/6)^3 (5/6)^7 {10 \choose 3}$です。
 
-The expected value of $X$ in a binomial distribution is
+二項分布における$X$の期待値は次の通りです。
 \[E[X] = pn.\]
 
-\index{geometric distribution}
-In a \key{geometric distribution},
-the probability that an attempt succeeds is $p$,
-and we continue until the first success happens.
-The random variable $X$ counts the number
-of attempts needed, and the probability of
-a value $x$ is
+\index{幾何分布 - geometric distribution}
+\key{幾何分布 - geometric distribution}とは、
+試行が成功する確率を$p$とし、最初の成功が起こるまで続けます。
+確率変数$X$は必要な試行回数を数えるもので、ある値$x$の確率は
 \[P(X=x)=(1-p)^{x-1} p,\]
-where $(1-p)^{x-1}$ corresponds to the unsuccessful attemps
-and $p$ corresponds to the first successful attempt.
+先ほどと同様に$(1-p)^{x-1}$は失敗した試行に対応し、$p$ は最初の成功した試行に対応します。
 
-For example, if we throw a dice until we throw a six,
-the probability that the number of throws
-is exactly 4 is $(5/6)^3 1/6$.
+ここでサイコロを6が出るまで振るとして、投げた回数がちょうど4回である確率は
+$(5/6)^3 1/6$となります。
 
-The expected value of $X$ in a geometric distribution is
+幾何分布における$X$の期待値は次の通りです。
 \[E[X]=\frac{1}{p}.\]
 
-\section{Markov chains}
+\section{マルコフ連鎖 - Markov chains}
 
-\index{Markov chain}
+\index{マルコフ連鎖 - Markov chain}
 
-A \key{Markov chain}
-% \footnote{A. A. Markov (1856--1922)
-% was a Russian mathematician.}
-is a random process
-that consists of states and transitions between them.
-For each state, we know the probabilities
-for moving to other states.
-A Markov chain can be represented as a graph
-whose nodes are states and edges are transitions.
+\key{マルコフ連鎖 - Markov chain}は状態とその間の遷移からなるランダムなプロセスのことです。
+ここで、各状態から他の状態に移行する確率は定義されています。
+マルコフ連鎖は、状態をノード、遷移をエッジとするグラフで表現することができます。
 
-As an example, consider a problem
-where we are in floor 1 in an $n$ floor building.
-At each step, we randomly walk either one floor
-up or one floor down, except that we always
-walk one floor up from floor 1 and one floor down
-from floor $n$.
-What is the probability of being in floor $m$
-after $k$ steps?
 
-In this problem, each floor of the building
-corresponds to a state in a Markov chain.
-For example, if $n=5$, the graph is as follows:
+例として、次のような問題を考えます。
+最初、$n$階建ての建物の1階にいます。
+各ステップにおいて、ランダムに1階上か1階下を歩きます。
+ただし、1階からは上にしか、$n$階からは下にしかいけないとします。
+さて、$k$ 歩いた後に $m$ 階にいる確率は何%か？
+
+この問題はマルコフ連鎖の1つで、$n=5$の場合、グラフは以下のようになる。
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -328,33 +304,17 @@ For example, if $n=5$, the graph is as follows:
 \end{tikzpicture}
 \end{center}
 
-The probability distribution
-of a Markov chain is a vector
-$[p_1,p_2,\ldots,p_n]$, where $p_k$ is the
-probability that the current state is $k$.
-The formula $p_1+p_2+\cdots+p_n=1$ always holds.
+マルコフ連鎖の確率分布はベクトル $[p_1,p_2,\ldots,p_n]$ で、
+$p_k$ は現在の状態が $k$ である確率です。この時、$p_1+p_2+\cdots+p_n=1$は常に成立します。
 
-In the above scenario, the initial distribution is
-$[1,0,0,0,0]$, because we always begin in floor 1.
-The next distribution is $[0,1,0,0,0]$,
-because we can only move from floor 1 to floor 2.
-After this, we can either move one floor up
-or one floor down, so the next distribution is
-$[1/2,0,1/2,0,0]$, and so on.
+上記のシナリオでは、最初は1階にいるので初期分布は $[1,0,0,0,0]$ です。
+次の瞬間、フロア1からフロア2にしか移動できないので、次の分布 は$[0,1,0,0,0]$です。
+この後は1階上か1階下に移動できるので、次の分布は $[1/2,0,1/2,0,0]$となり、以下同様です。
 
-An efficient way to simulate the walk in
-a Markov chain is to use dynamic programming.
-The idea is to maintain the probability distribution,
-and at each step go through all possibilities
-how we can move.
-Using this method, we can simulate
-a walk of $m$ steps in $O(n^2 m)$ time.
+これをシミュレーションする効率的な方法は、動的計画法 です。
+各ステップで、どのように動くことができるかのすべての可能性を調べていけば、$m$ステップの歩みを $O(n^2 m)$ 時間でシミュレートすることができる。
 
-The transitions of a Markov chain can also be
-represented as a matrix that updates the
-probability distribution.
-In the above scenario, the matrix is
-
+また、この遷移は、確率分布を更新する行列として表現することもできます。次の様にします。
 \[
  \begin{bmatrix}
   0 & 1/2 & 0 & 0 & 0 \\
@@ -365,11 +325,8 @@ In the above scenario, the matrix is
  \end{bmatrix}.
 \]
 
-When we multiply a probability distribution by this matrix,
-we get the new distribution after moving one step.
-For example, we can move from the distribution
-$[1,0,0,0,0]$ to the distribution
-$[0,1,0,0,0]$ as follows:
+確率分布にこの行列を掛けると、1ステップ移動した後の新しい分布が得られます。
+例えば、分布$[1,0,0,0,0]$から分布$[0,1,0,0,0]$へは、次の様になります。
 
 \[
  \begin{bmatrix}
@@ -396,9 +353,7 @@ $[0,1,0,0,0]$ as follows:
  \end{bmatrix}.
 \]
 
-By calculating matrix powers efficiently,
-we can calculate the distribution after $m$ steps
-in $O(n^3 \log m)$ time.
+行列の累乗を効率的に計算することで、$m$ステップ後の分布 を $O(n^3 \log m)$ で計算することができます。
 
 \section{乱択}
 
@@ -444,7 +399,6 @@ $a > k$ の時は左側部分の $k$番目の数を再帰的に求め，
 $a < k$ の時は右側部分の $r$ 番目の数$（r = k - a）$を再帰的に求め，
 要素が見つかるまで同様の方法で探索を見つければ良いのです。
 
-
 $x$ がランダムに選ばれるため，配列のサイズは各ステップで約半分と期待できるので，この時間計算量は次のようになります。
 \[n+n/2+n/4+n/8+\cdots < 2n = O(n).\]
 
@@ -452,41 +406,31 @@ $x$ がランダムに選ばれるため，配列のサイズは各ステップ�
 これは$x$ が配列の最小または最大の要素の1つになるように常に選択される場合で$O(n)$ ステップが必要になるからです．
 しかし、その確率は非常に小さいので、実際にはこのようなことは起こらないでしょう。
 
-\subsubsection{Verifying matrix multiplication}
+\subsubsection{行列の乗算の検証 - Verifying matrix multiplication}
 
-\index{matrix multiplication}
+\index{行列の乗算の検証 - matrix multiplication}
 
-Our next problem is to \emph{verify}
-if $AB=C$ holds when $A$, $B$ and $C$
-are matrices of size $n \times n$.
-Of course, we can solve the problem
-by calculating the product $AB$ again
-(in $O(n^3)$ time using the basic algorithm),
-but one could hope that verifying the
-answer would by easier than to calculate it from scratch.
 
-It turns out that we can solve the problem
-using a Monte Carlo algorithm\footnote{R. M. Freivalds published
+次の問題は、\emph{検証}です。
+$A,B,C$が$n \times n$である時に、$AB=C$が成り立つかどうかを調べます。
+もちろん、$AB$を$O(n^3)$で計算すれば良いです。
+しかし、これをもっと簡単に求めたいです。
+
+この問題は、モンテカルロアルゴリズム\footnote{R. M. Freivalds published
 this algorithm in 1977 \cite{fre77}, and it is sometimes
-called \index{Freivalds' algoritm} \key{Freivalds' algorithm}.} whose
-time complexity is only $O(n^2)$.
-The idea is simple: we choose a random vector
-$X$ of $n$ elements, and calculate the matrices
-$ABX$ and $CX$. If $ABX=CX$, we report that $AB=C$,
-and otherwise we report that $AB \neq C$.
+called \index{Freivalds' algoritm} \key{Freivalds' algorithm}.}
+で解くことができます。
+この計算量は$O(n^2)$です。
+考え方は簡単で、$n$この要素の$X$はランダムなベクトルを選びます。
+そして、$ABX$ と $CX$ を計算する。$ABX=CX$なら、$AB=C$です。
+そうでなければ$AB \neq C$です。
 
-The time complexity of the algorithm is
-$O(n^2)$, because we can calculate the matrices
-$ABX$ and $CX$ in $O(n^2)$ time.
-We can calculate the matrix $ABX$ efficiently
-by using the representation $A(BX)$, so only two
-multiplications of $n \times n$ and $n \times 1$
-size matrices are needed.
+このアルゴリズムの時間計算量は$O(n^2)$です。$ABX$と$CX$を$O(n^2)$の時間で計算できるためです。
+行列$ABX$を効率よく計算するには、以下の様にします。
+$A(BX)$という様に計算することで、$n \times n$ と$n \times 1$の演算をすれば良いからです。
 
-The drawback of the algorithm is
-that there is a small chance that the algorithm
-makes a mistake when it reports that $AB=C$.
-For example,
+このアルゴリズムの欠点は、わずかな確率で間違いを犯す可能性があります。
+
 \[
  \begin{bmatrix}
   6 & 8 \\
@@ -498,7 +442,7 @@ For example,
   3 & 2 \\
  \end{bmatrix},
 \]
-but
+ですが、
 \[
  \begin{bmatrix}
   6 & 8 \\
@@ -518,22 +462,16 @@ but
   6 \\
  \end{bmatrix}.
 \]
-However, in practice, the probability that the
-algorithm makes a mistake is small,
-and we can decrease the probability by
-verifying the result using multiple random vectors $X$
-before reporting that $AB=C$.
+しかし、実際にはアルゴリズムが誤りを犯す確率は小さいので、$AB=C$と報告する前に、
+さらにいくつかののランダムベクトル$X$を用いて結果を検証することで確率を下げることができます。
 
-\subsubsection{Graph coloring}
+\subsubsection{グラフの彩色 - Graph coloring}
 
-\index{coloring}
+\index{彩色 - coloring}
 
-Given a graph that contains $n$ nodes and $m$ edges,
-our task is to find a way to color the nodes
-of the graph using two colors so that
-for at least $m/2$ edges, the endpoints
-have different colors.
-For example, in the graph
+$n$個のノードと$m$個のエッジを持つグラフが与えられたとき、
+少なくとも$m/2$個 の辺の両端同士が異なる色になるように、
+グラフのノードを2色で彩色する方法を見つける問題です。
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (1,3) {$1$};
@@ -551,7 +489,7 @@ For example, in the graph
 \path[draw,thick,-] (4) -- (5);
 \end{tikzpicture}
 \end{center}
-a valid coloring is as follows:
+一例は
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle, fill=blue!40] (1) at (1,3) {$1$};
@@ -569,20 +507,11 @@ a valid coloring is as follows:
 \path[draw,thick,-] (4) -- (5);
 \end{tikzpicture}
 \end{center}
-The above graph contains 7 edges, and for 5 of them,
-the endpoints have different colors,
-so the coloring is valid.
+このグラフには7本の辺があり、そのうち5本は両端の色が異なるので有効です。
 
-The problem can be solved using a Las Vegas algorithm
-that generates random colorings until a valid coloring
-has been found.
-In a random coloring, the color of each node is
-independently chosen so that the probability of
-both colors is $1/2$.
+この問題は、有効な彩色が見つかるまでランダムに点を選ぶ生成するラスベガス・アルゴリズムを使って解けます。
+各ノードの色は独立に選ばれ、両方の色の確率が1/2になるようにします。
 
-In a random coloring, the probability that the endpoints
-of a single edge have different colors is $1/2$.
-Hence, the expected number of edges whose endpoints
-have different colors is $m/2$.
-Since it is expected that a random coloring is valid,
-we will quickly find a valid coloring in practice.
+一つの辺の端点が異なる色になる確率は$1/2$なのでしたがって，
+端点の色が異なる辺の数の期待値は$m/2$です。
+このため、何度か試せば成立すると期待できます。
