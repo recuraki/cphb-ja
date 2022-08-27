@@ -1,29 +1,25 @@
-\chapter{Directed graphs}
+\chapter{有向グラフ - Directed graphs}
 
 In this chapter, we focus on two classes of directed graphs:
+ここでは2つの特徴を持つグラフについて検討していきます。
 \begin{itemize}
-\item \key{Acyclic graphs}:
-There are no cycles in the graph,
-so there is no path from any node to itself\footnote{Directed acyclic
-graphs are sometimes called DAGs.}.
-\item \key{Successor graphs}:
-The outdegree of each node is 1,
-so each node has a unique successor.
+\item \key{非巡回グラフ - Acyclic graphs}:
+閉路を含まない有向グラフのこと。時にDAG(Directed Acyclic Graphs)と呼ばれる
+\item \key{ Successor graphs}:
+各のノードの出次が1であるグラフ。このため、ただ一つの子を持つ。
 \end{itemize}
-It turns out that in both cases,
-we can design efficient algorithms that are based
-on the special properties of the graphs.
+どちらの場合も、グラフの特別な性質に基づく
+効率的なアルゴリズムがあります。
 
-\section{Topological sorting}
+\section{トポロジカルソート - Topological sorting}
 
-\index{topological sorting}
-\index{cycle}
+\index{トポロジカルソート - topological sorting}
+\index{閉路 - cycle}
 
-A \key{topological sort} is an ordering
-of the nodes of a directed graph
-such that if there is a path from node $a$ to node $b$,
-then node $a$ appears before node $b$ in the ordering.
-For example, for the graph
+\key{トポロジカルソート - topological sort}とは、
+有向グラフのノードにおいて、ノード$a$からノー ド$b$へのパスが存在する場合、
+ノードaがノードbの前に現れるような順序を持つグラフのことです。
+
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (1,5) {$1$};
@@ -42,8 +38,8 @@ For example, for the graph
 \path[draw,thick,->,>=latex] (3) -- (6);
 \end{tikzpicture}
 \end{center}
-one topological sort is
-$[4,1,5,2,3,6]$:
+このトポロジカルソートは
+$[4,1,5,2,3,6]$です。
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (-6,0) {$1$};
@@ -63,48 +59,36 @@ $[4,1,5,2,3,6]$:
 \end{tikzpicture}
 \end{center}
 
-An acyclic graph always has a topological sort.
-However, if the graph contains a cycle,
-it is not possible to form a topological sort,
-because no node of the cycle can appear
-before the other nodes of the cycle in the ordering.
-It turns out that depth-first search can be used
-to both check if a directed graph contains a cycle
-and, if it does not contain a cycle, to construct a topological sort.
+非巡回グラフは常にトポロジカルソートです。
+しかし，グラフが閉路を含む場合は
+閉路のどのノードも順序においてサイクルの他のノードより前に現れることができないので
+トポロジカルソートを形成することはできません。
+そこで，深さ優先探索を用いて，
+有向グラフに閉路があるかどうかを調べ，
+閉路がない場合にはトポロジカルソートを構成することができると判定できます。
 
-\subsubsection{Algorithm}
+\subsubsection{アルゴリズム - Algorithm}
 
-The idea is to go through the nodes of the graph
-and always begin a depth-first search at the current node
-if it has not been processed yet.
-During the searches, the nodes have three possible states:
+ベースとなる考え方はグラフのノードを適当にみていき、
+まだ処理されていない場合はそのノードから深さ優先探索を開始していきます。
+ノードは3つのいずれかの状態を持ちます。
 
 \begin{itemize}
-\item state 0: the node has not been processed (white)
-\item state 1: the node is under processing (light gray)
-\item state 2: the node has been processed (dark gray)
+\item 状態 0: ノードは処理されていない状態(白色)
+\item 状態 1: ノードが処理中(薄いグレー)
+\item 状態 2: ノードが処理された状態(濃いグレー)
 \end{itemize}
 
-Initially, the state of each node is 0.
-When a search reaches a node for the first time,
-its state becomes 1.
-Finally, after all successors of the node have
-been processed, its state becomes 2.
+初期状態では、各ノードの状態は0です。初めて検索が到達すると、そのノードの状態は1になります。そして、そのノードのすべての探索が処理された後、そのノードの状態は2にします。
 
-If the graph contains a cycle, we will find this out
-during the search, because sooner or later
-we will arrive at a node whose state is 1.
-In this case, it is not possible to construct a topological sort.
+グラフに閉路が存在する場合、状態が1であるノードに探索をするので探索中にグラフに閉路があることがわかります。
 
-If the graph does not contain a cycle, we can construct
-a topological sort by 
-adding each node to a list when the state of the node becomes 2.
-This list in reverse order is a topological sort.
+グラフがサイクルを含まない場合はこの条件以外の時で、全てのノードの状態が2になったときに各ノードの探索順をリストとすることで、
+トポロジカルソートとなります。
 
 \subsubsection{Example 1}
 
-In the example graph, the search first proceeds
-from node 1 to node 6:
+このグラフの例では1,2,3,6と探索が進みます。
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -127,8 +111,8 @@ from node 1 to node 6:
 \end{tikzpicture}
 \end{center}
 
-Now node 6 has been processed, so it is added to the list.
-After this, also nodes 3, 2 and 1 are added to the list:
+ここで、6には探索する先がないので、状態2となり、リストに値が登録されます。
+次に、3,2,1と追加されていきます。
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -149,8 +133,7 @@ After this, also nodes 3, 2 and 1 are added to the list:
 \end{tikzpicture}
 \end{center}
 
-At this point, the list is $[6,3,2,1]$.
-The next search begins at node 4:
+いま、リストの状態は$[6,3,2,1]$です。次は4が探索されます。
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -173,11 +156,8 @@ The next search begins at node 4:
 \end{tikzpicture}
 \end{center}
 
-Thus, the final list is $[6,3,2,1,5,4]$.
-We have processed all nodes, so a topological sort has
-been found.
-The topological sort is the reverse list
-$[4,5,1,2,3,6]$:
+このようにリスト$[6,3,2,1,5,4]$を得ることができます。
+この逆順がトポロジカルソート$[4,5,1,2,3,6]$です。
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -198,14 +178,12 @@ $[4,5,1,2,3,6]$:
 \end{tikzpicture}
 \end{center}
 
-Note that a topological sort is not unique,
-and there can be several topological sorts for a graph.
+なお、トポロジカルソートは１つとは限りません。
+閉路を含まないグラフでは複数のトポロジカルソートが存在しえます。
 
 \subsubsection{Example 2}
 
-Let us now consider a graph for which we
-cannot construct a topological sort,
-because the graph contains a cycle:
+では閉路を含むのでトポロジカルソートできない場合を考えてみます。
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -225,7 +203,7 @@ because the graph contains a cycle:
 \path[draw,thick,->,>=latex] (3) -- (6);
 \end{tikzpicture}
 \end{center}
-The search proceeds as follows:
+次のように進んでいきます。
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle,fill=gray!20] (1) at (1,5) {$1$};
@@ -245,30 +223,26 @@ The search proceeds as follows:
 \path[draw=red,thick,->,line width=2pt] (5) -- (2);
 \end{tikzpicture}
 \end{center}
-The search reaches node 2 whose state is 1,
-which means that the graph contains a cycle.
-In this example, there is a cycle
-$2 \rightarrow 3 \rightarrow 5 \rightarrow 2$.
 
-\section{Dynamic programming}
+探索は状態が1であるノード2に到達しました。
+つまり、グラフが閉路を含むということです。
+この例では、$2 \rightarrow 3 \rightarrow 5 \rightarrow 2$という閉路が存在します。
 
-If a directed graph is acyclic,
-dynamic programming can be applied to it.
-For example, we can efficiently solve the following
-problems concerning paths from a starting node
-to an ending node:
+\section{動的計画法 - Dynamic programming}
+
+有向グラフがサイクルを含まないのであれば動的計画法を適用することができます。
+例えば、始点ノードから終点ノードへの経路に関する次のような問題を効率的に解くことができます。
 
 \begin{itemize}
-\item how many different paths are there?
-\item what is the shortest/longest path?
-\item what is the minimum/maximum number of edges in a path?
-\item which nodes certainly appear in any path?
+\item パスの種類は？
+\item 最短あるいは最大のパスは？
+\item 最短あるいは最大の辺の数は？
+\item 全てのパスにおいて必ず通るノードはあるか？
 \end{itemize}
 
-\subsubsection{Counting the number of paths}
+\subsubsection{パス数のカウント}
 
-As an example, let us calculate the number of paths
-from node 1 to node 6 in the following graph:
+次のグラフで1から6のパスの数を考えます。
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -662,7 +636,7 @@ achieves these properties.
 
 \key{Floyd's algorithm}\footnote{The idea of the algorithm is mentioned in \cite{knu982}
 and attributed to R. W. Floyd; however, it is not known if Floyd actually
-discovered the algorithm.} walks forward 
+discovered the algorithm.} walks forward
 in the graph using two pointers $a$ and $b$.
 Both pointers begin at a node $x$ that
 is the starting node of the graph.
