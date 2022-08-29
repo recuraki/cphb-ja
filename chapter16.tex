@@ -262,24 +262,24 @@ $[4,1,5,2,3,6]$です。
 \path[draw,thick,->,>=latex] (3) -- (6);
 \end{tikzpicture}
 \end{center}
-There are a total of three such paths:
+このようなパスは以下の３つがあります。
 \begin{itemize}
 \item $1 \rightarrow 2 \rightarrow 3 \rightarrow 6$
 \item $1 \rightarrow 4 \rightarrow 5 \rightarrow 2 \rightarrow 3 \rightarrow 6$
 \item $1 \rightarrow 4 \rightarrow 5 \rightarrow 3 \rightarrow 6$
 \end{itemize}
 
-Let $\texttt{paths}(x)$ denote the number of paths from
-node 1 to node $x$.
-As a base case, $\texttt{paths}(1)=1$.
-Then, to calculate other values of $\texttt{paths}(x)$,
-we may use the recursion
+ノード1からノードxへの経路の数をpaths(x)とすると、基本ケースとして paths(1)=1である。
+そして、paths(x)の他の値を計算するために、再帰的に
+
+ノード1からあるノード$x$へのパスの経路数を$\texttt{paths}(x)$と表現するとします。
+$\texttt{paths}(1)=1$です。
+$\texttt{paths}(x)$は以下のように再帰的に求めていきます。
 \[\texttt{paths}(x) = \texttt{paths}(a_1)+\texttt{paths}(a_2)+\cdots+\texttt{paths}(a_k)\]
-where $a_1,a_2,\ldots,a_k$ are the nodes from which there
-is an edge to $x$.
-Since the graph is acyclic, the values of $\texttt{paths}(x)$
-can be calculated in the order of a topological sort.
-A topological sort for the above graph is as follows:
+は$x$への辺が存在するノードです。
+グラフは閉路を持たないため、
+$path(x)$の値はトポロジカルソートの順に計算することができます。
+上のグラフのトポロジカルソートの１つは以下の通りです。
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (0,0) {$1$};
@@ -298,7 +298,7 @@ A topological sort for the above graph is as follows:
 \path[draw,thick,->,>=latex] (3) -- (6);
 \end{tikzpicture}
 \end{center}
-Hence, the numbers of paths are as follows:
+このため、パス数は以下のように求められます。
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (1,5) {$1$};
@@ -325,22 +325,21 @@ Hence, the numbers of paths are as follows:
 \end{tikzpicture}
 \end{center}
 
-For example, to calculate the value of $\texttt{paths}(3)$,
-we can use the formula $\texttt{paths}(2)+\texttt{paths}(5)$,
-because there are edges from nodes 2 and 5
-to node 3.
-Since $\texttt{paths}(2)=2$ and $\texttt{paths}(5)=1$, we conclude that $\texttt{paths}(3)=3$.
+例えば、paths(3)の値を計算する場合、ノード2とノード5からノード3への辺 があるので、
+paths(2) + paths(5)という式を用いることができる。paths(2) = 2、 paths(5) = 1なので、paths(3) = 3と結論付けられる。
 
-\subsubsection{Extending Dijkstra's algorithm}
+$\texttt{paths}(3)$を求める時、ノード2と5からノード3への辺があるので、
+$\texttt{paths}(2)+\texttt{paths}(5)$を計算します。
+$\texttt{paths}(2)=2$, $\texttt{paths}(5)=1$ですから、$\texttt{paths}(3)=3$となります。
 
-\index{Dijkstra's algorithm}
+\subsubsection{ダイクストラのアルゴリズムの拡張}
 
-A by-product of Dijkstra's algorithm is a directed, acyclic
-graph that indicates for each node of the original graph
-the possible ways to reach the node using a shortest path
-from the starting node.
-Dynamic programming can be applied to that graph.
-For example, in the graph
+\index{ダイクストラアルゴリズム}
+
+ダイクストラのアルゴリズムを利用すると、
+開始ノードから各ノードへの最短経路を使用してそのノードに到達する可能性を示す有向の閉路が存在しないグラフを得ることができます。
+このグラフに対しては動的計画法を適用することができます。以下を考えます。
+
 \begin{center}
 \begin{tikzpicture}
 \node[draw, circle] (1) at (0,0) {$1$};
@@ -358,7 +357,7 @@ For example, in the graph
 \path[draw,thick,-] (2) -- node[font=\small,label=above:2] {} (3);
 \end{tikzpicture}
 \end{center}
-the shortest paths from node 1 may use the following edges:
+ノード1からの最短経路は以下のようになります。
 \begin{center}
 \begin{tikzpicture}
 \node[draw, circle] (1) at (0,0) {$1$};
@@ -376,9 +375,7 @@ the shortest paths from node 1 may use the following edges:
 \end{tikzpicture}
 \end{center}
 
-Now we can, for example, calculate the number of
-shortest paths from node 1 to node 5
-using dynamic programming:
+これでノード1から5までの最短経路を以下のように求めることができます。
 \begin{center}
 \begin{tikzpicture}
 \node[draw, circle] (1) at (0,0) {$1$};
@@ -402,22 +399,16 @@ using dynamic programming:
 \end{tikzpicture}
 \end{center}
 
-\subsubsection{Representing problems as graphs}
+\subsubsection{グラフによる問題表現 - Representing problems as graphs}
 
-Actually, any dynamic programming problem
-can be represented as a directed, acyclic graph.
-In such a graph, each node corresponds to a dynamic programming state
-and the edges indicate how the states depend on each other.
+動的計画問題の問題というのは有向無サイクルグラフで表現することができます。
+このようなグラフでは、各ノードが動的計画法の状態に対応し、
+辺は状態各ノードの依存を示します。
 
-As an example, consider the problem
-of forming a sum of money $n$
-using coins
-$\{c_1,c_2,\ldots,c_k\}$.
-In this problem, we can construct a graph where
-each node corresponds to a sum of money,
-and the edges show how the coins can be chosen.
-For example, for coins $\{1,3,4\}$ and $n=6$,
-the graph is as follows:
+例として，硬貨$\{c_1,c_2,\ldots,c_k\}$を用いて金額$n$を作る問題を考えます。
+この問題では，各ノードが金額に対応し，エッジがコインの選び方を示すグラフと捉えることができます。
+たとえば，コイン $\{1,3,4\}$ と $n = 6$ の場合， グラフは次のようになります。
+
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (0) at (0,0) {$0$};
