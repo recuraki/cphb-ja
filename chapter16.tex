@@ -437,35 +437,23 @@ $\texttt{paths}(2)=2$, $\texttt{paths}(5)=1$ですから、$\texttt{paths}(3)=3$
 \end{tikzpicture}
 \end{center}
 
-Using this representation,
-the shortest path from node 0 to node $n$
-corresponds to a solution with the minimum number of coins,
-and the total number of paths from node 0 to node $n$
-equals the total number of solutions.
+この表し方をするとノード$0$からノード$n$までの最短経路はコインの枚数が最小の解に対応していることとなり、
+ノード$0$からノード$n$までの経路の総数は解の総数に等しくなります。
 
-\section{Successor paths}
+\section{サクセスパス - Successor paths}
 
-\index{successor graph}
+\index{サクセスグラフ - successor graph}
 \index{functional graph}
 
-For the rest of the chapter,
-we will focus on \key{successor graphs}.
-In those graphs,
-the outdegree of each node is 1, i.e.,
-exactly one edge starts at each node.
-A successor graph consists of one or more
-components, each of which contains
-one cycle and some paths that lead to it.
+\key{successor graphs}に焦点を当てていきます。
+このグラフでは、各ノードの出次辺は1、つまり、ちょうど1本の辺が各ノードから出ています。
+サクセスグラフは1つ以上のコンポートんとからなます。
+それぞれのコンポーネントには1つのサイクルとそれにつながるパスがあります。
+サクセスグラフはfunctionalグラフと呼ばれることもある。
+これはサクセスグラフがグラフの辺を定義する関数に対応するからです。
+関数のパラメータはグラフのノードであり、関数はそのノードの後ろの後ろ、と考えます。
 
-Successor graphs are sometimes called
-\key{functional graphs}.
-The reason for this is that any successor graph
-corresponds to a function that defines
-the edges of the graph.
-The parameter for the function is a node of the graph,
-and the function gives the successor of that node.
-
-For example, the function
+例えば以下の関数を考えます。
 \begin{center}
 \begin{tabular}{r|rrrrrrrrr}
 $x$ & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\
@@ -473,7 +461,7 @@ $x$ & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\
 $\texttt{succ}(x)$ & 3 & 5 & 7 & 6 & 2 & 2 & 1 & 6 & 3 \\
 \end{tabular}
 \end{center}
-defines the following graph:
+これは次のようなパスと考えられます。
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (0,0) {$1$};
@@ -497,6 +485,13 @@ defines the following graph:
 \path[draw,thick,->] (9) -- (3);
 \end{tikzpicture}
 \end{center}
+
+後継グラフの各ノードは一意な次のノードを持つので、
+ノード$x$から始めて$k$歩進んで到達するノードを与える
+関数$\texttt{succ}(x,k)$を定義することができます。
+ たとえば，上のグラフでは $\texttt{succ}(4,6)=2$ で、これは
+ ノード4から6歩歩くとノード2 に到達することを表します。
+
 
 Since each node of a successor graph has a
 unique successor, we can also define a function $\texttt{succ}(x,k)$
@@ -524,16 +519,13 @@ because we will reach node 2 by walking 6 steps from node 4:
 \end{tikzpicture}
 \end{center}
 
-A straightforward way to calculate a value of $\texttt{succ}(x,k)$
-is to start at node $x$ and walk $k$ steps forward, which takes $O(k)$ time.
-However, using preprocessing, any value of $\texttt{succ}(x,k)$
-can be calculated in only $O(\log k)$ time.
+$\texttt{succ}(x,k)$値を計算する簡単な方法は、ノード$x$から始めて$k$歩を実際に進むことですが、
+これには$O(k)$個の時間がかかってしまいます。
+前処理を行うことと$O(\log k)$で計算することができます。
 
-The idea is to precalculate all values of $\texttt{succ}(x,k)$ where
-$k$ is a power of two and at most $u$, where $u$ is
-the maximum number of steps we will ever walk.
-This can be efficiently done, because
-we can use the following recursion:
+この方法を紹介します。$k$が2の累乗であって、最大でも$u$である$\texttt{succ}(x,k)$のすべての値を
+事前に計算します。$u$は必要となる最大の数です。
+これは以下のような再起的な方法で求めることができます。　
 
 \begin{equation*}
     \texttt{succ}(x,k) = \begin{cases}
@@ -542,9 +534,8 @@ we can use the following recursion:
            \end{cases}
 \end{equation*}
 
-Precalculating the values takes $O(n \log u)$ time,
-because $O(\log u)$ values are calculated for each node.
-In the above graph, the first values are as follows:
+各ノードに対して$O(\log u)$個の値を計算するため、
+値の事前計算には$O(n \log u)$個の時間がかかります。
 
 \begin{center}
 \begin{tabular}{r|rrrrrrrrr}
@@ -558,32 +549,24 @@ $\cdots$ \\
 \end{tabular}
 \end{center}
 
-After this, any value of $\texttt{succ}(x,k)$ can be calculated
-by presenting the number of steps $k$ as a sum of powers of two.
-For example, if we want to calculate the value of $\texttt{succ}(x,11)$,
-we first form the representation $11=8+2+1$.
-Using that,
+この事前計算を用いるとステップ数kを2の累乗の和で表すことで、
+$\texttt{succ}(x,k)$の任意の値を算 出することができます。
+例えば、$\texttt{succ}(x,11)$の値を計算したい場合は、
+$11 = 8 + 2 + 1$とします。こうすることで、
+
 \[\texttt{succ}(x,11)=\texttt{succ}(\texttt{succ}(\texttt{succ}(x,8),2),1).\]
-For example, in the previous graph
+これは次のように展開されます。
 \[\texttt{succ}(4,11)=\texttt{succ}(\texttt{succ}(\texttt{succ}(4,8),2),1)=5.\]
 
-Such a representation always consists of
-$O(\log k)$ parts, so calculating a value of $\texttt{succ}(x,k)$
-takes $O(\log k)$ time.
+これによって全ての数は$O(\log k)$で求めることができます。
 
-\section{Cycle detection}
+\section{閉路検出 - Cycle detection}
 
 \index{cycle}
-\index{cycle detection}
+\index{閉路検出 - cycle detection}
 
-Consider a successor graph that only contains
-a path that ends in a cycle.
-We may ask the following questions:
-if we begin our walk at the starting node,
-what is the first node in the cycle
-and how many nodes does the cycle contain?
-
-For example, in the graph
+閉路で終わる有向グラフを考えます。
+スタートから歩き始めたときに閉路の最初のノードは何で、サイクルはいくつのノードを含むか？を考えます。
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -602,40 +585,31 @@ For example, in the graph
 \path[draw,thick,->] (6) -- (4);
 \end{tikzpicture}
 \end{center}
-we begin our walk at node 1,
-the first node that belongs to the cycle is node 4, and the cycle consists
-of three nodes (4, 5 and 6).
 
-A simple way to detect the cycle is to walk in the
-graph and keep track of
-all nodes that have been visited. Once a node is visited
-for the second time, we can conclude
-that the node is the first node in the cycle.
-This method works in $O(n)$ time and also uses
-$O(n)$ memory.
+今、ノード1から歩き始めたとき、閉路に属する最初のノードは4で、
+閉路は3つのノード(4、5、6)から構成されています。
+閉路を検出する簡単な方法は、グラフ内を順に探索していき訪問済みかを記録しておくことです。
+あるノードに2度目に達した時、
+そのノードは閉路に属するの最初のノードです。
+この方法は$O(n)$の時間計算量であり、空間計算量です。
 
-However, there are better algorithms for cycle detection.
-The time complexity of such algorithms is still $O(n)$,
-but they only use $O(1)$ memory.
-This is an important improvement if $n$ is large.
-Next we will discuss Floyd's algorithm that
-achieves these properties.
+ここで閉路検出のためのアルゴリズムを紹介します。
+$O(1)$の空間計算量で良いアルゴリズムであるフロイドの循環検出アルゴリズムを紹介します。
 
-\subsubsection{Floyd's algorithm}
+\subsubsection{フロイドの循環検出アルゴリズム - Floyd's algorithm}
 
-\index{Floyd's algorithm}
+\index{フロイドの循環検出アルゴリズム - Floyd's algorithm}
 
-\key{Floyd's algorithm}\footnote{The idea of the algorithm is mentioned in \cite{knu982}
+\key{フロイドの循環検出アルゴリズム - Floyd's algorithm}
+\footnote{The idea of the algorithm is mentioned in \cite{knu982}
 and attributed to R. W. Floyd; however, it is not known if Floyd actually
-discovered the algorithm.} walks forward
-in the graph using two pointers $a$ and $b$.
-Both pointers begin at a node $x$ that
-is the starting node of the graph.
-Then, on each turn, the pointer $a$ walks
-one step forward and the pointer $b$
-walks two steps forward.
-The process continues until
-the pointers meet each other:
+discovered the algorithm.}
+
+2つのポインタ$a$、$b$を用いてグラフを探索していきます。
+両ポインタはグラフの始点であるノードxに位置します。
+そして、1ターンごとに、ポインタ$a$は1歩、ポインタ$b$は2歩前進させていきます。
+これを両方のポインタが(開始時点を除いて)最初に同じ位置に重なるまで続けます。
+
 \begin{lstlisting}
 a = succ(x);
 b = succ(succ(x));
@@ -645,13 +619,12 @@ while (a != b) {
 }
 \end{lstlisting}
 
-At this point, the pointer $a$ has walked $k$ steps
-and the pointer $b$ has walked $2k$ steps,
-so the length of the cycle divides $k$.
-Thus, the first node that belongs to the cycle
-can be found by moving the pointer $a$ to node $x$
-and advancing the pointers
-step by step until they meet again.
+
+$k$歩で出会った時、ポインタ$a$は$k$歩、ポインタ$b$は$2k$歩歩いているので、
+閉路の長さは$k$で割ることができます。
+このため、$a$をノード$x$に移動して再び$a$と$b$がカナ猿までポインタを進めると
+閉路に所属する最初のノードを知ることができます。
+
 \begin{lstlisting}
 a = x;
 while (a != b) {
@@ -661,8 +634,8 @@ while (a != b) {
 first = a;
 \end{lstlisting}
 
-After this, the length of the cycle
-can be calculated as follows:
+そして、サイクルの長さは以下のように求めることができます。
+
 \begin{lstlisting}
 b = succ(a);
 length = 1;
