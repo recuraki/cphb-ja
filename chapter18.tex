@@ -1,22 +1,22 @@
-\chapter{Tree queries}
+\chapter{木に対するクエリ - Tree queries}
 
-\index{tree query}
+\index{木に対するクエリ - tree query}
 
-This chapter discusses techniques for
-processing queries on
-subtrees and paths of a rooted tree.
-For example, such queries are:
+ここでは根付き木における部分木とパスに関するクエリについて説明します。
+例えば次のようなクエリを取り上げます。
 
 \begin{itemize}
-\item what is the $k$th ancestor of a node?
-\item what is the sum of values in the subtree of a node?
-\item what is the sum of values on a path between two nodes?
-\item what is the lowest common ancestor of two nodes?
+\item $k$番目の祖先(ancestor)はどのノード?
+\item ある部分木の値の合計は？
+\item 2つのノード間のパス上の値の和は？
+\item 2つのノードの共通祖先(LCA)は?
 \end{itemize}
 
-\section{Finding ancestors}
+\section{祖先の検索 - Finding ancestors}
 
-\index{ancestor}
+\index{祖先 - ancestor}
+
+根付き木においてノードxのk番目の祖先は、xからkレベル上に移動したときに到達す るノードである。ノードxのk番目の祖先をancestor(x, k)とする(祖先が存在し ない場合は0とする)。たとえば、次の木では、ancestor(2, 1) = 1, ancestor(8, 2) = 4である。
 
 The $k$th \key{ancestor} of a node $x$ in a rooted tree
 is the node that we will reach if we move $k$
@@ -166,7 +166,7 @@ Hence, the corresponding tree traversal array is as follows:
 \node at (6.5,0.5) {$8$};
 \node at (7.5,0.5) {$9$};
 \node at (8.5,0.5) {$5$};
-% 
+%
 % \footnotesize
 % \node at (0.5,1.4) {$1$};
 % \node at (1.5,1.4) {$2$};
@@ -201,7 +201,7 @@ nodes of the subtree of node $4$:
 \node at (6.5,0.5) {$8$};
 \node at (7.5,0.5) {$9$};
 \node at (8.5,0.5) {$5$};
-% 
+%
 % \footnotesize
 % \node at (0.5,1.4) {$1$};
 % \node at (1.5,1.4) {$2$};
@@ -304,7 +304,7 @@ For example, the array for the above tree is as follows:
 \node at (6.5,-1.5) {$3$};
 \node at (7.5,-1.5) {$1$};
 \node at (8.5,-1.5) {$1$};
-% 
+%
 % \footnotesize
 % \node at (0.5,1.4) {$1$};
 % \node at (1.5,1.4) {$2$};
@@ -364,7 +364,7 @@ can be found as follows:
 \node at (6.5,-1.5) {$3$};
 \node at (7.5,-1.5) {$1$};
 \node at (8.5,-1.5) {$1$};
-% 
+%
 % \footnotesize
 % \node at (0.5,1.4) {$1$};
 % \node at (1.5,1.4) {$2$};
@@ -703,7 +703,7 @@ in the array and there are a total of $2n-1$
 nodes in the array.
 
 We store two values in the array:
-the identifier of the node and the depth of the 
+the identifier of the node and the depth of the
 node in the tree.
 The following array corresponds to the above tree:
 
@@ -1028,7 +1028,7 @@ contains two nodes whose value is 3.
 However, it would be too slow to create
 all data structures from scratch.
 Instead, at each node $s$,
-we create an initial data structure $\texttt{d}[s]$ 
+we create an initial data structure $\texttt{d}[s]$
 that only contains the value of $s$.
 After this, we go through the children of $s$ and
 \emph{merge} $\texttt{d}[s]$ and
@@ -1130,7 +1130,7 @@ it goes through all nodes $y$ such that
 the lowest common ancestor of $x$ and $y$
 has to be found.
 If $y$ has already been visited,
-the algorithm reports that the 
+the algorithm reports that the
 lowest common ancestor of $x$ and $y$
 is the highest node in the set of $y$.
 Then, after processing node $x$,
