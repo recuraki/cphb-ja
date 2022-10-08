@@ -526,19 +526,17 @@ De Bruijn配列は、グラフのオイラー路に対応することが分か�
 始点ノードは$n - 1$文字で、エッジには$k^n$文字があるので、
 文字列の長 さは $k^n+n-1$となります。
 
-\section{Knight's tours}
+\section{ナイトツアー - Knight's tours}
 
-\index{knight's tour}
+\index{ナイトツアー - knight's tour}
 
-A \key{knight's tour} is a sequence of moves
-of a knight on an $n \times n$ chessboard
-following the rules of chess such that the knight
-visits each square exactly once.
-A knight's tour is called a \emph{closed} tour
-if the knight finally returns to the starting square and
-otherwise it is called an \emph{open} tour.
-
-For example, here is an open knight's tour on a $5 \times 5$ board:
+\key{ナイトツアー - knight's tour}は$n \times n$のチェス盤上で、
+チェスのルールに従って騎士(ナイト)が各マスにちょうど1回ずつ訪れるような動き
+のことです。
+ナイトツアーは，
+最終的にスタート地点のマスに戻る場合はクローズドツアー，
+そうでない場合 はオープンツアーと呼ばれます。
+例えば、$5 \times 5$ボードのオープンナイトのツアーを示します。
 
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
@@ -571,34 +569,33 @@ For example, here is an open knight's tour on a $5 \times 5$ board:
 \end{tikzpicture}
 \end{center}
 
-A knight's tour corresponds to a Hamiltonian path in a graph
-whose nodes represent the squares of the board,
-and two nodes are connected with an edge if a knight
-can move between the squares according to the rules of chess.
+ナイトツアーは、
+盤上のマスをノードとしたグラフのハミルトン路といえます。
+ナイトがチェスのルールに従ってマスの間を移動できる場合、
+2つのノードを辺で結びます。
 
-A natural way to construct a knight's tour is to use backtracking.
-The search can be made more efficient by using
-\emph{heuristics} that attempt to guide the knight so that
-a complete tour will be found quickly.
+ナイトツアーを構成する一般的な方法は、
+バックトラックを使うことです。
+この探索は、完全なツアーを素早く見つけるために、
+ヒューリスティックを用いることでより効率的に行うことができます。
 
-\subsubsection{Warnsdorf's rule}
+\subsubsection{ウォーンスドルフの法則 - Warnsdorf's rule}
 
-\index{heuristic}
-\index{Warnsdorf's rule}
+\index{ヒューリスティック - heuristic}
+\index{ウォーンスドルフの法則 - Warnsdorf's rule}
 
-\key{Warnsdorf's rule} is a simple and effective heuristic
-for finding a knight's tour\footnote{This heuristic was proposed
+\key{ウォーンスドルフの法則}\footnote{This heuristic was proposed
 in Warnsdorf's book \cite{war23} in 1823. There are
 also polynomial algorithms for finding knight's tours
-\cite{par97}, but they are more complicated.}.
-Using the rule, it is possible to efficiently construct a tour
-even on a large board.
-The idea is to always move the knight so that it ends up
-in a square where the number of possible moves is as
-\emph{small} as possible.
+\cite{par97}, but they are more complicated.}
+は、ナイトのツアーを見つけるためのシンプルで効果的手法です。
+この法則を用いると、$n$が大きな盤面でも効率的にツアーを構成することができます。
+この法則は移動可能なマスの数ができるだけ少なくなるように、
+常にナイトを移動させていきます。
 
-For example, in the following situation, there are five
-possible squares to which the knight can move (squares $a \ldots e$):
+例えば、次のような状況で、
+ナイトが移動できるマスは5つあります(squares $a \ldots e$)。
+
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \draw (0,0) grid (5,5);
@@ -611,7 +608,7 @@ possible squares to which the knight can move (squares $a \ldots e$):
 \node at (3.5,1.5) {$d$};
 \end{tikzpicture}
 \end{center}
-In this situation, Warnsdorf's rule moves the knight to square $a$,
-because after this choice, there is only a single possible move.
-The other choices would move the knight to squares where
-there would be three moves available.
+
+この場合、ウォーンスドルフのルールでは、ナイトをaマスに移動させます。
+この選択の後は、1手しかないためです。
+他の選択肢では、3手まで可能なマスにナイトを移動させることになります。
