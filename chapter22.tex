@@ -1,18 +1,16 @@
-\chapter{Combinatorics}
+\chapter{組合わせ論 - Combinatorics}
 
-\index{combinatorics}
+\index{組合わせ論 - combinatorics}
 
-\key{Combinatorics} studies methods for counting
-combinations of objects.
-Usually, the goal is to find a way to
-count the combinations efficiently
-without generating each combination separately.
+\key{組合わせ論 - Combinatorics} は、
+組合わせを数える方法を研究する学問です。
+これらは通常、各組合わせを個別に数え上げるのではなく、
+効率的に組み合わせを数える方法を見つけます。
 
-As an example, consider the problem
-of counting the number of ways to
-represent an integer $n$ as a sum of positive integers.
-For example, there are 8 representations
-for $4$:
+例として、
+ある整数nを正の整数の和として表現する方法の数を数える問題を考えます。
+例えば，$4$には8通りの表現があります。
+
 \begin{multicols}{2}
 \begin{itemize}
 \item $1+1+1+1$
@@ -26,30 +24,24 @@ for $4$:
 \end{itemize}
 \end{multicols}
 
-A combinatorial problem can often be solved
-using a recursive function.
-In this problem, we can define a function $f(n)$
-that gives the number of representations for $n$.
-For example, $f(4)=8$ according to the above example.
-The values of the function
-can be recursively calculated as follows:
+組合せ問題では再帰関数がよく使われます。
+この問題では、$n$を表現する数を示す
+関数$f(n)$を定義してみましょう。
+例えば、上記の例では$f(4)=8$です。
+この関数の値は以下のように再帰的に計算することができます。
+
 \begin{equation*}
     f(n) = \begin{cases}
                1               & n = 0\\
                f(0)+f(1)+\cdots+f(n-1) & n > 0\\
            \end{cases}
 \end{equation*}
-The base case is $f(0)=1$,
-because the empty sum represents the number 0.
-Then, if $n>0$, we consider all ways to
-choose the first number of the sum.
-If the first number is $k$,
-there are $f(n-k)$ representations
-for the remaining part of the sum.
-Thus, we calculate the sum of all values
-of the form $f(n-k)$ where $k<n$.
 
-The first values for the function are:
+$f(0)=1$は自明で、これは空集合が数0を表すからである。
+次に、$n > 0$のとき、和の第１項目の選び方をすべて考えます。
+第１項目を$k$と定めると、和の残りの部分には$f (n - k)$の表現が存在します。
+したがって、$k < n$である$f (n - k)$の形のすべての値の 和を計算します。
+
 \[
 \begin{array}{lcl}
 f(0) & = & 1 \\
@@ -60,100 +52,83 @@ f(4) & = & 8 \\
 \end{array}
 \]
 
-Sometimes, a recursive formula can be replaced
-with a closed-form formula.
-In this problem,
+これは一般的な式で示せます。
 \[
 f(n)=2^{n-1},
 \]
-which is based on the fact that there are $n-1$
-possible positions for +-signs in the sum
-and we can choose any subset of them.
+これは、 +と-の位置は$n-1$通りありそのうちの任意の部分集合を選ぶことができる、という事実に基づいています。
+(TODO: ここあってる？)
 
-\section{Binomial coefficients}
+\section{二項係数 - Binomial coefficients}
 
-\index{binomial coefficient}
+\index{二項係数 - binomial coefficient}
 
-The \key{binomial coefficient} ${n \choose k}$
-equals the number of ways we can choose a subset
-of $k$ elements from a set of $n$ elements.
-For example, ${5 \choose 3}=10$,
-because the set $\{1,2,3,4,5\}$
-has 10 subsets of 3 elements:
-\[ \{1,2,3\}, \{1,2,4\}, \{1,2,5\}, \{1,3,4\}, \{1,3,5\}, 
+\key{二項係数 - binomial coefficient} は
+${n \choose k}$で表されます。
+これは、$n$個の要素の集合から$k$個の要素の部分集合を選ぶ時の組み合わせの数です。
+例えば、${5 \choose 3}=10$で、例えば
+集合$\{1,2,3,4,5\}$を考えた時に3つとるという組み合わせは次の10通りあります。
+\[ \{1,2,3\}, \{1,2,4\}, \{1,2,5\}, \{1,3,4\}, \{1,3,5\},
 \{1,4,5\}, \{2,3,4\}, \{2,3,5\}, \{2,4,5\}, \{3,4,5\} \]
 
-\subsubsection{Formula 1}
+\subsubsection{公式1 - Formula 1}
 
-Binomial coefficients can be
-recursively calculated as follows:
+二項係数は次のように再起的に計算できます。
 
 \[
 {n \choose k}  =  {n-1 \choose k-1} + {n-1 \choose k}
 \]
 
-The idea is to fix an element $x$ in the set.
-If $x$ is included in the subset,
-we have to choose $k-1$
-elements from $n-1$ elements,
-and if $x$ is not included in the subset,
-we have to choose $k$ elements from $n-1$ elements.
+これは、集合の中のある要素$x$を固定するアイデアと言えます。
+$x$が部分集合に含まれる場合は、$n - 1$個の要素から$k - 1$個の要素を選ぶことになり、
+$x$が部分集合に含まれない 場合は、$n - 1$個の要素から$k$個の要素を選ぶことになるためです。
+なお、この時、次の点に注意してください。
 
-The base cases for the recursion are
 \[
 {n \choose 0}  =  {n \choose n} = 1,
 \]
-because there is always exactly
-one way to construct an empty subset
-and a subset that contains all the elements.
+空の部分集合とすべての要素を含む部分集合を構成する方法は常に1つしかありません。
 
-\subsubsection{Formula 2}
+\subsubsection{公式2 - Formula 2}
 
-Another way to calculate binomial coefficients is as follows:
+また次が成り立ちます。
 \[
 {n \choose k}  =  \frac{n!}{k!(n-k)!}.
 \]
 
-There are $n!$ permutations of $n$ elements.
-We go through all permutations and always
-include the first $k$ elements of the permutation
-in the subset.
-Since the order of the elements in the subset
-and outside the subset does not matter,
-the result is divided by $k!$ and $(n-k)!$
 
-\subsubsection{Properties}
+$n$個の要素の並べ換えは$n!$個です。
+すべての順列を調べて、常に順列の最初の$k$個の要素を部分集合に含めましょう。
+部分集合の中の要素と部分集合の外の要素の順序は重要ではないので、
+$k!$ と $(n - k)!$で割れば良いです。
 
-For binomial coefficients,
+\subsubsection{補足 - Properties}
+
 \[
 {n \choose k}  =  {n \choose n-k},
 \]
-because we actually divide a set of $n$ elements into
-two subsets: the first contains $k$ elements
-and the second contains $n-k$ elements.
+となります。$n$個の要素からなる集合を2つの部分集合に分割し、
+1つ目の部分集合には$k$個の要素を含み、2番目は$n - k$個の要素を含む場合を考えればこれは自明です。
 
-The sum of binomial coefficients is
+二項係数の和は
 \[
 {n \choose 0}+{n \choose 1}+{n \choose 2}+\ldots+{n \choose n}=2^n.
 \]
-
-The reason for the name ''binomial coefficient''
-can be seen when the binomial $(a+b)$ is raised to
-the $n$th power:
+で示されます。二項係数という名前の由来は、$(a+b)$を$n$乗したときにわかります。次の通りです。
 
 \[ (a+b)^n =
-{n \choose 0} a^n b^0 + 
+{n \choose 0} a^n b^0 +
 {n \choose 1} a^{n-1} b^1 +
-\ldots + 
+\ldots +
 {n \choose n-1} a^1 b^{n-1} +
 {n \choose n} a^0 b^n. \]
 
-\index{Pascal's triangle}
+\index{パスカルの三角形 - Pascal's triangle}
 
-Binomial coefficients also appear in
-\key{Pascal's triangle}
-where each value equals the sum of two
-above values:
+二項係数は
+\key{パスカルの三角形 - Pascal's triangle}
+とも密接な関係があります。
+
 \begin{center}
 \begin{tikzpicture}{0.9}
 \node at (0,0) {1};
@@ -179,17 +154,13 @@ above values:
 \end{tikzpicture}
 \end{center}
 
-\subsubsection{Boxes and balls}
+\subsubsection{箱とボールの問題 - Boxes and balls}
 
-''Boxes and balls'' is a useful model,
-where we count the ways to
-place $k$ balls in $n$ boxes.
-Let us consider three scenarios:
+''箱とボールの問題 - Boxes and balls''は
+二項係数を考える上で非常に有名な問題です。$k$個の玉を$n$個に入れる方法を数えます。 3つのシナリオを考えてみましょう。
 
-\textit{Scenario 1}: Each box can contain
-at most one ball.
-For example, when $n=5$ and $k=2$,
-there are 10 solutions:
+シナリオ1:各ボックスには、最大で1個のボールを入れることができます。
+例えば、$n = 5$、$k = 2$ のとき、解は $10$です。
 
 \begin{center}
 \begin{tikzpicture}[scale=0.5]
@@ -222,12 +193,10 @@ there are 10 solutions:
 \end{tikzpicture}
 \end{center}
 
-In this scenario, the answer is directly the
-binomial coefficient ${n \choose k}$.
+このシナリオでは答えは二項係数そのままです。${n \choose k}$となります。
 
-\textit{Scenario 2}: A box can contain multiple balls.
-For example, when $n=5$ and $k=2$,
-there are 15 solutions:
+シナリオ2:箱には複数の球を入れることができる。
+例えば、$n = 5$ で $k = 2$の場合、解は15です。
 
 \begin{center}
 \begin{tikzpicture}[scale=0.5]
@@ -265,30 +234,18 @@ there are 15 solutions:
 \end{tikzpicture}
 \end{center}
 
-The process of placing the balls in the boxes
-can be represented as a string
-that consists of symbols
-''o'' and ''$\rightarrow$''.
-Initially, assume that we are standing at the leftmost box.
-The symbol ''o'' means that we place a ball
-in the current box, and the symbol
-''$\rightarrow$'' means that we move to
-the next box to the right.
+ボールを箱に入れる作業を
+記号 ''o'' と ''$\rightarrow$''で表現しましょう。
+はじめに、一番左の箱に立っているとする。記号 ''o'' は現在の箱に玉を入れることを意味し、
+記号''$\rightarrow$''は次の右隣の箱に移動することを意味します。
+この表記法を用いると、各解は''o''という記号を$k$回、
+''$\rightarrow$''という記号を$n- 1$回含む文字列となります。
+例えば、上の図の右上の解は、''$\rightarrow$ $\rightarrow$ o $\rightarrow$ o $\rightarrow$''
+という文字列に相当します。
+そのため答えば${k+n-1 \choose k}$です。
 
-Using this notation, each solution is a string
-that contains $k$ times the symbol ''o'' and
-$n-1$ times the symbol ''$\rightarrow$''.
-For example, the upper-right solution
-in the above picture corresponds to the string
-''$\rightarrow$ $\rightarrow$ o $\rightarrow$ o $\rightarrow$''.
-Thus, the number of solutions is
-${k+n-1 \choose k}$.
-
-\textit{Scenario 3}: Each box may contain at most one ball,
-and in addition, no two adjacent boxes may both contain a ball.
-For example, when $n=5$ and $k=2$,
-there are 6 solutions:
-
+シナリオ3: 各箱にボールを入れる。しかし隣り合う箱にボールが入っていてはならない。
+$n=5$, $k=2$とするとき、次の6通りが考えられます。
 
 \begin{center}
 \begin{tikzpicture}[scale=0.5]
@@ -316,48 +273,33 @@ there are 6 solutions:
 \end{tikzpicture}
 \end{center}
 
-In this scenario, we can assume that
-$k$ balls are initially placed in boxes
-and there is an empty box between each
-two adjacent boxes.
-The remaining task is to choose the
-positions for the remaining empty boxes.
-There are $n-2k+1$ such boxes and
-$k+1$ positions for them.
-Thus, using the formula of scenario 2,
-the number of solutions is
-${n-k+1 \choose n-2k+1}$.
+このシナリオでは、
+$k$個のボールが箱に入れられ、
+隣り合う2つの箱の間に空の箱があるとしましょう。
+課題は、残りの空き箱の位置を選択することである。
+このような箱は $n-2k+1$ 個あり、その位置は $k+1$ が考えられます。
 
-\subsubsection{Multinomial coefficients}
+ここでシナリオ2の式を思い出すと
+${n-k+1 \choose n-2k+1}$であることがわかります。
 
-\index{multinomial coefficient}
+\subsubsection{多項係数 - Multinomial coefficients}
 
-The \key{multinomial coefficient}
+\index{多項係数 - multinomial coefficient}
+
+\key{多項係数 - multinomial coefficient}は、
 \[ {n \choose k_1,k_2,\ldots,k_m} = \frac{n!}{k_1! k_2! \cdots k_m!}, \]
-equals the number of ways
-we can divide $n$ elements into subsets
-of sizes $k_1,k_2,\ldots,k_m$,
-where $k_1+k_2+\cdots+k_m=n$.
-Multinomial coefficients can be seen as a
-generalization of binomial cofficients;
-if $m=2$, the above formula
-corresponds to the binomial coefficient formula.
+であり、$n$個の要素をサイズ $k_1,k_2,\ldots,k_m$の部分集合に分割できる方法の数に等しくなります。
+この時、$k_1+k_2+\cdots+k_m=n$とします。
 
-\section{Catalan numbers}
+多項係数は二項係数の一般化と見ることができ、$m = 2$なら、上式は二項係数の式となります。
 
-\index{Catalan number}
+\section{カタラン数 - Catalan numbers}
 
-The \key{Catalan number}
-%\footnote{E. C. Catalan (1814--1894) was a Belgian mathematician.}
-$C_n$ equals the
-number of valid
-parenthesis expressions that consist of
-$n$ left parentheses and $n$ right parentheses.
+\index{カタラン数 - Catalan number}
 
-For example, $C_3=5$, because
-we can construct the following parenthesis
-expressions using three
-left and right parentheses:
+\key{カタラン数 - Catalan number}
+$C_n$ は、$n$個の左括弧と$n$個の右括弧からなる有効な括弧式の数に等しいような数字です。
+例えば$C_3=5$ですが、左右3つの括弧を使って次のような括弧式が作れます。
 
 \begin{itemize}[noitemsep]
 \item \texttt{()()()}
@@ -367,57 +309,39 @@ left and right parentheses:
 \item \texttt{(()())}
 \end{itemize}
 
-\subsubsection{Parenthesis expressions}
+\subsubsection{括弧表現 - Parenthesis expressions}
 
-\index{parenthesis expression}
+\index{括弧表現 - parenthesis expression}
 
-What is exactly a \emph{valid parenthesis expression}?
-The following rules precisely define all
-valid parenthesis expressions:
+有効な括弧表現は次の定義で示されます。
 
 \begin{itemize}
-\item An empty parenthesis expression is valid.
-\item If an expression $A$ is valid,
-then also the expression
-\texttt{(}$A$\texttt{)} is valid.
-\item If expressions $A$ and $B$ are valid,
-then also the expression $AB$ is valid.
+\item 空の括弧は有効です
+\item 式$A$が有効であるとき、\texttt{(}$A$\texttt{)} は有効です
+\item $A$と$B$が有効である時、$AB$は有効です
 \end{itemize}
 
-Another way to characterize valid 
-parenthesis expressions is that if
-we choose any prefix of such an expression,
-it has to contain at least as many left
-parentheses as right parentheses.
-In addition, the complete expression has to
-contain an equal number of left and right
-parentheses.
+有効な括弧式のもう１つの特徴は、
+このような式の任意の接頭辞を選ぶと、
+そこに含まれる右括弧以上の左括弧が含まれていなければならないことです。
+また、完全な式には、左括弧と右括弧が同じ数だけ含まれていなければなりません。
 
-\subsubsection{Formula 1}
+\subsubsection{公式1: Formula 1}
 
-Catalan numbers can be calculated using the formula
+カタラン数は次の式で求めることができます。
 \[ C_n = \sum_{i=0}^{n-1} C_{i} C_{n-i-1}.\]
 
-The sum goes through the ways to divide the
-expression into two parts
-such that both parts are valid
-expressions and the first part is as short as possible
-but not empty.
-For any $i$, the first part contains $i+1$ pairs
-of parentheses and the number of expressions
-is the product of the following values:
+この和は、式を2つの部分に分割して両方の部分が有効な式であり、
+最初の部分ができるだけ短い空でないものの数を調べます。
+任意の$i$について 、最初の部分は$i + 1$組の括弧を含むため式の数は次の値の積となる。
 
 \begin{itemize}
-\item $C_{i}$: the number of ways to construct an expression
-using the parentheses of the first part,
-not counting the outermost parentheses
-\item $C_{n-i-1}$: the number of ways to construct an
-expression using the parentheses of the second part
+\item $C_{i}$: 一番外側の括弧を除いた、最初の部分の括弧を使った式の組み立て方の数
+\item $C_{n-i-1}$: ２番目の括弧を使った式の組み立て方の数
 \end{itemize}
 
-The base case is $C_0=1$,
-because we can construct an empty parenthesis
-expression using zero pairs of parentheses.
+なお、$C_0=1$となります。
+これは、ゼロ個の括弧の組を使って空の括弧式を構成することができるためです。
 
 \subsubsection{Formula 2}
 
@@ -594,7 +518,7 @@ and the corresponding picture is
 \end{tikzpicture}
 \end{center}
 
-In the general case, the size of the 
+In the general case, the size of the
 union $X_1 \cup X_2 \cup \cdots \cup X_n$
 can be calculated by going through all possible
 intersections that contain some of the sets $X_1,X_2,\ldots,X_n$.
