@@ -278,58 +278,42 @@ if (x < 0) x += m;
 \end{lstlisting}
 これはあくまで負の可能性となることがある場合にのみ必要になります。
 
-\subsubsection{Floating point numbers}
+\subsubsection{浮動小数点数 - Floating point numbers}
 
-\index{floating point number}
+\index{浮動小数点数 - floating point number}
 
-The usual floating point types in
-competitive programming are
-the 64-bit \texttt{double}
-and, as an extension in the \texttt{g++} compiler,
-the 80-bit \texttt{long double}.
-In most cases, \texttt{double} is enough,
-but \texttt{long double} is more accurate.
+競技プログラミングで多く用いられるのは
+64-bitの浮動小数点型\texttt{double}で、
+\texttt{g++}の拡張である
+80-bit 浮動小数点型の\texttt{long double}もあります。
+ほとんどのケースでは\texttt{double}で十分ですが、
+\texttt{long double} の方がより正確です。
 
-The required precision of the answer
-is usually given in the problem statement.
-An easy way to output the answer is to use
-the \texttt{printf} function
-and give the number of decimal places
-in the formatting string.
-For example, the following code prints
-the value of $x$ with 9 decimal places:
+答えに必要な精度は、通常、問題文の中で示されています。
+答えを出力する簡単な方法は，\texttt{printf}関数を使い，
+書式文字列で小数点以下の桁数を与える方法です。
+例えば，次のコードは，$x$の値を小数点以下9桁で表示します.
 
 \begin{lstlisting}
 printf("%.9f\n", x);
 \end{lstlisting}
 
-A difficulty when using floating point numbers
-is that some numbers cannot be represented
-accurately as floating point numbers,
-and there will be rounding errors.
-For example, the result of the following code
-is surprising:
+浮動小数点数を使う際の留意点は
+浮動小数点数として正確に表現できない数値があって丸め誤差が発生することです。
+例えば、次のようなコードの結果は驚くべきものでしょう。
 
 \begin{lstlisting}
 double x = 0.3*3+0.1;
 printf("%.20f\n", x); // 0.99999999999999988898
 \end{lstlisting}
 
-Due to a rounding error,
-the value of \texttt{x} is a bit smaller than 1,
-while the correct value would be 1.
+正しい値は1ですが、丸め誤差のために$x$の値が1より少し小さくなっています。
+このまま\texttt{==}演算子で浮動小数点数を比較すると、
+精度誤差のために本来等しいはずの値が等しくなくなる可能性があります。
+浮動小数点数の比較に適した方法は、
+2つの数値の差が$\varepsilon$($\varepsilon$は小さな数)より小さければ等しいと仮定することです。
 
-It is risky to compare floating point numbers
-with the \texttt{==} operator,
-because it is possible that the values should be
-equal but they are not because of precision errors.
-A better way to compare floating point numbers
-is to assume that two numbers are equal
-if the difference between them is less than $\varepsilon$,
-where $\varepsilon$ is a small number.
-
-In practice, the numbers can be compared
-as follows ($\varepsilon=10^{-9}$):
+実際には、次のように数値を比較することができます($\varepsilon=10^{-9}$)。
 
 \begin{lstlisting}
 if (abs(a-b) < 1e-9) {
@@ -337,12 +321,8 @@ if (abs(a-b) < 1e-9) {
 }
 \end{lstlisting}
 
-Note that while floating point numbers are inaccurate,
-integers up to a certain limit can still be
-represented accurately.
-For example, using \texttt{double},
-it is possible to accurately represent all
-integers whose absolute value is at most $2^{53}$.
+なお、ある程度までの整数は正確に表現できます。
+\texttt{double}の場合は$2^{53}$までの整数は正しく表現できます。
 
 \section{Shortening code}
 
