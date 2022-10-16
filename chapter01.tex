@@ -324,141 +324,129 @@ if (abs(a-b) < 1e-9) {
 なお、ある程度までの整数は正確に表現できます。
 \texttt{double}の場合は$2^{53}$までの整数は正しく表現できます。
 
-\section{Shortening code}
+\section{短く書く - Shortening code}
 
-Short code is ideal in competitive programming,
-because programs should be written
-as fast as possible.
-Because of this, competitive programmers often define
-shorter names for datatypes and other parts of code.
+競技プログラミングでは、
+速くプログラムを書くことが求められるので、短いコードが理想的です。
+そのため、競技志向のプログラマは、
+データ型などのコードに短い名前を定義することが多くなります。
 
-\subsubsection{Type names}
+\subsubsection{型の名前 - Type names}
 \index{tuppdef@\texttt{typedef}}
-Using the command \texttt{typedef}
-it is possible to give a shorter name
-to a datatype.
-For example, the name \texttt{long long} is long,
-so we can define a shorter name \texttt{ll}:
+\texttt{typedef}を用いるとデータ型を短くできます。
+例えば、次のように\texttt{long long}という長い名前を
+\texttt{ll}とすることができます。
+
 \begin{lstlisting}
 typedef long long ll;
 \end{lstlisting}
-After this, the code
+
+このように宣言することで
 \begin{lstlisting}
 long long a = 123456789;
 long long b = 987654321;
 cout << a*b << "\n";
 \end{lstlisting}
-can be shortened as follows:
+となっていたコードが以下のようにかけます。
 \begin{lstlisting}
 ll a = 123456789;
 ll b = 987654321;
 cout << a*b << "\n";
 \end{lstlisting}
 
-The command \texttt{typedef}
-can also be used with more complex types.
-For example, the following code gives
-the name \texttt{vi} for a vector of integers
-and the name \texttt{pi} for a pair
-that contains two integers.
+\texttt{typedef}はもう少し複雑な型も表現できます。
+例えば次のように、整数のvectorや、整数のpairを宣言できます。
+
 \begin{lstlisting}
 typedef vector<int> vi;
 typedef pair<int,int> pi;
 \end{lstlisting}
 
-\subsubsection{Macros}
-\index{macro}
-Another way to shorten code is to define
-\key{macros}.
-A macro means that certain strings in
-the code will be changed before the compilation.
-In C++, macros are defined using the
-\texttt{\#define} keyword.
+\subsubsection{マクロ -  Macros}
+\index{マクロ - macro}
 
-For example, we can define the following macros:
+\key{マクロ - macros}も短く書くのに有効な手法です。
+マクロは、コード中の特定の文字列をコンパイル前に変更します。
+C++ では、マクロは\texttt{\#define} キーワードを使って定義します。
+
+例えば、次のようなマクロを定義することができます。
+
 \begin{lstlisting}
 #define F first
 #define S second
 #define PB push_back
 #define MP make_pair
 \end{lstlisting}
-After this, the code
+これによって次のようなコードが、
 \begin{lstlisting}
 v.push_back(make_pair(y1,x1));
 v.push_back(make_pair(y2,x2));
 int d = v[i].first+v[i].second;
 \end{lstlisting}
-can be shortened as follows:
+次のようにかけるのです。
 \begin{lstlisting}
 v.PB(MP(y1,x1));
 v.PB(MP(y2,x2));
 int d = v[i].F+v[i].S;
 \end{lstlisting}
 
-A macro can also have parameters
-which makes it possible to shorten loops and other
-structures.
-For example, we can define the following macro:
+また、マクロは引数を持てるのでループなどを短く書くのに役立ちます。
+
 \begin{lstlisting}
 #define REP(i,a,b) for (int i = a; i <= b; i++)
 \end{lstlisting}
-After this, the code
+このような定義をしておけば、
 \begin{lstlisting}
 for (int i = 1; i <= n; i++) {
     search(i);
 }
 \end{lstlisting}
-can be shortened as follows:
+この記述が以下のようにかけます。
 \begin{lstlisting}
 REP(i,1,n) {
     search(i);
 }
 \end{lstlisting}
 
-Sometimes macros cause bugs that may be difficult
-to detect. For example, consider the following macro
-that calculates the square of a number:
+ただ、マクロは時折デバッグを難しくすることがあるので注意してください。
 \begin{lstlisting}
 #define SQ(a) a*a
 \end{lstlisting}
-This macro \emph{does not} always work as expected.
-For example, the code
+このような平方根を求めるものがあり、
 \begin{lstlisting}
 cout << SQ(3+3) << "\n";
 \end{lstlisting}
-corresponds to the code
+こうしたとすると、次のように展開されます。
 \begin{lstlisting}
 cout << 3+3*3+3 << "\n"; // 15
 \end{lstlisting}
 
-A better version of the macro is as follows:
+このマクロは次のように書くべきでした。
 \begin{lstlisting}
 #define SQ(a) (a)*(a)
 \end{lstlisting}
-Now the code
+この時、
 \begin{lstlisting}
 cout << SQ(3+3) << "\n";
 \end{lstlisting}
-corresponds to the code
+この処理は次のように動作し、予想した通りに動きますね。
 \begin{lstlisting}
 cout << (3+3)*(3+3) << "\n"; // 36
 \end{lstlisting}
 
 
-\section{Mathematics}
+\section{数学 - Mathematics}
 
-Mathematics plays an important role in competitive
-programming, and it is not possible to become
-a successful competitive programmer without
-having good mathematical skills.
-This section discusses some important
-mathematical concepts and formulas that
-are needed later in the book.
+競技プログラミングで数学は重要な役割を担っており、
+数学の能力がなければ競技用プログラマとして成功することはできません。
+この本の後半で必要となる重要な数学的概念と公式について説明します。
 
-\subsubsection{Sum formulas}
+\subsubsection{加算に関する公式 - Sum formulas}
 
-Each sum of the form
+まず基本的な式を紹介します。
 \[\sum_{x=1}^n x^k = 1^k+2^k+3^k+\ldots+n^k,\]
+ここで、$k$は正の整数であり、次数$k + 1$の多項式となる閉形式を持っている。
+例えば
 where $k$ is a positive integer,
 has a closed-form formula that is a
 polynomial of degree $k+1$.

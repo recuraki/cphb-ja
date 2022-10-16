@@ -1,54 +1,41 @@
-- \chapter{Time complexity}
+- \chapter{時間計算量 - Time complexity}
 
-\index{time complexity}
+\index{時間計算量 - time complexity}
 
-The efficiency of algorithms is important in competitive programming.
-Usually, it is easy to design an algorithm
-that solves the problem slowly,
-but the real challenge is to invent a
-fast algorithm.
-If the algorithm is too slow, it will get only
-partial points or no points at all.
+競技プログラミングでは、アルゴリズムの効率性がとても大切です。
+問題をゆっくり解くアルゴリズムを設計するのは簡単なことが多いですが、
+速いアルゴリズムを閃くことが大切になります。
+コンテストではアルゴリズムが遅すぎると、
+部分点 しか取れなかったり、全く点が取れなかったりしてしまいます。
 
-The \key{time complexity} of an algorithm
-estimates how much time the algorithm will use
-for some input.
-The idea is to represent the efficiency
-as a function whose parameter is the size of the input.
-By calculating the time complexity,
-we can find out whether the algorithm is fast enough
-without implementing it.
+さて、アルゴリズムの時間計算量とは、
+ある入力の変数に対してそのアルゴリズムがどれだけの時間を使うかを推定するものです。
+つまり、時間の効率を入力変数のサイズをパラメータして関数で表現します。
+時間計算量によってアルゴリズムが十分に速いかどうかを実装せずに知ることもできます。
 
-\section{Calculation rules}
+\section{計算ルール - Calculation rules}
 
-The time complexity of an algorithm
-is denoted $O(\cdots)$
-where the three dots represent some
-function.
-Usually, the variable $n$ denotes
-the input size.
-For example, if the input is an array of numbers,
-$n$ will be the size of the array,
-and if the input is a string,
-$n$ will be the length of the string.
+時間計算量は $O(\cdots)$という式で表され、
+3つの点はなんらかの関数を示します。
+通常、変数$n$は入力の大きさを表します。
+例えば、入力が数値の配列の場合、nは配列の大きさで、入力が文字列の場合はnは文字列の長さとなります。
 
-\subsubsection*{Loops}
+\subsubsection*{ループ - Loops}
 
-A common reason why an algorithm is slow is
-that it contains many loops that go through the input.
-The more nested loops the algorithm contains,
-the slower it is.
-If there are $k$ nested loops,
-the time complexity is $O(n^k)$.
+アルゴリズムが遅くなる最も多い原因は、入力を処理する多くのループを含んでいることです。
+アルゴリズムに含まれるネストされたループが多ければ多いほど、プログラムの動作は遅くなります。
+もし、$n$個の要素を処理する$k$個のループがあるならその計算量は$O(n^k)$になります。
 
-For example, the time complexity of the following code is $O(n)$:
+例えば、以下のコードの時間計算量は$O(n)$です。
+
 \begin{lstlisting}
 for (int i = 1; i <= n; i++) {
     // code
 }
 \end{lstlisting}
 
-And the time complexity of the following code is $O(n^2)$:
+次のコードの計算量は$O(n^2)$になります。
+
 \begin{lstlisting}
 for (int i = 1; i <= n; i++) {
     for (int j = 1; j <= n; j++) {
@@ -57,7 +44,12 @@ for (int i = 1; i <= n; i++) {
 }
 \end{lstlisting}
 
-\subsubsection*{Order of magnitude}
+\subsubsection*{オーダーの大きさ - Order of magnitude}
+
+時間計算量は、コードが実行された正確な回数を求めるものでなく、
+計算量の大きさ示すだけです。以下の例では、ループ内のコード は $3n$回、
+$n+5$ 回、$\lceil n/2 \rceil$回実行されますが、
+それぞれのコードの時間複雑度は $O(n)$です。
 
 A time complexity does not tell us the exact number
 of times the code inside a loop is executed,
@@ -84,8 +76,7 @@ for (int i = 1; i <= n; i += 2) {
 }
 \end{lstlisting}
 
-As another example,
-the time complexity of the following code is $O(n^2)$:
+また、次の例では時間計算量は $O(n^2)$です。
 
 \begin{lstlisting}
 for (int i = 1; i <= n; i++) {
@@ -95,18 +86,15 @@ for (int i = 1; i <= n; i++) {
 }
 \end{lstlisting}
 
-\subsubsection*{Phases}
+\subsubsection*{フェーズ - Phases}
 
-If the algorithm consists of consecutive phases,
-the total time complexity is the largest
-time complexity of a single phase.
-The reason for this is that the slowest
-phase is usually the bottleneck of the code.
+アルゴリズムがいくつかの連続的なフェーズで構成されている時、
+全体の計算量は最も大きなフェイズの計算量となります。
+これはその最も大きなフェイズが全体の動作のボトルネックになるためです。
 
-For example, the following code consists
-of three phases with time complexities
-$O(n)$, $O(n^2)$ and $O(n)$.
-Thus, the total time complexity is $O(n^2)$.
+例えば、以下のコードは、時間的な複雑さを持つ3つのフェーズから構成されてて、
+$O(n)$, $O(n^2)$ , $O(n)$からなります。
+この場合、この時間計算量は$O(n^2)$となります。
 
 \begin{lstlisting}
 for (int i = 1; i <= n; i++) {
@@ -122,15 +110,11 @@ for (int i = 1; i <= n; i++) {
 }
 \end{lstlisting}
 
-\subsubsection*{Several variables}
+\subsubsection*{複数の変数が存在する場合 - Several variables}
 
-Sometimes the time complexity depends on
-several factors.
-In this case, the time complexity formula
-contains several variables.
+時間計算量は、いくつかの異なるサイズの変数の処理に依存することがあります。
 
-For example, the time complexity of the
-following code is $O(nm)$:
+例えば、以下のコードの時間計算量は$O(nm)$である。
 
 \begin{lstlisting}
 for (int i = 1; i <= n; i++) {
@@ -140,26 +124,24 @@ for (int i = 1; i <= n; i++) {
 }
 \end{lstlisting}
 
-\subsubsection*{Recursion}
+\subsubsection*{再帰 - Recursion}
 
-The time complexity of a recursive function
-depends on the number of times the function is called
-and the time complexity of a single call.
-The total time complexity is the product of
-these values.
+再帰的関数の時間計算量は、関数が呼び出される回数と、
+1回の呼び出しの時間計算量に依存しこれらの値の積となるでしょう。
 
-For example, consider the following function:
+例えば、次のような関数を考えます。
+
 \begin{lstlisting}
 void f(int n) {
     if (n == 1) return;
     f(n-1);
 }
 \end{lstlisting}
-The call $\texttt{f}(n)$ causes $n$ function calls,
-and the time complexity of each call is $O(1)$.
-Thus, the total time complexity is $O(n)$.
+$\texttt{f}(n)$ は $n$の関数呼び出しを行い、
+それぞれの関数の処理は$O(1)$です。
+このため、全体の時間計算量は$O(n)$となります。
 
-As another example, consider the following function:
+他の例も見てみましょう。
 \begin{lstlisting}
 void g(int n) {
     if (n == 1) return;
@@ -167,12 +149,10 @@ void g(int n) {
     g(n-1);
 }
 \end{lstlisting}
-In this case each function call generates two other
-calls, except for $n=1$.
-Let us see what happens when $g$ is called
-with parameter $n$.
-The following table shows the function calls
-produced by this single call:
+
+この関数呼び出しは、$n = 1$を除いて、他に2つの呼び出しを発生させます。
+$g$が呼ばれた時の関数の呼び出し回数を考えます。
+
 \begin{center}
 \begin{tabular}{rr}
 function call & number of calls \\
@@ -184,42 +164,35 @@ $\cdots$ & $\cdots$ \\
 $g(1)$ & $2^{n-1}$ \\
 \end{tabular}
 \end{center}
-Based on this, the time complexity is
+このように、この場合は以下のような時間計算量になります。
 \[1+2+4+\cdots+2^{n-1} = 2^n-1 = O(2^n).\]
 
-\section{Complexity classes}
+\section{時間計算量の種類 - Complexity classes}
 
-\index{complexity classes}
+\index{時間計算量の種類 - complexity classes}
 
-The following list contains common time complexities
-of algorithms:
+以下に時間計算量でよくある表現を紹介します。
 
 \begin{description}
 \item[$O(1)$]
-\index{constant-time algorithm}
-The running time of a \key{constant-time} algorithm
-does not depend on the input size.
-A typical constant-time algorithm is a direct
-formula that calculates the answer.
+\index{定数時間 - constant-time algorithm}
+\key{定数時間 - constant-time} は入力のサイズにかかわらず一定の時間となるアルゴリズムです。
 
 \item[$O(\log n)$]
-\index{logarithmic algorithm}
-A \key{logarithmic} algorithm often halves
-the input size at each step.
-The running time of such an algorithm
-is logarithmic, because
-$\log_2 n$ equals the number of times
-$n$ must be divided by 2 to get 1.
+\index{対数アルゴリズム - logarithmic algorithm}
+\key{対数アルゴリズム - logarithmic} は各ステップで入力サイズが半分になるアルゴリズムです。
+このようなアルゴリズムの実行時間は対数的で$\log_2 n$となります。
+$n$ を $2$ で割っ て 1 になる回数に等しいためです。
 
-\item[$O(\sqrt n)$]
-A \key{square root algorithm} is slower than
-$O(\log n)$ but faster than $O(n)$.
-A special property of square roots is that
-$\sqrt n = n/\sqrt n$, so the square root $\sqrt n$ lies,
-in some sense, in the middle of the input.
+\item[平方根アルゴリズム - $O(\sqrt n)$]
+\key{平方根アルゴリズム - square root algorithm} は
+$O(\log n)$ より遅いものの $O(n)$より早いアルゴリズムです。
+平方根の特殊な性質は
+$\sqrt n = n/\sqrt n$であることで、
+これは入力の真ん中、を示します。(TODO: なんか変)
 
 \item[$O(n)$]
-\index{linear algorithm}
+\index{線形アルゴリズム - linear algorithm}
 A \key{linear} algorithm goes through the input
 a constant number of times.
 This is often the best possible time complexity,
