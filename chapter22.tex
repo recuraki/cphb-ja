@@ -345,48 +345,35 @@ $C_n$ は、$n$個の左括弧と$n$個の右括弧からなる有効な括弧�
 
 \subsubsection{Formula 2}
 
-Catalan numbers can also be calculated
-using binomial coefficients:
+カタラン数は二項係数から求めることもできます。
 \[ C_n = \frac{1}{n+1} {2n \choose n}\]
-The formula can be explained as follows:
 
-There are a total of ${2n \choose n}$ ways
-to construct a (not necessarily valid)
-parenthesis expression that contains $n$ left
-parentheses and $n$ right parentheses.
-Let us calculate the number of such
-expressions that are \emph{not} valid.
+$n$個の左括弧と$n$個の右括弧を含む、有効とは限らない括弧式を構成する数は、
+全部で${2n \choose n}$ です。
+これかから有効でないものの数を計算します。
 
-If a parenthesis expression is not valid,
-it has to contain a prefix where the
-number of right parentheses exceeds the
-number of left parentheses.
-The idea is to reverse each parenthesis
-that belongs to such a prefix.
-For example, the expression
-\texttt{())()(} contains a prefix \texttt{())},
-and after reversing the prefix,
-the expression becomes \texttt{)((()(}.
+括弧式が有効でない場合というのは、
+ある地点に置いて右括弧の数が左括弧の数を上回るような接頭辞でなければいけません。
+ここで、そのような接頭辞に属するそれぞれの括弧を逆にしてみます。
+例えば、\texttt{())()(} は接頭辞 \texttt{())}を含んでおり、
+接頭辞を反転させる と \texttt{)((()(} となります。
 
-The resulting expression consists of $n+1$
-left parentheses and $n-1$ right parentheses.
-The number of such expressions is ${2n \choose n+1}$,
-which equals the number of non-valid
-parenthesis expressions.
-Thus, the number of valid parenthesis
-expressions can be calculated using the formula
+これを行うと式は$n + 1$個の左括弧と$n - 1$個の右括弧で構成さます。
+このような${2n \choose n+1}$の式は有効でない括弧式の数となります。
+したがって、有効な括弧式の数は、次の式で計算できます。
 \[{2n \choose n}-{2n \choose n+1} = {2n \choose n} - \frac{n}{n+1} {2n \choose n} = \frac{1}{n+1} {2n \choose n}.\]
 
-\subsubsection{Counting trees}
+\subsubsection{木の数え上げ - Counting trees}
 
 Catalan numbers are also related to trees:
+カタラン数は木とも関係があります。
 
 \begin{itemize}
-\item there are $C_n$ binary trees of $n$ nodes
-\item there are $C_{n-1}$ rooted trees of $n$ nodes
+\item $n$個のノードを持つ二分木の数は$C_n$
+\item $n$個のノードを持つ根付き木の数は$C_{n-1}$
 \end{itemize}
 \noindent
-For example, for $C_3=5$, the binary trees are
+$C_3=5$です。さて二分木は次のようになります。
 
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
@@ -417,7 +404,7 @@ For example, for $C_3=5$, the binary trees are
 \draw[fill=white] (11.5+1.5,-2) circle (0.3);
 \end{tikzpicture}
 \end{center}
-and the rooted trees are
+根付き木は次のようになります。
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \path[draw,thick,-] (0,0) -- (-1,-1);
@@ -458,19 +445,17 @@ and the rooted trees are
 \end{tikzpicture}
 \end{center}
 
-\section{Inclusion-exclusion}
+\section{包除原理 - Inclusion-exclusion}
 
-\index{inclusion-exclusion}
+\index{包除原理 - inclusion-exclusion}
 
-\key{Inclusion-exclusion} is a technique
-that can be used for counting the size
-of a union of sets when the sizes of
-the intersections are known, and vice versa.
-A simple example of the technique is the formula
+\key{包除原理 - Inclusion-exclusion}
+とは、集合の重なる部分の大きさが分かっているときに、
+その集合の和の大きさを数えるテクニックです。
+２つの集合の例としては、
 \[ |A \cup B| = |A| + |B| - |A \cap B|,\]
-where $A$ and $B$ are sets and $|X|$
-denotes the size of $X$.
-The formula can be illustrated as follows:
+となり、$A$と$B$は集合であり、$|X|$という表現は$X$の集合の大きさです。
+これを図に示します。
 
 \begin{center}
 \begin{tikzpicture}[scale=0.8]
@@ -485,20 +470,13 @@ The formula can be illustrated as follows:
 \end{tikzpicture}
 \end{center}
 
-Our goal is to calculate
-the size of the union $A \cup B$
-that corresponds to the area of the region
-that belongs to at least one circle.
-The picture shows that we can calculate
-the area of $A \cup B$ by first summing the
-areas of $A$ and $B$ and then subtracting
-the area of $A \cap B$.
+$A \cup B$の大きさを計算するには、少なくとも1つの円に属する領域の面積に対応する組合わせを計算することです。
+図のようにまず$A$と$B$の面積から$A \cap B$の面積を差し引けば、
+$A \cup B$の面積を計算することができます。
 
-The same idea can be applied when the number
-of sets is larger.
-When there are three sets, the inclusion-exclusion formula is
+この考え方は集合の数が多くなっても同じ考え方ができます。
+３つの集合の考え方と図を示します。
 \[ |A \cup B \cup C| = |A| + |B| + |C| - |A \cap B|  - |A \cap C|  - |B \cap C| + |A \cap B \cap C| \]
-and the corresponding picture is
 
 \begin{center}
 \begin{tikzpicture}[scale=0.8]
@@ -518,20 +496,14 @@ and the corresponding picture is
 \end{tikzpicture}
 \end{center}
 
-In the general case, the size of the
-union $X_1 \cup X_2 \cup \cdots \cup X_n$
-can be calculated by going through all possible
-intersections that contain some of the sets $X_1,X_2,\ldots,X_n$.
-If the intersection contains an odd number of sets,
-its size is added to the answer,
-and otherwise its size is subtracted from the answer.
+一般的に$X_1 \cup X_2 \cup \cdots \cup X_n$のサイズの大きさは
+集合$X_1,X_2,\ldots,X_n$の全ての重なる部分を調べることによって計算することができます。
+この時に重なる部分の集合の数の偶奇に注目すると良いです。
+交差点が奇数の集合を含む場合は加算、偶数の集合を含む場合は減算します。
 
-Note that there are similar formulas
-for calculating
-the size of an intersection from the sizes of
-unions. For example,
+また、重なる部分のサイズを計算する式は以下のようになります。
 \[ |A \cap B| = |A| + |B| - |A \cup B|\]
-and
+集合が３つの場合は次のようになります。
 \[ |A \cap B \cap C| = |A| + |B| + |C| - |A \cup B|  - |A \cup C|  - |B \cup C| + |A \cup B \cup C| .\]
 
 \subsubsection{Derangements}

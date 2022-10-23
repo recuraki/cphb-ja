@@ -34,49 +34,46 @@ $a$が$b$の因数であるとき、 $a \mid b$と表記し、そうでなけれ
 
 例えば24の因数は1, 2, 3, 4, 6, 8, 12, 24です。
 
-\index{prime}
+\index{素数 - prime}
 \index{prime decomposition}
 
 $n>1$である数が1または$n$以外の因数を持たない場合\key{素数}です。
 例えば、7、19、41は素数ですが、35は$5 \cdot 7 = 35$なので素数ではありません。
-$n>1$である数には、\key{素因数分解(prime factorization)}が唯一に存在します。
+$n>1$である数には、\key{素因数分解 - prime factorization}が唯一に存在します。
 \[ n = p_1^{\alpha_1} p_2^{\alpha_2} \cdots p_k^{\alpha_k},\]
 ここで、$p_1,p_2,\ldots,p_k$は異なる素数であり、$\alpha_1,\alpha_2,\ldots,\alpha_k$は正の数である。
 例えば、84の素因数分解は次のようになります。
 \[84 = 2^2 \cdot 3^1 \cdot 7^1.\]
 
+ある数$n$の素因数の個数を
 The \key{number of factors} of a number $n$ is
 \[\tau(n)=\prod_{i=1}^k (\alpha_i+1),\]
-because for each prime $p_i$, there are
-$\alpha_i+1$ ways to choose how many times
-it appears in the factor.
-For example, the number of factors
-of 84 is
-$\tau(84)=3 \cdot 2 \cdot 2 = 12$.
-The factors are
-1, 2, 3, 4, 6, 7, 12, 14, 21, 28, 42 and 84.
+とします。
+なぜなら、各素数$p_i$ に対して、
+因数に何回現れるかを選ぶ方法は$\alpha_i+1$通りあるからです
+。例えば、84の因子の数は、$\tau(84)=3 \cdot 2 \cdot 2 = 12$です。
+実際に因数分解する と、1、2、3、4、6、7、12、14、21、28、42、84となります。
 
-The \key{sum of factors} of $n$ is
+$n$ の \key{因数の和 - sum of factors} は
 \[\sigma(n)=\prod_{i=1}^k (1+p_i+\ldots+p_i^{\alpha_i}) = \prod_{i=1}^k \frac{p_i^{a_i+1}-1}{p_i-1},\]
-where the latter formula is based on the geometric progression formula.
-For example, the sum of factors of 84 is
+ここで、後者の式は幾何級数式(TODO: geometric progression formula)によります。
+例えば、84の因数の和は次の通りとなります。
 \[\sigma(84)=\frac{2^3-1}{2-1} \cdot \frac{3^2-1}{3-1} \cdot \frac{7^2-1}{7-1} = 7 \cdot 4 \cdot 8 = 224.\]
 
-The \key{product of factors} of $n$ is
+$n$の \key{因数の積 - product of factors} は
 \[\mu(n)=n^{\tau(n)/2},\]
-because we can form $\tau(n)/2$ pairs from the factors,
+となります。
+TODO:  because we can form $\tau(n)/2$ pairs from the factors,
 each with product $n$.
-For example, the factors of 84
-produce the pairs
-$1 \cdot 84$, $2 \cdot 42$, $3 \cdot 28$, etc.,
-and the product of the factors is $\mu(84)=84^6=351298031616$.
+たとえば84の因数の積は次のようなペアで示されます。
+$1 \cdot 84$, $2 \cdot 42$, $3 \cdot 28$などなど。
+この結果、因数は積は$\mu(84)=84^6=351298031616$となります。
 
-\index{perfect number}
+\index{完全数 - perfect number}
 $n=\sigma(n)-n$の場合、$n$は\key{完全数(perfect number)}と呼ばれます。
 つまり、$n$が$1$から$n - 1$までの因数の和に等しい場合です。例えば、28は、$28=1+2+4+7+14$なので、完全数です。
 
 \subsubsection{素数は無限に存在する - Number of primes}
-
 
 素数が無限にあることを示します。
 もし、素数の数が有限であれば、素数全ての集合である
