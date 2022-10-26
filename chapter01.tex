@@ -446,67 +446,55 @@ cout << (3+3)*(3+3) << "\n"; // 36
 まず基本的な式を紹介します。
 \[\sum_{x=1}^n x^k = 1^k+2^k+3^k+\ldots+n^k,\]
 ここで、$k$は正の整数であり、次数$k + 1$の多項式となる閉形式を持っている。
-例えば
-where $k$ is a positive integer,
-has a closed-form formula that is a
-polynomial of degree $k+1$.
-For example\footnote{\index{Faulhaber's formula}
+例えば\footnote{\index{Faulhaber's formula}
 There is even a general formula for such sums, called \key{Faulhaber's formula},
 but it is too complex to be presented here.},
 \[\sum_{x=1}^n x = 1+2+3+\ldots+n = \frac{n(n+1)}{2}\]
-and
+や
 \[\sum_{x=1}^n x^2 = 1^2+2^2+3^2+\ldots+n^2 = \frac{n(n+1)(2n+1)}{6}.\]
+です。
 
-An \key{arithmetic progression} is a \index{arithmetic progression}
-sequence of numbers
-where the difference between any two consecutive
-numbers is constant.
-For example,
+\index{等差数列 - arithmetic progression}
+
+\key{等差数列 - arithmetic progression}は隣り合う２つの要素の差が一定であるものです。
 \[3, 7, 11, 15\]
-is an arithmetic progression with constant 4.
-The sum of an arithmetic progression can be calculated
-using the formula
+この場合、差は常に4です。
+等差数列の和は次の式で表されます。
 \[\underbrace{a + \cdots + b}_{n \,\, \textrm{numbers}} = \frac{n(a+b)}{2}\]
-where $a$ is the first number,
-$b$ is the last number and
-$n$ is the amount of numbers.
-For example,
+$a$ は初項、
+$b$ は最後の項、
+$n$ は項の数です.
+例えば次のようになります。
 \[3+7+11+15=\frac{4 \cdot (3+15)}{2} = 36.\]
-The formula is based on the fact
-that the sum consists of $n$ numbers and
-the value of each number is $(a+b)/2$ on average.
+この式は、和が$n$個の数からなり、
+各数の値が平均して$(a+b)/2$であることから算出されます。
 
-\index{geometric progression}
-A \key{geometric progression} is a sequence
-of numbers
-where the ratio between any two consecutive
-numbers is constant.
-For example,
+\index{等比数列 - geometric progression}
+\key{等比数列 - geometric progression}
+は隣り合う２つの値が決まった比により求められるものです。
 \[3,6,12,24\]
-is a geometric progression with constant 2.
-The sum of a geometric progression can be calculated
-using the formula
+というのは常に2倍になっています。
+この話は次のように求められます。
 \[a + ak + ak^2 + \cdots + b = \frac{bk-a}{k-1}\]
-where $a$ is the first number,
-$b$ is the last number and the
-ratio between consecutive numbers is $k$.
-For example,
+$a$ は初項、
+$b$ は最後の項、
+$k$ は項の比です。
 \[3+6+12+24=\frac{24 \cdot 2 - 3}{2-1} = 45.\]
 
-This formula can be derived as follows. Let
+これは次のように求められます。
 \[ S = a + ak + ak^2 + \cdots + b .\]
-By multiplying both sides by $k$, we get
+両辺に$k$をかけます。
 \[ kS = ak + ak^2 + ak^3 + \cdots + bk,\]
-and solving the equation
+これを整理して
 \[ kS-S = bk-a\]
-yields the formula.
+を餅挽きます。
 
-A special case of a sum of a geometric progression is the formula
+また、特殊なケースで以下の公式が成り立ちます。
 \[1+2+4+8+\ldots+2^{n-1}=2^n-1.\]
 
-\index{harmonic sum}
+\index{調和級数 - harmonic sum}
 
-A \key{harmonic sum} is a sum of the form
+\key{調和級数 - harmonic sum} は次のような式のことです。
 \[ \sum_{x=1}^n \frac{1}{x} = 1+\frac{1}{2}+\frac{1}{3}+\ldots+\frac{1}{n}.\]
 
 An upper bound for a harmonic sum is $\log_2(n)+1$.
@@ -775,89 +763,70 @@ $\lfloor \log_2(123)+1 \rfloor = 7$.
 
 \subsubsection{IOI}
 
-The International Olympiad in Informatics (IOI)
-is an annual programming contest for
-secondary school students.
-Each country is allowed to send a team of
-four students to the contest.
-There are usually about 300 participants
-from 80 countries.
+国際情報オリンピック(IOI)は、
+毎年開催される中高生を対象としたプログラミングコンテストです。
+各国は4人の学生からなるチームを派遣でき、例年80カ国から約300名の参加者があります。
 
-The IOI consists of two five-hour long contests.
-In both contests, the participants are asked to
-solve three algorithm tasks of various difficulty.
-The tasks are divided into subtasks,
-each of which has an assigned score.
-Even if the contestants are divided into teams,
-they compete as individuals.
+IOIは5時間に及ぶ2つのコンテストで構成されています。
+両コンテストとも参加者は様々な難易度の3つのアルゴリズム課題を解くよう求められます。
+タスクはサブタスクに分けられ、それぞれにスコアが設定されています。
+また，チームに分かれてはいますが個人ごとに競うことになります。
 
-The IOI syllabus \cite{iois} regulates the topics
-that may appear in IOI tasks.
-Almost all the topics in the IOI syllabus
-are covered by this book.
 
-Participants for the IOI are selected through
-national contests.
-Before the IOI, many regional contests are organized,
-such as the Baltic Olympiad in Informatics (BOI),
-the Central European Olympiad in Informatics (CEOI)
-and the Asia-Pacific Informatics Olympiad (APIO).
+IOIのシラバス\cite{iois}は、IOIタスクに登場する可能性のあるトピックを掲載されており、
+この本ではこのうちのほとんどのトピックを掲載しています。
 
-Some countries organize online practice contests
-for future IOI participants,
-such as the Croatian Open Competition in Informatics \cite{coci}
-and the USA Computing Olympiad \cite{usaco}.
-In addition, a large collection of problems from Polish contests
-is available online \cite{main}.
+IOIへの参加者は、国内コンテストを通じて選出されます。IOIの前には、
+ Baltic Olympiad in Informatics (BOI)、
+ the Central European Olympiad in Informatics (CEOI)、
+ the Asia-Pacific Informatics Olympiad (APIO)などが開催されています。
+
+ Croatian Open Competition in Informatics \cite{coci}
+や、the USA Computing Olympiad \cite{usaco}.
+など、将来のIOI参加者のためにオンラインコンテストを開催している国もあります。
+さらに、ポーランドのコンテストで出された問題の大規模な
+コレクションがオンラインで利用可能です\cite{main}。
 
 \subsubsection{ICPC}
 
-The International Collegiate Programming Contest (ICPC)
-is an annual programming contest for university students.
-Each team in the contest consists of three students,
-and unlike in the IOI, the students work together;
-there is only one computer available for each team.
+国際大学対抗プログラミングコンテスト(ICPC)は、
+毎年開催される大学生を対象としたプログラミングコンテストです。
+1チームは3名で構成され、
+IOIとは異なり各チームに1台しかないコンピュータを使い競います。
 
-The ICPC consists of several stages, and finally the
-best teams are invited to the World Finals.
-While there are tens of thousands of participants
-in the contest, there are only a small number\footnote{The exact number of final
-slots varies from year to year; in 2017, there were 133 final slots.} of final slots available,
-so even advancing to the finals
-is a great achievement in some regions.
+ICPCはいくつかのステージで構成され、
+勝ち進んだなチームがワールドファイナルに招待されます。
+コンテストの参加者は数万人ですが、決勝の枠は限られています
+\footnote{The exact number of final
+slots varies from year to year; in 2017, there were 133 final slots.}。
+決勝戦に進出するだけでも大きな意味を持ちます。
 
-In each ICPC contest, the teams have five hours of time to
-solve about ten algorithm problems.
-A solution to a problem is accepted only if it solves
-all test cases efficiently.
-During the contest, competitors may view the results of other teams,
-but for the last hour the scoreboard is frozen and it
-is not possible to see the results of the last submissions.
+ICPCコンテストでは、
+各チームが5時間の持ち時間で10問程度のアルゴリズムの問題を解き、
+すべてのテストケースを効率的に解くことができた場合のみ、その解答が認められます。
+コンテスト中は、他のチームの結果を見ることができます。
+ただし、最後の1時間はスコアボードがフリーズしてしまい、 最後の投稿の結果を見ることができません。
 
-The topics that may appear at the ICPC are not so well
-specified as those at the IOI.
-In any case, it is clear that more knowledge is needed
-at the ICPC, especially more mathematical skills.
+ICPCで出題される可能性のあるテーマは、
+IOIのようにあまり特定されていません。
+ICPCではより多くの知識、特に数学的スキルが必要とされるとされています。
 
 \subsubsection{Online contests}
 
-There are also many online contests that are open for everybody.
-At the moment, the most active contest site is Codeforces,
-which organizes contests about weekly.
-In Codeforces, participants are divided into two divisions:
-beginners compete in Div2 and more experienced programmers in Div1.
-Other contest sites include AtCoder, CS Academy, HackerRank and Topcoder.
+誰でも参加できるオンラインコンテストは数多くあります。
+最も活発なコンテストサイトはCodeforcesで、毎週のようにコンテストを開催しています。
+Codeforcesでは、参加者を2つの部門に分け、初心者はDiv2、経験豊富なプログラマはDiv1で競います。
+その他のコンテストサイトには、AtCoder、CS Academy、HackerRank、Topcoderがあります。
 
-Some companies organize online contests with onsite finals.
-Examples of such contests are Facebook Hacker Cup,
-Google Code Jam and Yandex.Algorithm.
-Of course, companies also use those contests for recruiting:
-performing well in a contest is a good way to prove one's skills.
+いくつかの企業には、オンラインでコンテストを開催し、
+オンサイト（現地）で決勝を行うところもあります。
+Facebook Hacker Cup、Google Code Jam、Yandex.Algorithmなどがその例です。
+もちろん、企業はこうしたコンテストを採用活動にも活用しています。
+コンテストで好成績を収めることは、自分のスキルを証明する良い方法でもあります。
 
-\subsubsection{Books}
+\subsubsection{書籍 - Books}
 
-There are already some books (besides this book) that
-focus on competitive programming and algorithmic problem solving:
+競技プログラミングやアルゴリズムによる問題解決に焦点を当てた書籍は、(本書以外にも)すでにいくつかあります。
 
 \begin{itemize}
 \item S. S. Skiena and M. A. Revilla:
@@ -868,12 +837,10 @@ focus on competitive programming and algorithmic problem solving:
 the University of Warsaw Programming Competitions} \cite{dik12}
 \end{itemize}
 
-The first two books are intended for beginners,
-whereas the last book contains advanced material.
+最初の2冊は初心者向けで、最後の1冊は上級者向けの内容です。
 
-Of course, general algorithm books are also suitable for
-competitive programmers.
-Some popular books are:
+もちろん、一般的なアルゴリズムの本も、競技志向のプログラマーには良いです。
+人気のある本には、以下のようなものがあります。
 
 \begin{itemize}
 \item T. H. Cormen, C. E. Leiserson, R. L. Rivest and C. Stein:

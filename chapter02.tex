@@ -193,104 +193,78 @@ $\sqrt n = n/\sqrt n$であることで、
 
 \item[$O(n)$]
 \index{線形アルゴリズム - linear algorithm}
-A \key{linear} algorithm goes through the input
-a constant number of times.
-This is often the best possible time complexity,
-because it is usually necessary to access each
-input element at least once before
-reporting the answer.
+\key{線形 - linear}アルゴリズムは入力を一定回数通過します。
+通常、答えを報告する前に少なくとも一度は各入力要素にアクセスする必要があるため、
+これは可能な限り最良の時間複雑性であることがほとんどです。
 
 \item[$O(n \log n)$]
-This time complexity often indicates that the
-algorithm sorts the input,
-because the time complexity of efficient
-sorting algorithms is $O(n \log n)$.
-Another possibility is that the algorithm
-uses a data structure where each operation
-takes $O(\log n)$ time.
+効率的なソートアルゴリズムの時間複雑度は$O(n \log n)$となるので、
+ソートを要するアルゴリズムはこの計算量になります。
+あるいは、アルゴリズムが各操作に$O( \log n)$の時間
+を要するデータ構造を使用しているとこの計算量になります。
 
 \item[$O(n^2)$]
-\index{quadratic algorithm}
-A \key{quadratic} algorithm often contains
-two nested loops.
-It is possible to go through all pairs of
-the input elements in $O(n^2)$ time.
+\index{二次アルゴリズム - quadratic algorithm}
+\key{二次 - quadratic} アルゴリズムは
+ネストしたループでよく目にします。
+特に全てのペアを考える際には$O(n^2)$となります。
 
 \item[$O(n^3)$]
-\index{cubic algorithm}
-A \key{cubic} algorithm often contains
-three nested loops.
-It is possible to go through all triplets of
-the input elements in $O(n^3)$ time.
+\index{三次アルゴリズム - cubic algorithm}
+\key{三次 - cubic}アルゴリズムも三重ループでよくみられます。
+これは三つの数字の組を走査する時によく出現します。
 
 \item[$O(2^n)$]
-This time complexity often indicates that
-the algorithm iterates through all
-subsets of the input elements.
-For example, the subsets of $\{1,2,3\}$ are
+これは入力に対して全ての集合の組み合わせを処理する時にみられます。
+例えば、$\{1,2,3\}$という入力に対して、
 $\emptyset$, $\{1\}$, $\{2\}$, $\{3\}$, $\{1,2\}$,
-$\{1,3\}$, $\{2,3\}$ and $\{1,2,3\}$.
+$\{1,3\}$, $\{2,3\}$ , $\{1,2,3\}$となります。
 
 \item[$O(n!)$]
-This time complexity often indicates that
-the algorithm iterates through all
-permutations of the input elements.
-For example, the permutations of $\{1,2,3\}$ are
+このアルゴリズムは全ての並び替えを試行する時に出現します。
+$\{1,2,3\}$ の順列組み合わせは、
 $(1,2,3)$, $(1,3,2)$, $(2,1,3)$, $(2,3,1)$,
-$(3,1,2)$ and $(3,2,1)$.
+$(3,1,2)$ , $(3,2,1)$となります。
 
 \end{description}
 
-\index{polynomial algorithm}
-An algorithm is \key{polynomial}
-if its time complexity is at most $O(n^k)$
-where $k$ is a constant.
-All the above time complexities except
-$O(2^n)$ and $O(n!)$ are polynomial.
-In practice, the constant $k$ is usually small,
-and therefore a polynomial time complexity
-roughly means that the algorithm is \emph{efficient}.
+\index{多項式アルゴリズム - polynomial algorithm}
+アルゴリズムの最大の時間計算量が$O(n^k)$である時、
+\key{多項式 - polynomial} 時間です。
+$O(2^n)$ と $O(n!)$ 以外の上記の計算量は全て多項式時間と言えます。
+定数$k$は通常小さいので、
+多項式時間であることはそのアルゴリズム が効率的であることを意味するケースが多いです。
 
-\index{NP-hard problem}
+\index{NP困難 - NP-hard problem}
 
-Most algorithms in this book are polynomial.
-Still, there are many important problems for which
-no polynomial algorithm is known, i.e.,
-nobody knows how to solve them efficiently.
-\key{NP-hard} problems are an important set
-of problems, for which no polynomial algorithm
-is known\footnote{A classic book on the topic is
+本書で紹介するアルゴリズムのほとんどは多項式時間です。
+ですが、多項式アルゴリズムが知られていない、
+つまり、誰もその効率的な解き方を知らない重要な問題もたくさんあります。
+このような\key{NP-hard}な問題は重要な問題群です
+\footnote{A classic book on the topic is
 M. R. Garey's and D. S. Johnson's
 \emph{Computers and Intractability: A Guide to the Theory
-of NP-Completeness} \cite{gar79}.}.
+of NP-Completeness} \cite{gar79}.}。
 
-\section{Estimating efficiency}
+\section{効率の見積もり - Estimating efficiency}
 
-By calculating the time complexity of an algorithm,
-it is possible to check, before
-implementing the algorithm, that it is
-efficient enough for the problem.
-The starting point for estimations is the fact that
-a modern computer can perform some hundreds of
-millions of operations in a second.
+アルゴリズムの時間計算により、
+そのアルゴリズムが問題に対して十分に効率的であるかどうかを実装前に確認することができます。
+留意すべきは現代のコンピュータが1秒間に何億回もの演算を行えるという事実です。
 
-For example, assume that the time limit for
-a problem is one second and the input size is $n=10^5$.
-If the time complexity is $O(n^2)$,
-the algorithm will perform about $(10^5)^2=10^{10}$ operations.
-This should take at least some tens of seconds,
-so the algorithm seems to be too slow for solving the problem.
+例えば、ある問題の制限時間が1秒で、
+入力サイズが$n=10^5$であるとします。
+時間計算量が$O(n^2)$である場合、
+このアルゴリズムは約$(10^5)^2=10^{10}$ の操作を行うことになるでしょう。
+これは少なくとも数十秒かかるはずなので，この問題を解くにはアルゴリズムが遅すぎる、というのがわかります。
 
-On the other hand, given the input size,
-we can try to \emph{guess}
-the required time complexity of the algorithm
-that solves the problem.
-The following table contains some useful estimates
-assuming a time limit of one second.
+一方、入力サイズがあれば、
+その問題を解くアルゴリズムの必要な時間複雑度を\emph{推測}してみることができます。
+次の表は、制限時間を1秒と仮定した場合の有用な推定値です。
 
 \begin{center}
 \begin{tabular}{ll}
-input size & required time complexity \\
+入力サイズ & 許容できる計算量 \\
 \hline
 $n \le 10$ & $O(n!)$ \\
 $n \le 20$ & $O(2^n)$ \\
@@ -301,46 +275,35 @@ $n$ is large & $O(1)$ or $O(\log n)$ \\
 \end{tabular}
 \end{center}
 
-For example, if the input size is $n=10^5$,
-it is probably expected that the time
-complexity of the algorithm is $O(n)$ or $O(n \log n)$.
-This information makes it easier to design the algorithm,
-because it rules out approaches that would yield
-an algorithm with a worse time complexity.
+例えば、入力サイズが$n=10^5$の場合、
+アルゴリズムの時間計算量は$O(n)$また は$O(n \log n)$であることが予想されます。
+この情報は、より悪い時間複雑性を持つアルゴリズムを検討するアプローチを除外するため、
+アルゴリズムの設計を容易にします。
 
-\index{constant factor}
+\index{定数要素 - constant factor}
 
-Still, it is important to remember that a
-time complexity is only an estimate of efficiency,
-because it hides the \emph{constant factors}.
-For example, an algorithm that runs in $O(n)$ time
-may perform $n/2$ or $5n$ operations.
-This has an important effect on the actual
-running time of the algorithm.
+ただ、時間の複雑さは定数要素を隠してしまうので、
+効率の推定値に過ぎないことは忘れないでください。
+例えば、$O(n)$時間で実行されるアルゴリズムは、$n/2$ や $5n$
+の演算を行うかもしれません。
+この場合、全体の実行時間はかなり長くなります。
 
-\section{Maximum subarray sum}
+\section{部分配列の和の最大値 - Maximum subarray sum}
 
-\index{maximum subarray sum}
+\index{部分配列の和の最大値 - maximum subarray sum}
 
-There are often several possible algorithms
-for solving a problem such that their
-time complexities are different.
-This section discusses a classic problem that
-has a straightforward $O(n^3)$ solution.
-However, by designing a better algorithm, it
-is possible to solve the problem in $O(n^2)$
-time and even in $O(n)$ time.
+ある問題を解決するためのアルゴリズムが複数存在し、その時間的複雑さが異なるというのはよくあることです。
+ここでは、$O(n^3)$の解を持つ古典的な問題を取り上げます。
+しかし、より良いアルゴリズムを設計することによって、
+この問題を$O(n^2)$ 時間で、
+さらには$O(n)$ 時間で解くことができます。
 
-Given an array of $n$ numbers,
-our task is to calculate the
-\key{maximum subarray sum}, i.e.,
-the largest possible sum of
-a sequence of consecutive values
-in the array\footnote{J. Bentley's
-book \emph{Programming Pearls} \cite{ben86} made the problem popular.}.
-The problem is interesting when there may be
-negative values in the array.
-For example, in the array
+$n$個の数値からなる配列が与えられたとき、
+最大の部分和、すなわち配列中の連続した数値の最大和を計算する問題です
+\footnote{J. Bentley's
+book \emph{Programming Pearls} \cite{ben86} made the problem popular.}。
+この問題は配列中に負の数がある時に興味深い問題となります。
+
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \draw (0,0) grid (8,1);
@@ -356,7 +319,7 @@ For example, in the array
 \end{tikzpicture}
 \end{center}
 \begin{samepage}
-the following subarray produces the maximum sum $10$:
+この場合の最大の部分和は$10$です。
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \fill[color=lightgray] (1,0) rectangle (6,1);
@@ -374,16 +337,15 @@ the following subarray produces the maximum sum $10$:
 \end{center}
 \end{samepage}
 
-We assume that an empty subarray is allowed,
-so the maximum subarray sum is always at least $0$.
+なお、空の配列も部分和と捉えるので$0$が考えられる最小の値となります。
 
 \subsubsection{Algorithm 1}
 
-A straightforward way to solve the problem
-is to go through all possible subarrays,
-calculate the sum of values in each subarray and maintain
-the maximum sum.
-The following code implements this algorithm:
+この問題を解決する簡単な方法は、
+可能性のあるすべての部分配列を調べ、
+それぞれの部分配列の値の合計を計算し、
+最大合計を計算することです。
+次のコー ドはこのアルゴリズムを実装したものです。
 
 \begin{lstlisting}
 int best = 0;
@@ -399,22 +361,16 @@ for (int a = 0; a < n; a++) {
 cout << best << "\n";
 \end{lstlisting}
 
-The variables \texttt{a} and \texttt{b} fix the first and
-last index of the subarray,
-and the sum of values is calculated to the variable \texttt{sum}.
-The variable \texttt{best} contains the maximum sum found during the search.
+\texttt{a} と \texttt{b} で部分配列の両端を持ち、
+その間の和を\texttt{sum}で計算します。
+\texttt{best}はこの最大値を持つものです。
 
-The time complexity of the algorithm is $O(n^3)$,
-because it consists of three nested loops
-that go through the input.
+これは、ネストから推測できる通り、$O(n^3)$の計算量となります。
 
 \subsubsection{Algorithm 2}
 
-It is easy to make Algorithm 1 more efficient
-by removing one loop from it.
-This is possible by calculating the sum at the same
-time when the right end of the subarray moves.
-The result is the following code:
+簡単に先ほどのコードからループを１つ撮ることができます。
+右端を動かす時に和も計算して終えばいいのです。
 
 \begin{lstlisting}
 int best = 0;
@@ -427,38 +383,30 @@ for (int a = 0; a < n; a++) {
 }
 cout << best << "\n";
 \end{lstlisting}
-After this change, the time complexity is $O(n^2)$.
+こうすると、$O(n^2)$になりました。
 
 \subsubsection{Algorithm 3}
 
-Surprisingly, it is possible to solve the problem
-in $O(n)$ time\footnote{In \cite{ben86}, this linear-time algorithm
+驚くべきことに、この問題は $O(n)$ 時間で解くことができます
+\footnote{In \cite{ben86}, this linear-time algorithm
 is attributed to J. B. Kadane, and the algorithm is sometimes
-called \index{Kadane's algorithm} \key{Kadane's algorithm}.}, which means
-that just one loop is enough.
-The idea is to calculate, for each array position,
-the maximum sum of a subarray that ends at that position.
-After this, the answer for the problem is the
-maximum of those sums.
+called \index{Kadane's algorithm} \key{Kadane's algorithm}.}。
+配列の各位置について，その位置で終了する部分配列の最大和を計算します。
+この後，問題の答えは、それらの最大値となります。
+位置$k$で終わる最大和の部分配列を求める補題を考えましょう。２つの可能性があります。
 
-Consider the subproblem of finding the maximum-sum subarray
-that ends at position $k$.
-There are two possibilities:
 \begin{enumerate}
-\item The subarray only contains the element at position $k$.
-\item The subarray consists of a subarray that ends
-at position $k-1$, followed by the element at position $k$.
+\item $k$のみが含まれる
+\item $k-1$で終わる部分配列に加えて$k$が含まれる
 \end{enumerate}
 
-In the latter case, since we want to
-find a subarray with maximum sum,
-the subarray that ends at position $k-1$
-should also have the maximum sum.
-Thus, we can solve the problem efficiently
-by calculating the maximum subarray sum
-for each ending position from left to right.
+後者の場合、
+総和が最大となる部分配列を求めたいので、
+位置$k - 1$で終了する部分配列はそれまでの総和が最大となるはずです。
+したがって、左から右へ各終了位置の最大の部分配列和を計算すれば、
+この問題を効率的に解くことができるはずです。
 
-The following code implements the algorithm:
+実装を示します。
 \begin{lstlisting}
 int best = 0, sum = 0;
 for (int k = 0; k < n; k++) {
@@ -468,24 +416,17 @@ for (int k = 0; k < n; k++) {
 cout << best << "\n";
 \end{lstlisting}
 
-The algorithm only contains one loop
-that goes through the input,
-so the time complexity is $O(n)$.
-This is also the best possible time complexity,
-because any algorithm for the problem
-has to examine all array elements at least once.
+ループが１つしかなく、$O(n)$で動作します。
+この問題はどんな数字があるかを一度は確認しないといけないので、
+考えうる最良の計算量と言えます。
 
-\subsubsection{Efficiency comparison}
+\subsubsection{効率性の比較 - Efficiency comparison}
 
-It is interesting to study how efficient
-algorithms are in practice.
-The following table shows the running times
-of the above algorithms for different
-values of $n$ on a modern computer.
+アルゴリズムが実際にどの程度効率的であるかを研究するのは興味深いポイントです。
+次の表は、最新のコンピュータで、$n$の値を変えて上記のアルゴリズムを実行した場合の
+実行時間です。
 
-In each test, the input was generated randomly.
-The time needed for reading the input was not
-measured.
+各テストでは、入力はランダムに生成し、入力の読み取り時間は測定していません。
 
 \begin{center}
 \begin{tabular}{rrrr}
@@ -500,12 +441,8 @@ $10^7$ & > $10.0$ s & > $10.0$ s & $0.0$ s \\
 \end{tabular}
 \end{center}
 
-The comparison shows that all algorithms
-are efficient when the input size is small,
-but larger inputs bring out remarkable
-differences in the running times of the algorithms.
-Algorithm 1 becomes slow
-when $n=10^4$, and Algorithm 2
-becomes slow when $n=10^5$.
-Only Algorithm 3 is able to process
-even the largest inputs instantly.
+この比較から、入力サイズが小さいときにはどのアルゴリズムも効率的だが、
+入力サイズが大きくなると、アルゴリズムの実行時間に顕著な差が生じることがわかります。
+アルゴリズム1は$n=10^4$のときに遅くなり、
+アルゴリズム2は$n=10^5$のときに遅くなりました。
+アルゴリズム3だけが、最大の入力でも瞬時に処理することができました。

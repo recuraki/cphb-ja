@@ -1,34 +1,28 @@
-\chapter{Sorting}
+\chapter{ソート - Sorting}
 
-\index{sorting}
+\index{ソート - sorting}
 
-\key{Sorting}
-is a fundamental algorithm design problem.
-Many efficient algorithms
-use sorting as a subroutine,
-because it is often easier to process
-data if the elements are in a sorted order.
+\key{ソート - Sorting}
+は典型的なアルゴリズムの問題です。
+多くのアルゴリズムは、
+ソートを使用しています。
+なぜなら、要素がソートされた順番になっていれば、
+データ処理が容易になる問題が多いからです。
 
-For example, the problem ''does an array contain
-two equal elements?'' is easy to solve using sorting.
-If the array contains two equal elements,
-they will be next to each other after sorting,
-so it is easy to find them.
-Also, the problem ''what is the most frequent element
-in an array?'' can be solved similarly.
+例えば、「配列の中に同じ要素が2つあるか」という問題は、
+ソートを使えば 簡単に解くことができます。
+もしソートされている配列に2つの等しい要素があれば隣り合っているので、
+簡単に見つけることができます。
+また、「配列の中で最 も頻度の高い要素は何か」という問題も同様に解くことができます。
 
-There are many algorithms for sorting, and they are
-also good examples of how to apply
-different algorithm design techniques.
-The efficient general sorting algorithms
-work in $O(n \log n)$ time,
-and many algorithms that use sorting
-as a subroutine also
-have this time complexity.
+ソートには多くのアルゴリズムがあり、
+それらは様々なアルゴリズムを適用する良い例にもなっています。
+効率的な一般的なソートアルゴリズム は $O(n \log n)$時間で動作し、
+ソートをサブルーチンとして使用する多くのアル ゴリズムもこの時間複雑性を持ちます。
 
-\section{Sorting theory}
+\section{ソートの理論 - Sorting theory}
 
-The basic problem in sorting is as follows:
+ソートは次のような問題として与えられます。
 \begin{framed}
 \noindent
 Given an array that contains $n$ elements,
@@ -846,7 +840,7 @@ for finding the largest value of $x$
 for which $f(x)<f(x+1)$.
 This implies that $k=x+1$
 because $f(x+1)>f(x+2)$.
-The following code implements the search: 
+The following code implements the search:
 
 \begin{lstlisting}
 int x = -1;
