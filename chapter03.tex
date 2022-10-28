@@ -22,12 +22,10 @@
 
 \section{ソートの理論 - Sorting theory}
 
-ソートは次のような問題として与えられます。
+ソートの最も基本的な問題は次の通りです。
 \begin{framed}
 \noindent
-Given an array that contains $n$ elements,
-your task is to sort the elements
-in increasing order.
+ n個の要素を含む配列が与えられたとき、要素を昇順に並べ替えてください。
 \end{framed}
 \noindent
 For example, the array
@@ -44,7 +42,7 @@ For example, the array
 \node at (7.5,0.5) {$6$};
 \end{tikzpicture}
 \end{center}
-will be as follows after sorting:
+これを次のように操作します。
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \draw (0,0) grid (8,1);
@@ -61,23 +59,18 @@ will be as follows after sorting:
 
 \subsubsection{$O(n^2)$ algorithms}
 
-\index{bubble sort}
+\index{バブルソート - bubble sort}
 
-Simple algorithms for sorting an array
-work in $O(n^2)$ time.
-Such algorithms are short and usually
-consist of two nested loops.
-A famous $O(n^2)$ time sorting algorithm
-is \key{bubble sort} where the elements
-''bubble'' in the array according to their values.
 
-Bubble sort consists of $n$ rounds.
-On each round, the algorithm iterates through
-the elements of the array.
-Whenever two consecutive elements are found
-that are not in correct order,
-the algorithm swaps them.
-The algorithm can be implemented as follows:
+配列をソートするための簡単なアルゴリズムは、$O(n^2)$ 時間で動作します。
+このようなアルゴリズムはシンプルに記述でき、
+2つの入れ子ループで構成されます。有名 な $O(n^2)$ のソートアルゴリズムを紹介します。
+\key{バブルソート - bubble sort} は各要素をその名の通りバブル(浮き上げ)させます。
+
+バブルソートは$n$回のラウンドで構成され、各ラウンドでは配列の要素を繰り返し処理します。
+連続する2つの要素のうち、順序が正しくないものが見つかるとそれを交換します。
+このアルゴリズムは、以下のように実装することができます。
+
 \begin{lstlisting}
 for (int i = 0; i < n; i++) {
     for (int j = 0; j < n-1; j++) {
@@ -88,14 +81,9 @@ for (int i = 0; i < n; i++) {
 }
 \end{lstlisting}
 
-After the first round of the algorithm,
-the largest element will be in the correct position,
-and in general, after $k$ rounds, the $k$ largest
-elements will be in the correct positions.
-Thus, after $n$ rounds, the whole array
-will be sorted.
-
-For example, in the array
+最初のラウンドのあと、最大の値が正しい場所にあることが保証されます。
+そして、$k$ラウンドの後には、上から$k$個の要素は正しい位置にあることが保証されます。
+つまり、$n$ラウンド後にはソートが完了します。
 
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
@@ -113,8 +101,7 @@ For example, in the array
 \end{center}
 
 \noindent
-the first round of bubble sort swaps elements
-as follows:
+この時の最初のラウンドを見てみます。
 
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
@@ -180,25 +167,18 @@ as follows:
 \end{tikzpicture}
 \end{center}
 
-\subsubsection{Inversions}
+\subsubsection{転置 - Inversions}
 
-\index{inversion}
+\index{転置 - inversion}
 
-Bubble sort is an example of a sorting
-algorithm that always swaps \emph{consecutive}
-elements in the array.
-It turns out that the time complexity
-of such an algorithm is \emph{always}
-at least $O(n^2)$, because in the worst case,
-$O(n^2)$ swaps are required for sorting the array.
+バブルソートは、配列中の連続した要素を常に入れ替えるソートアルゴリズムの一例です。
+このようなアルゴリズムの時間計算量は常に$O(n^2)$となります。
+なぜなら，最悪の場合，配列をソートするために $O(n^2)$のスワップが必要になるからです。
 
-A useful concept when analyzing sorting
-algorithms is an \key{inversion}:
-a pair of array elements
-$(\texttt{array}[a],\texttt{array}[b])$ such that
-$a<b$ and $\texttt{array}[a]>\texttt{array}[b]$,
-i.e., the elements are in the wrong order.
-For example, the array
+ところで、ソートアルゴリズムを解析する際に有用な概念に\key{転置 - inversion}があります。
+$a<b$  かつ$\texttt{array}[a]>\texttt{array}[b]$ であるような要素の数を示します。
+つまり、ソートされている順番に対して誤っているペアの数といえます。
+
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \draw (0,0) grid (8,1);
@@ -212,34 +192,27 @@ For example, the array
 \node at (7.5,0.5) {$8$};
 \end{tikzpicture}
 \end{center}
-has three inversions: $(6,3)$, $(6,5)$ and $(9,8)$.
-The number of inversions indicates
-how much work is needed to sort the array.
-An array is completely sorted when
-there are no inversions.
-On the other hand, if the array elements
-are in the reverse order,
-the number of inversions is the largest possible:
+を考えると3つの転置があります。$(6,3)$, $(6,5)$ , $(9,8)$.
+反転の数は，配列の並べ替えにどれだけの作業が必要かを示します。
+もし、転置がないとき、配列は完全にソートされています。
+一方，配列の要素が逆順の場合，逆順の数は最大となります.
 \[1+2+\cdots+(n-1)=\frac{n(n-1)}{2} = O(n^2)\]
 
-Swapping a pair of consecutive elements that are
-in the wrong order removes exactly one inversion
-from the array.
-Hence, if a sorting algorithm can only
-swap consecutive elements, each swap removes
-at most one inversion, and the time complexity
-of the algorithm is at least $O(n^2)$.
+
+隣り合う順序を入れ替えると、
+配列からちょうど1つの反転だけが削除されます。
+したがって、ソートアルゴリズムが隣り合う要素の入れ替えしかできない場合、
+各入れ替えは最大でも1つの反転を取り除き、アルゴリズムは少なくとも$O(n^2)$です。
 
 \subsubsection{$O(n \log n)$ algorithms}
 
-\index{merge sort}
+\index{マージソート - merge sort}
 
-It is possible to sort an array efficiently
-in $O(n \log n)$ time using algorithms
-that are not limited to swapping consecutive elements.
-One such algorithm is \key{merge sort}\footnote{According to \cite{knu983},
-merge sort was invented by J. von Neumann in 1945.},
-which is based on recursion.
+連続した要素の入れ替えに限らないアルゴリズムを用いれば、
+$O(n \log n)$で効率的に配列をソートすることが可能です。
+そのようなアルゴリズムの1つが 、再帰に基づくマージソート
+\footnote{According to \cite{knu983},merge sort was invented by J. von Neumann in 1945.}
+です。
 
 Merge sort sorts a subarray \texttt{array}$[a \ldots b]$ as follows:
 

@@ -509,106 +509,91 @@ This upper bound consists of $\log_2(n)+1$ parts
 ($1$, $2 \cdot 1/2$, $4 \cdot 1/4$, etc.),
 and the value of each part is at most 1.
 
-\subsubsection{Set theory}
+\subsubsection{集合論 - Set theory}
 
-\index{set theory}
-\index{set}
-\index{intersection}
-\index{union}
-\index{difference}
-\index{subset}
+\index{集合論 - set theory}
+\index{集合 - set}
+\index{集合和 - intersection}
+\index{集合積 - union}
+\index{集合差 - difference}
+\index{部分集合 - subset}
 \index{universal set}
 \index{complement}
 
-A \key{set} is a collection of elements.
-For example, the set
+\key{set} とは要素のコレクションのことです。
+例えばsetである
 \[X=\{2,4,7\}\]
-contains elements 2, 4 and 7.
-The symbol $\emptyset$ denotes an empty set,
-and $|S|$ denotes the size of a set $S$,
-i.e., the number of elements in the set.
-For example, in the above set, $|X|=3$.
+は 2, 4, 7を要素として持ちます。
+特殊なシンボル$\emptyset$は空集合を意味します。
+$|S|$は集合に含まれる要素の数を示し、先ほどの例なら$|X|=3$です。
 
-If a set $S$ contains an element $x$,
-we write $x \in S$,
-and otherwise we write $x \notin S$.
-For example, in the above set
+ある集合$S$に要素$x$が含まれている場合は$x \in S$
+と、含まれていない場合は $x \notin S$と示します。
+例をあげると次のようになります。
 \[4 \in X \hspace{10px}\textrm{and}\hspace{10px} 5 \notin X.\]
 
 \begin{samepage}
-New sets can be constructed using set operations:
+集合への演算により新しい集合を得ることができます。
 \begin{itemize}
-\item The \key{intersection} $A \cap B$ consists of elements
-that are in both $A$ and $B$.
-For example, if $A=\{1,2,5\}$ and $B=\{2,4\}$,
-then $A \cap B = \{2\}$.
-\item The \key{union} $A \cup B$ consists of elements
-that are in $A$ or $B$ or both.
-For example, if $A=\{3,7\}$ and $B=\{2,3,8\}$,
-then $A \cup B = \{2,3,7,8\}$.
-\item The \key{complement} $\bar A$ consists of elements
-that are not in $A$.
-The interpretation of a complement depends on
-the \key{universal set}, which contains all possible elements.
-For example, if $A=\{1,2,5,7\}$ and the universal set is
-$\{1,2,\ldots,10\}$, then $\bar A = \{3,4,6,8,9,10\}$.
-\item The \key{difference} $A \setminus B = A \cap \bar B$
-consists of elements that are in $A$ but not in $B$.
-Note that $B$ can contain elements that are not in $A$.
-For example, if $A=\{2,3,7,8\}$ and $B=\{3,5,8\}$,
-then $A \setminus B = \{2,7\}$.
+\item \key{集合積 - intersection} $A \cap B$ は$A$, $B$両方に含まれている要素の集合です。
+$A=\{1,2,5\}$ , $B=\{2,4\}$のとき、 $A \cap B = \{2\}$.
+\item The \key{集合和 - union} $A \cup B$ は $A$, $B$いずれかに含まれている要素の集合です。
+$A=\{3,7\}$ , $B=\{2,3,8\}$ のとき、$A \cup B = \{2,3,7,8\}$.
+\item The \key{補集合 - complement} $\bar A$ は $A$に含まれていない要素です。
+補集合はこの集合を考える際の\key{全体集合 - universal set}に
+依存します。例えば、$A=\{1,2,5,7\}$ であるときに全体の集合が
+$\{1,2,\ldots,10\}$なのであれば $\bar A = \{3,4,6,8,9,10\}$となります。
+\item The \key{差集合 - difference} $A \setminus B = A \cap \bar B$
+は$A$ に含まれているが $B$に含まれていないものです.
+ここで、$B$には$A$に含まれていない要素が含まれることもあります。
+$A=\{2,3,7,8\}$ で $B=\{3,5,8\}$とするとき、
+$A \setminus B = \{2,7\}$です。
 \end{itemize}
 \end{samepage}
 
-If each element of $A$ also belongs to $S$,
-we say that $A$ is a \key{subset} of $S$,
-denoted by $A \subset S$.
-A set $S$ always has $2^{|S|}$ subsets,
-including the empty set.
-For example, the subsets of the set $\{2,4,7\}$ are
+$A$の各要素が$S$にも属する場合、AはSの\key{部分集合 - subset}であると呼べて、
+$A \subset S$と表記します。
+集合$S$は常に、空集合を含む$2^{|S|}$ 個の部分集合を持ちます。
+例えば、集合 $\{2,4,7\}$の部分集合は次の通りになります。
 \begin{center}
 $\emptyset$,
 $\{2\}$, $\{4\}$, $\{7\}$, $\{2,4\}$, $\{2,7\}$, $\{4,7\}$ and $\{2,4,7\}$.
 \end{center}
 
-Some often used sets are
-$\mathbb{N}$ (natural numbers),
-$\mathbb{Z}$ (integers),
-$\mathbb{Q}$ (rational numbers) and
-$\mathbb{R}$ (real numbers).
-The set $\mathbb{N}$
-can be defined in two ways, depending
-on the situation:
-either $\mathbb{N}=\{0,1,2,\ldots\}$
-or $\mathbb{N}=\{1,2,3,...\}$.
+よく、次のような集合が使われます。
+$\mathbb{N}$ (自然数 - natural numbers),
+$\mathbb{Z}$ (整数 - integers),
+$\mathbb{Q}$ (有理数 - rational numbers) and
+$\mathbb{R}$ (実数 - real numbers).
+このうち$\mathbb{N}$は0を含むかは問題によって異なり、
+$\mathbb{N}=\{0,1,2,\ldots\}$である場合もあれば、
+$\mathbb{N}=\{1,2,3,...\}$となる場合もあります。
 
-We can also construct a set using a rule of the form
+次のような集合を定義しても良いです。
 \[\{f(n) : n \in S\},\]
-where $f(n)$ is some function.
-This set contains all elements of the form $f(n)$,
-where $n$ is an element in $S$.
-For example, the set
+$f(n)$はなんらかの関数です。
+これは、$S$に含まれる要素$n$を入力とした関数$f(n)$の結果全ての要素を含みます。
 \[X=\{2n : n \in \mathbb{Z}\}\]
-contains all even integers.
+は全ての偶数を含むことになります。
 
-\subsubsection{Logic}
 
-\index{logic}
+\subsubsection{論理式 - Logic}
+
+\index{論理式 - logic}
 \index{negation}
 \index{conjuction}
 \index{disjunction}
 \index{implication}
 \index{equivalence}
 
-The value of a logical expression is either
-\key{true} (1) or \key{false} (0).
-The most important logical operators are
+論理式の値は
+\key{true} (1) か \key{false} (0)で表されます(訳注: 日本語では真と偽ともいいます)。
+代表的な論理式の記号を示します。
 $\lnot$ (\key{negation}),
 $\land$ (\key{conjunction}),
 $\lor$ (\key{disjunction}),
-$\Rightarrow$ (\key{implication}) and
+$\Rightarrow$ (\key{implication}),
 $\Leftrightarrow$ (\key{equivalence}).
-The following table shows the meanings of these operators:
 
 \begin{center}
 \begin{tabular}{rr|rrrrrrr}
@@ -621,15 +606,11 @@ $A$ & $B$ & $\lnot A$ & $\lnot B$ & $A \land B$ & $A \lor B$ & $A \Rightarrow B$
 \end{tabular}
 \end{center}
 
-The expression $\lnot A$ has the opposite value of $A$.
-The expression $A \land B$ is true if both $A$ and $B$
-are true,
-and the expression $A \lor B$ is true if $A$ or $B$ or both
-are true.
-The expression $A \Rightarrow B$ is true
-if whenever $A$ is true, also $B$ is true.
-The expression $A \Leftrightarrow B$ is true
-if $A$ and $B$ are both true or both false.
+$\lnot A$ は$A$と反対の値です。
+$A \land B$ は$A$ ,  $B$が真なら真です。
+$A \lor B$ は $A$ ,  $B$のどちらか(両方を含む)が真なら真です。
+$A \Rightarrow B$ は、$A$が真のとき$B$が真であるとき真で、$A$が偽なら$B$はどちらでも良いです。
+$A \Leftrightarrow B$ は$A$, $B$が両方同じ値のとき真です。
 
 \index{predicate}
 
