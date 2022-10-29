@@ -214,26 +214,25 @@ $O(n \log n)$で効率的に配列をソートすることが可能です。
 \footnote{According to \cite{knu983},merge sort was invented by J. von Neumann in 1945.}
 です。
 
-Merge sort sorts a subarray \texttt{array}$[a \ldots b]$ as follows:
+マージソートは部分配列 \texttt{array}$[a \ldots b]$ に対して以下のような操作を行います。
 
 \begin{enumerate}
-\item If $a=b$, do not do anything, because the subarray is already sorted.
-\item Calculate the position of the middle element: $k=\lfloor (a+b)/2 \rfloor$.
-\item Recursively sort the subarray \texttt{array}$[a \ldots k]$.
-\item Recursively sort the subarray \texttt{array}$[k+1 \ldots b]$.
-\item \emph{Merge} the sorted subarrays \texttt{array}$[a \ldots k]$ and
-\texttt{array}$[k+1 \ldots b]$
-into a sorted subarray \texttt{array}$[a \ldots b]$.
+\item If $a=b$, ならソートされているので何もしない
+\item 中間のインデックスを計算する $k=\lfloor (a+b)/2 \rfloor$
+\item 再起的に \texttt{array}$[a \ldots k]$をソートする
+\item 再起的に \texttt{array}$[k+1 \ldots b]$をソートする
+\item ソートされた\texttt{array}$[a \ldots k]$ と
+\texttt{array}$[k+1 \ldots b]$ を \emph{マージ - Merge} し、
+ソートされた配列\texttt{array}$[a \ldots b]$を作る
 \end{enumerate}
 
-Merge sort is an efficient algorithm, because it
-halves the size of the subarray at each step.
-The recursion consists of $O(\log n)$ levels,
-and processing each level takes $O(n)$ time.
-Merging the subarrays \texttt{array}$[a \ldots k]$ and \texttt{array}$[k+1 \ldots b]$
-is possible in linear time, because they are already sorted.
+マージソートは、各ステップで部分配列のサイズを半分にして、効率的に動作するアルゴリズムです。
+再帰は $O(\log n)$ の階層で行われ、それぞれの階層では$O(n)$ 時間を要します。
+部分配列 \texttt{array}$[a \ldots k]$ と \texttt{array}$[k+1 \ldots b]$は
+ソートされているので、線形時間でマージすることが可能です。
 
-For example, consider sorting the following array:
+例えば、次のような配列のソートを考えてみましょう。
+
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \draw (0,0) grid (8,1);
@@ -248,7 +247,7 @@ For example, consider sorting the following array:
 \end{tikzpicture}
 \end{center}
 
-The array will be divided into two subarrays
+まず、次のように分割されます。
 as follows:
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
@@ -267,8 +266,7 @@ as follows:
 \end{tikzpicture}
 \end{center}
 
-Then, the subarrays will be sorted recursively
-as follows:
+そして、それぞれは次のようにソートされます。
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \draw (0,0) grid (4,1);
@@ -286,8 +284,7 @@ as follows:
 \end{tikzpicture}
 \end{center}
 
-Finally, the algorithm merges the sorted
-subarrays and creates the final sorted array:
+最後にその２つのソートされた配列を結合します。
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \draw (0,0) grid (8,1);
@@ -302,19 +299,15 @@ subarrays and creates the final sorted array:
 \end{tikzpicture}
 \end{center}
 
-\subsubsection{Sorting lower bound}
+\subsubsection{ソート時間の限界 - Sorting lower bound}
 
-Is it possible to sort an array faster
-than in $O(n \log n)$ time?
-It turns out that this is \emph{not} possible
-when we restrict ourselves to sorting algorithms
-that are based on comparing array elements.
+さて、ソートの時間を$O(n \log n)$より速くすることは可能でしょうか？
+配列要素の比較に基づくソートアルゴリズムに限定すると、
+それは不可能であることがわかります。
 
-The lower bound for the time complexity
-can be proved by considering sorting
-as a process where each comparison of two elements
-gives more information about the contents of the array.
-The process creates the following tree:
+ソートを２つの要素を比較するたびに配列全体の情報が得られる処理とみなすことで、
+時間計算量の限界を証明することができます。
+この処理により、以下のような木が生成されます。
 
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
@@ -354,45 +347,30 @@ The process creates the following tree:
 \end{tikzpicture}
 \end{center}
 
-Here ''$x<y?$'' means that some elements
-$x$ and $y$ are compared.
-If $x<y$, the process continues to the left,
-and otherwise to the right.
-The results of the process are the possible
-ways to sort the array, a total of $n!$ ways.
-For this reason, the height of the tree
-must be at least
+ここで、''$x<y?$''
+とは、ある要素$x$と$y$が比較されることを意味します。
+$x < y$ ならば処理は左へ、そうでなければ右へ移動します。
+この処理の結果は，配列の並べ替えの可能性を示しており、
+全部で $n!$のノードからなります。このため，木の高さは少なくとも次の通りです。
 \[ \log_2(n!) = \log_2(1)+\log_2(2)+\cdots+\log_2(n).\]
-We get a lower bound for this sum
-by choosing the last $n/2$ elements and
-changing the value of each element to $\log_2(n/2)$.
-This yields an estimate
+
+最後の$n/2$個の要素を選び、各要素の値を$\log_2(n/2)$に変更することと、
+この和の下界を得ることができます。この結果、推定ができ、
 \[ \log_2(n!) \ge (n/2) \cdot \log_2(n/2),\]
-so the height of the tree and the minimum
-possible number of steps in a sorting
-algorithm in the worst case
-is at least $n \log n$.
+このように、$n \log n$がソートの限界であることがわかります。
 
-\subsubsection{Counting sort}
+\subsubsection{カウントソート - Counting sort}
 
-\index{counting sort}
+\index{カウントソート - counting sort}
 
-The lower bound $n \log n$ does not apply to
-algorithms that do not compare array elements
-but use some other information.
-An example of such an algorithm is
-\key{counting sort} that sorts an array in
-$O(n)$ time assuming that every element in the array
-is an integer between $0 \ldots c$ and $c=O(n)$.
+ソートの計算量の限界が$n \log n$ということを示しましたが、
+配列の比較が不要である場合、この限りではありません。
+\key{カウントソート - counting sort} は各要素$c$が
+$0 \ldots c$ であることを仮定したソートで、$O(n)$で動作します。
 
-The algorithm creates a \emph{bookkeeping} array,
-whose indices are elements of the original array.
-The algorithm iterates through the original array
-and calculates how many times each element
-appears in the array.
+このアルゴリズムは、元の配列を繰り返し処理し、各要素が配列中 に何回現れるかを計算します。
 \newpage
 
-For example, the array
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \draw (0,0) grid (8,1);
@@ -406,7 +384,7 @@ For example, the array
 \node at (7.5,0.5) {$9$};
 \end{tikzpicture}
 \end{center}
-corresponds to the following bookkeeping array:
+この配列があった時に、出現回数の配列を次のように作ります。
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \draw (0,0) grid (9,1);
@@ -434,23 +412,14 @@ corresponds to the following bookkeeping array:
 \end{tikzpicture}
 \end{center}
 
-For example, the value at position 3
-in the bookkeeping array is 2,
-because the element 3 appears 2 times
-in the original array.
-
-Construction of the bookkeeping array
-takes $O(n)$ time. After this, the sorted array
-can be created in $O(n)$ time because
-the number of occurrences of each element can be retrieved
-from the bookkeeping array.
-Thus, the total time complexity of counting
-sort is $O(n)$.
-
-Counting sort is a very efficient algorithm
-but it can only be used when the constant $c$
-is small enough, so that the array elements can
-be used as indices in the bookkeeping array.
+例えば、このカウントの3の位置の値は2であり、
+これは要素3が元の配列に2回現れる、ということを意味します。
+この構築には$O(n)$の時間がかかり、各要素の出現回数をブックキーピング配列から取得できるため
+$O(n)$でソート済み配列を作成することができます。
+したがって、ソート全体は$O(n)$で動作します。
+カウントソートは非常に効率的なアルゴリズムですが、
+定数$c$が十分に小さい場合にのみ使用することができ、
+あまりに大きいとカウントの配列を持つことができません。
 
 \section{Sorting in C++}
 
