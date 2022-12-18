@@ -1,45 +1,33 @@
-\chapter{Complete search}
+\chapter{全探索 - Complete search}
 
-\key{Complete search}
-is a general method that can be used
-to solve almost any algorithm problem.
-The idea is to generate all possible
-solutions to the problem using brute force,
-and then select the best solution or count the
-number of solutions, depending on the problem.
+\key{全探索 - Complete search}は、
+ほとんどすべてのアルゴリズムの問題を解決するために使用できる一般的な方法です。
+ブルートフォースとも呼ばれ、問題に対して可能な限りの解を生成します。
+完全探索は、すべての解を調べるのに十分な時間があればとても手法です。
 
-Complete search is a good technique
-if there is enough time to go through all the solutions,
-because the search is usually easy to implement
-and it always gives the correct answer.
-If complete search is too slow,
-other techniques, such as greedy algorithms or
-dynamic programming, may be needed.
+なぜなら、この探索は通常、他の解法に比べて実装が簡単で、
+常に正しい答えが得られるからです。
+完全探索が遅すぎる場合は貪欲アルゴリズムや動的計画法など、
+他の技法が必要になってくるでしょう。
 
-\section{Generating subsets}
+\section{部分集合を全生成する - Generating subsets}
 
-\index{subset}
+\index{部分集合 - subset}
 
-We first consider the problem of generating
-all subsets of a set of $n$ elements.
-For example, the subsets of $\{0,1,2\}$ are
+$n$個の要素からなる集合のすべての部分集合を生成する問題を考えましょう。
+例 えば$\{0,1,2\}$の部分集合は、
 $\emptyset$, $\{0\}$, $\{1\}$, $\{2\}$, $\{0,1\}$,
-$\{0,2\}$, $\{1,2\}$ and $\{0,1,2\}$.
-There are two common methods to generate subsets:
-we can either perform a recursive search
-or exploit the bit representation of integers.
+$\{0,2\}$, $\{1,2\}$ and $\{0,1,2\}$です。
+部分集合の生成には、再帰的探索を行う方法と、
+整数のビット表現を利用する方法の2つが一般的です。
 
 \subsubsection{Method 1}
 
-An elegant way to go through all subsets
-of a set is to use recursion.
-The following function \texttt{search}
-generates the subsets of the set
-$\{0,1,\ldots,n-1\}$.
-The function maintains a vector \texttt{subset}
-that will contain the elements of each subset.
-The search begins when the function is called
-with parameter 0.
+集合のすべての部分集合を調べる１つ目の方法は再帰です。
+次の関数 \texttt{search}は、集合 $\{0,1,\ldots,n-1\}$の部分集合を生成します。
+この関数は、
+各集合の要素を含むベクトル部分集合を保持します。
+この探索はパラメ ータとして0を与えることで開始されます.
 
 \begin{lstlisting}
 void search(int k) {
@@ -54,20 +42,13 @@ void search(int k) {
 }
 \end{lstlisting}
 
-When the function \texttt{search}
-is called with parameter $k$,
-it decides whether to include the
-element $k$ in the subset or not,
-and in both cases,
-then calls itself with parameter $k+1$
-However, if $k=n$, the function notices that
-all elements have been processed
-and a subset has been generated.
-
-The following tree illustrates the function calls when $n=3$.
-We can always choose either the left branch
-($k$ is not included in the subset) or the right branch
-($k$ is included in the subset).
+関数\texttt{search}がパラメータ$k$で呼ばれると
+要素$k$を部分集合に含めるかどうかを決定し、
+いずれの場合もパラメータ$k + 1$で自分自身を呼び出します。
+そして、$k = n$の場合，
+関数はすべての要素が処理されて部分集合が生成されたとして終わります。
+次のツリーは、$n = 3$ のときの関数呼び出しを示したものです。
+左の枝($k$ は部分集合に含まれない)と右の枝($k$は部分集合に含まれる)のどちらが常に選ばれます。
 
 \begin{center}
 \begin{tikzpicture}[scale=.45]
@@ -124,23 +105,15 @@ We can always choose either the left branch
 
 \subsubsection{Method 2}
 
-Another way to generate subsets is based on
-the bit representation of integers.
-Each subset of a set of $n$ elements
-can be represented as a sequence of $n$ bits,
-which corresponds to an integer between $0 \ldots 2^n-1$.
-The ones in the bit sequence indicate
-which elements are included in the subset.
+部分集合を生成するもう一つの方法は、ビット列を使う方法です。
+$n$個の要素からなる集合のそれぞれの部分集合は$0 \ldots 2^n-1$
+の間の整数に対 応する$n$ビット列として表現できます。
+1は、どの要素が部分集合に含まれるかを示す。
+一般的な実装では最後のビットが要素0に対応し、
+2番目のビットが要素1に対応し..となります。
+例えば、25のビット表現は11001でですが、これは部分集合$\{0,3,4\}$に対応します。
 
-The usual convention is that
-the last bit corresponds to element 0,
-the second last bit corresponds to element 1,
-and so on.
-For example, the bit representation of 25
-is 11001, which corresponds to the subset $\{0,3,4\}$.
-
-The following code goes through the subsets
-of a set of $n$ elements
+次のコードは、$n$個の要素を持つ集合の部分集合を調べます
 
 \begin{lstlisting}
 for (int b = 0; b < (1<<n); b++) {
@@ -148,11 +121,8 @@ for (int b = 0; b < (1<<n); b++) {
 }
 \end{lstlisting}
 
-The following code shows how we can find
-the elements of a subset that corresponds to a bit sequence.
-When processing each subset,
-the code builds a vector that contains the
-elements in the subset.
+次のコードは、ビット列に対応する部分集合の要素を見つける方法です。
+各部分集合を処理するとき、コードはサブセットの要素を含むベクトルを返します。
 
 \begin{lstlisting}
 for (int b = 0; b < (1<<n); b++) {
@@ -163,29 +133,23 @@ for (int b = 0; b < (1<<n); b++) {
 }
 \end{lstlisting}
 
-\section{Generating permutations}
+\section{順列の生成 - Generating permutations}
 
-\index{permutation}
+\index{順列 - permutation}
 
-Next we consider the problem of generating
-all permutations of a set of $n$ elements.
-For example, the permutations of $\{0,1,2\}$ are
+$n$個の要素からなる集合のすべての並べ換えを生成する問題を考えましょう。
+例えば，$\{0,1,2\}$の並べ換えは，
 $(0,1,2)$, $(0,2,1)$, $(1,0,2)$, $(1,2,0)$,
-$(2,0,1)$ and $(2,1,0)$.
-Again, there are two approaches:
-we can either use recursion or go through the
-permutations iteratively.
+$(2,0,1)$, $(2,1,0)$です。
+ここでも2つのアプローチがあります。再帰を使うか、順列を繰り返し見ていくかのどちらかである。
 
 \subsubsection{Method 1}
 
-Like subsets, permutations can be generated
-using recursion.
-The following function \texttt{search} goes
-through the permutations of the set $\{0,1,\ldots,n-1\}$.
-The function builds a vector \texttt{permutation}
-that contains the permutation,
-and the search begins when the function is
-called without parameters.
+並べ換えも再帰を使って生成できます。
+次の関数\texttt{search}は、
+集合  $\{0,1,\ldots,n-1\}$ の並べ換えを列挙します。
+この関数は、並べ換えを含むベクターを構築し、
+パラメータなしでこの関数が呼ばれたときに探索が開始されます。
 
 \begin{lstlisting}
 void search() {
