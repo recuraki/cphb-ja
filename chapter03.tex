@@ -638,14 +638,9 @@ C++標準ライブラリには、二分探索ベースのlogで動作する探�
 \item \texttt{equal\_range} はこの両方へのポインタを返します.
 \end{itemize}
 
-これらの関数は，配列がソートされていることを前提としています.
-そのような要素がない場合，ポインタは配列の最後の要素の後を指します.例えば， 次のコードは，配列の中に値 x の要素があるかどうかを調べるものです.
-
-The functions assume that the array is sorted.
-If there is no such element, the pointer points to
-the element after the last array element.
-For example, the following code finds out whether
-an array contains an element with value $x$:
+これらの関数は，配列がソートされていることを前提として動作します。
+そして、該当する要素がない場合，ポインタは配列の最後の要素の後を指します.
+例えば， 次のコードは，配列の中に値$x$の要素があるかどうかを調べるものです.
 
 \begin{lstlisting}
 auto k = lower_bound(array,array+n,x)-array;
@@ -654,8 +649,7 @@ if (k < n && array[k] == x) {
 }
 \end{lstlisting}
 
-Then, the following code counts the number of elements
-whose value is $x$:
+また、これらを活用することで次のコードは$x$の数をカウントすることができます。
 
 \begin{lstlisting}
 auto a = lower_bound(array, array+n, x);
@@ -663,25 +657,23 @@ auto b = upper_bound(array, array+n, x);
 cout << b-a << "\n";
 \end{lstlisting}
 
-Using \texttt{equal\_range}, the code becomes shorter:
+C++では、\texttt{equal\_range}という関数によりもっと簡潔に書けます。
 
 \begin{lstlisting}
 auto r = equal_range(array, array+n, x);
 cout << r.second-r.first << "\n";
 \end{lstlisting}
 
-\subsubsection{Finding the smallest solution}
+\subsubsection{最小の解 - Finding the smallest solution}
 
-An important use for binary search is
-to find the position where the value of a \emph{function} changes.
-Suppose that we wish to find the smallest value $k$
-that is a valid solution for a problem.
-We are given a function $\texttt{ok}(x)$
-that returns \texttt{true} if $x$ is a valid solution
-and \texttt{false} otherwise.
-In addition, we know that $\texttt{ok}(x)$ is \texttt{false}
-when $x<k$ and \texttt{true} when $x \ge k$.
-The situation looks as follows:
+二分探索の重要な動作は
+関数の値が変化する位置を見つけることである。
+ある問題に対して有効な解となる最小の値$k$を求めたいとします。
+xが有効な解であれば 真を、そうでなければ偽を返す関数$\texttt{ok}(x)$
+を考えます。与えられている。
+さらに$\texttt{ok}(x)$は $x<k$ のとき偽，$x \ge k$の時に真を返すとします。
+
+ここで、次のように示せます。
 
 \begin{center}
 \begin{tabular}{r|rrrrrrrr}
@@ -693,7 +685,7 @@ $\texttt{ok}(x)$ & \texttt{false} & \texttt{false}
 \end{center}
 
 \noindent
-Now, the value of $k$ can be found using binary search:
+今、$k$の値は次のように二分探査で求めることができます。
 
 \begin{lstlisting}
 int x = -1;
@@ -703,41 +695,33 @@ for (int b = z; b >= 1; b /= 2) {
 int k = x+1;
 \end{lstlisting}
 
-The search finds the largest value of $x$ for which
-$\texttt{ok}(x)$ is \texttt{false}.
-Thus, the next value $k=x+1$
-is the smallest possible value for which
-$\texttt{ok}(k)$ is \texttt{true}.
-The initial jump length $z$ has to be
-large enough, for example some value
-for which we know beforehand that $\texttt{ok}(z)$ is \texttt{true}.
+この探索は、$\texttt{ok}(x)$ が偽となる最大の値$x$を探索します。
+したがって、次の値$k=x+1$は、$\texttt{ok}(x)$が真となる最小の値といえます。
+最初のジャンプの長さ$z$は十分大き くなければなりません。
+$\texttt{ok}(z)$ が真であるような値にしてはならないということです。
 
-The algorithm calls the function \texttt{ok}
-$O(\log z)$ times, so the total time complexity
-depends on the function \texttt{ok}.
-For example, if the function works in $O(n)$ time,
-the total time complexity is $O(n \log z)$.
+アルゴリズムは関数 \texttt{ok}を$O(\log z)$ 回呼び出すので、
+時間計算量は関数$ok$に依存する。例えば、関数が$ O(n)$ 時間で動作するのであれば、
+全体の時間複雑度は $O(n \log z)$ となります。
 
-\subsubsection{Finding the maximum value}
 
-Binary search can also be used to find
-the maximum value for a function that is
-first increasing and then decreasing.
-Our task is to find a position $k$ such that
+\subsubsection{最大の解の探索 - Finding the maximum value}
+
+
+二項探索は、まず増加し、次に減少する関数の最大値を求める場合にも使用できます。
+今、次のような$k$を見つけたいとします。
 
 \begin{itemize}
 \item
-$f(x)<f(x+1)$ when $x<k$, and
+$x<k$の時、$f(x)<f(x+1)$
 \item
-$f(x)>f(x+1)$ when $x \ge k$.
+$x \ge k$の時、$f(x)>f(x+1)$
 \end{itemize}
 
-The idea is to use binary search
-for finding the largest value of $x$
-for which $f(x)<f(x+1)$.
-This implies that $k=x+1$
-because $f(x+1)>f(x+2)$.
-The following code implements the search:
+これを二分探索で見つけるためのアイデアは $f(x)<f(x+1)$となるような$x$の値を見つけることです。
+
+これは $k=x+1$であるため、$f(x+1)>f(x+2)$なることを意味します。
+次のように実装することができます。
 
 \begin{lstlisting}
 int x = -1;
@@ -747,8 +731,5 @@ for (int b = z; b >= 1; b /= 2) {
 int k = x+1;
 \end{lstlisting}
 
-Note that unlike in the ordinary binary search,
-here it is not allowed that consecutive values
-of the function are equal.
-In this case it would not be possible to know
-how to continue the search.
+ここで、連続する値が同値となるケースはダメなことに注意してください。
+そのような場合はどちらに探索を続ければいいのかがわからなくなってしまいます。
