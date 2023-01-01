@@ -406,14 +406,11 @@ $q(27)=234907967154122528$, calculated in 2016 \cite{q27}.}.
 部分解が完全解に拡張できない場合、できるだけ早くそれに気づきその先の探索をやめます。
 このような最適化は、探索の効率に多大な影響を与える。
 
-Let us consider the problem
-of calculating the number of paths
-in an $n \times n$ grid from the upper-left corner
-to the lower-right corner such that the
-path visits each square exactly once.
-For example, in a $7 \times 7$ grid,
-there are 111712 such paths.
-One of the paths is as follows:
+ここで、$n \times n$ の格子において、
+左上から右下に向かう経路が各マスをちょうど1回ずつ訪れるような経路の数を計算する問題を考えてみましょう。
+例えば、$7 \times 7$ のマス目では、
+111712本のパスが存在します。
+例として、そのうちの1本は次のようなものです。
 
 \begin{center}
 \begin{tikzpicture}[scale=.55]
@@ -431,39 +428,32 @@ One of the paths is as follows:
 \end{tikzpicture}
 \end{center}
 
-We focus on the $7 \times 7$ case,
-because its level of difficulty is appropriate to our needs.
-We begin with a straightforward backtracking algorithm,
-and then optimize it step by step using observations
-of how the search can be pruned.
-After each optimization, we measure the running time
-of the algorithm and the number of recursive calls,
-so that we clearly see the effect of each
-optimization on the efficiency of the search.
+$7 \times 7$のケースは難易度が高く、我々のニーズに合っているため、
+このケース を取り上げることにします。
+まず、素直なバックトラックアルゴリズムから始め 、
+探索をどのように刈り込むことができるかの観察を用いて、
+段階的に最適化する方法を見ていきます。
+各最適化の後、アルゴリズムの実行時間と再帰呼び出しの数を測定し、
+各最適化がどのような影響を与えたのかを調べてみましょう。
 
-\subsubsection{Basic algorithm}
+\subsubsection{基本的なアルゴリズム - Basic algorithm}
 
-The first version of the algorithm does not contain
-any optimizations. We simply use backtracking to generate
-all possible paths from the upper-left corner to
-the lower-right corner and count the number of such paths.
+最初のバージョンのアルゴリズムは最適化をせずに
+単にバックトラックを使って、左上隅から右下隅への可能な経路をすべて生成し、
+そのような経路の数をカウントします。
 
 \begin{itemize}
 \item
-running time: 483 seconds
+running time: 483 秒
 \item
-number of recursive calls: 76 billion
+number of recursive calls: 760 億回
 \end{itemize}
 
-\subsubsection{Optimization 1}
+\subsubsection{最適化1 - Optimization 1}
 
-In any solution, we first move one step
-down or right.
-There are always two paths that 
-are symmetric
-about the diagonal of the grid
-after the first step.
-For example, the following paths are symmetric:
+どの解法でも、必ず1段下か右に移動します。
+最初のステップの後、グリッドの対角線に関して対称な2つのパスが必ず存在します。
+例えば、次のような経路です。
 
 \begin{center}
 \begin{tabular}{ccc}
@@ -498,24 +488,19 @@ For example, the following paths are symmetric:
 \end{tabular}
 \end{center}
 
-Hence, we can decide that we always first
-move one step down (or right),
-and finally multiply the number of solutions by two.
+つまり、まず必ず1段階下(または右)に移動したあとの解の数から2倍する、とできます。
 
 \begin{itemize}
 \item
-running time: 244 seconds
+running time: 244 秒
 \item
-number of recursive calls: 38 billion
+number of recursive calls: 380 億回
 \end{itemize}
 
-\subsubsection{Optimization 2}
+\subsubsection{最適化2 - Optimization 2}
 
-If the path reaches the lower-right square
-before it has visited all other squares of the grid,
-it is clear that
-it will not be possible to complete the solution.
-An example of this is the following path:
+もし、他のマスをすべて訪問する前に右下のマスに到達した場合、
+完成させることができないことは明らかです。
 
 \begin{center}
 \begin{tikzpicture}[scale=.55]
@@ -529,23 +514,21 @@ An example of this is the following path:
   \end{scope}
 \end{tikzpicture}
 \end{center}
-Using this observation, we can terminate the search
-immediately if we reach the lower-right square too early.
+
+これを用いて早く右下に到達した探索は打ち切ることにします。
+
 \begin{itemize}
 \item
-running time: 119 seconds
+running time: 119 秒
 \item
-number of recursive calls: 20 billion
+number of recursive calls: 200億回
 \end{itemize}
 
 \subsubsection{Optimization 3}
 
-If the path touches a wall
-and can turn either left or right,
-the grid splits into two parts
-that contain unvisited squares.
-For example, in the following situation,
-the path can turn either left or right:
+パスが壁に接触して左右に曲がることができるような場合、
+グリッドは未訪問のマスを含む2つの部分に分割されます。
+次のような場合、道は左にも右にも曲がることができます。
 
 \begin{center}
 \begin{tikzpicture}[scale=.55]
@@ -559,18 +542,25 @@ the path can turn either left or right:
   \end{scope}
 \end{tikzpicture}
 \end{center}
-In this case, we cannot visit all squares anymore,
-so we can terminate the search.
-This optimization is very useful:
+
+このシチュエーションはどちらを選んだとしても、
+もうすべてのマスを訪問することはできないので探索を打ち切ります。
+この最適化は非常に有効です。
+
 
 \begin{itemize}
 \item
-running time: 1.8 seconds
+running time: 1.8 秒
 \item
-number of recursive calls: 221 million
+number of recursive calls: 2億2100万回
 \end{itemize}
 
-\subsubsection{Optimization 4}
+\subsubsection{最適化4 - Optimization 4}
+
+最適化3の考え方は壁に当たった時以外にも一般化することができます。
+もし、パスが前に進むことができず、左か右に曲がることができる場合、
+グリッドは2つに分かれてしまうので未訪問のマスを含むことになります。
+例えば、次のような経路がこれにあたります。
 
 The idea of Optimization 3
 can be generalized:
@@ -592,77 +582,68 @@ For example, consider the following path:
   \end{scope}
 \end{tikzpicture}
 \end{center}
-It is clear that we cannot visit all squares anymore,
-so we can terminate the search.
-After this optimization, the search is
-very efficient:
+
+このようなケースも打ち切ると非常に効果的な探索が行えます。
 
 \begin{itemize}
 \item
-running time: 0.6 seconds
+running time: 0.6 秒
 \item
-number of recursive calls: 69 million
+number of recursive calls: 6900万回
 \end{itemize}
 
 ~\\
-Now is a good moment to stop optimizing
-the algorithm and see what we have achieved.
-The running time of the original algorithm
-was 483 seconds,
-and now after the optimizations,
-the running time is only 0.6 seconds.
-Thus, the algorithm became nearly 1000 times
-faster after the optimizations.
+さて、アルゴリズムの最適化はここまでにして成果を確認しましょう。
+元のアルゴリズムの実行時間は483秒でしたが、最適化後の実行時間はわずか0.6秒 になりました。
+このように、最適化によってアルゴリズムは1000倍近く高速化されました。
 
-This is a usual phenomenon in backtracking,
-because the search tree is usually large
-and even simple observations can effectively
-prune the search.
-Especially useful are optimizations that
-occur during the first steps of the algorithm,
-i.e., at the top of the search tree.
+これはバックトラックによくあることで、
+探索木は何もしなければ通常大きく、簡単な観察を活用するだけで効果的に
+探索を刈り込むことができます。
+特に有用なのは、アルゴリズムの最初ほうのステップ、すなわち、ツリーの上の方の枝刈りです。
 
 \section{Meet in the middle}
 
 \index{meet in the middle}
 
-\key{Meet in the middle} is a technique
-where the search space is divided into
-two parts of about equal size.
-A separate search is performed
-for both of the parts,
-and finally the results of the searches are combined.
+\key{Meet in the middle}は、
+探索空間をほぼ同じ大きさの2つのパートに分割する手法のことです。
+それぞれの部分に対して別々の検索を行い、最終的に検索結果を結合します。
 
-The technique can be used
-if there is an efficient way to combine the
-results of the searches.
-In such a situation, the two searches may require less
-time than one large search.
-Typically, we can turn a factor of $2^n$
-into a factor of $2^{n/2}$ using the meet in the
-middle technique.
+検索結果を効率的に組み合わせる方法があれば、この手法を使うことができます。
+そのような状況では、2つの検索は1つの大きな検索よりも短い時間で済むかもしれません。
+典型的な例としては、meet in the middleのテクニックを使って、
+ファクター $2^n$ をファクター$2^{n/2}$にすることができます。
 
-As an example, consider a problem where
-we are given a list of $n$ numbers and
-a number $x$,
-and we want to find out if it is possible
-to choose some numbers from the list so that
-their sum is $x$.
-For example, given the list $[2,4,5,9]$ and $x=15$,
-we can choose the numbers $[2,4,9]$ to get $2+4+9=15$.
-However, if $x=10$ for the same list,
-it is not possible to form the sum.
+例えば、$n$個の数字のリストとある数$x$が与えられたとき、
+それらの和が$x$になるようなリストの中からいくつかの数字を選び方が可能かどうかを調べる問題を考えてみましょう。
+例えば、リスト$[2,4,5,9]$と $x = 15$が与えられたとき 、
+$[2,4,9]$ の数字を選べば、$2+4+9=15$になります。
+しかし、同じリストに対して$x=10$とすると不可能です。
 
-A simple algorithm to the problem is to
-go through all subsets of the elements and
-check if the sum of any of the subsets is $x$.
-The running time of such an algorithm is $O(2^n)$,
-because there are $2^n$ subsets.
-However, using the meet in the middle technique,
-we can achieve a more efficient $O(2^{n/2})$ time algorithm\footnote{This
+この問題に対する単純なアルゴリズムは、
+要素のすべての部分集合を調べて、
+いずれかの部分集合の和が$x$であるかどうかをチェックする方法です。
+このようなアルゴリズムの実行時間は、$2^n$の部分集合を持つので
+$O(2^{n/2})$ です。
+で ある。しかし、meet in the middleの手法を用いると、より効率な$O(2^{n/2})$で求めることができます。
+\footnote{This
 idea was introduced in 1974 by E. Horowitz and S. Sahni \cite{hor74}.}.
-Note that $O(2^n)$ and $O(2^{n/2})$ are different
-complexities because $2^{n/2}$ equals $\sqrt{2^n}$.
+
+ここで $O(2^n)$ と $O(2^{n/2})$ の時間計算量は全く異なることに注意します。
+なぜなら、$2^{n/2}$ は $\sqrt{2^n}$に等しいです。
+
+まず、リストを2つのリスト$A$、$B$に分割し、
+両方のリストに約半分の数字が含まれるようにします。最初の検索では、
+$A$のすべての部分集合を生成し、その和をリスト$S_A$に格納します。
+同じようにリスト$B$からリスト$S_B$を作成します。
+このあと、$S_A$と$S_B$からひとつずつ選び
+それらの和が$x$になるようにできるかどうかを調べればよいです。
+これは、元のリストの数を用いて和$x$を形成する方法がある場合に、まさに有効です。
+
+例えば、リストが[2, 4, 5, 9]でx=15だとする。まず、リストをA=[2, 4]と B=[5, 9]に分割する。この後、リストSA = [0, 2, 4, 6]とSB = [0, 5, 9, 14]を作成し ます。この場合、SA には和 6 が、SB には和 9 が含まれ、6 + 9 = 15 となるので 、和 x = 15 を形成することが可能である。これは次のように対応する。 を解決することができます[2, 4, 9]。
+
+このアルゴリズムは、その時間計算量がO(2n/2 )となるように実装することが できる。まず、ソートされたリストSA とSB を生成する。これは、マージのよ うな技法を用いてO(2n/2 ) 時間で行うことができる。この後、リストはソート されているので、SA と SB から和 x が生成できるかどうかを O(2n/2 ) 時間で確 認することができる。
 
 The idea is to divide the list into
 two lists $A$ and $B$ such that both
