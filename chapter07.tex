@@ -311,19 +311,14 @@ for (int x = 1; x <= n; x++) {
 これから動的計画法の可能性について、
 さらに例を示す問題を見ていきましょう。
 
-\section{Longest increasing subsequence}
+\section{最長増加部分列(LIS) - Longest increasing subsequence}
 
-\index{longest increasing subsequence}
+\index{最長増加部分列 - longest increasing subsequence}
 
-Our first problem is to find the
-\key{longest increasing subsequence}
-in an array of $n$ elements.
-This is a maximum-length
-sequence of array elements
-that goes from left to right,
-and each element in the sequence is larger
-than the previous element.
-For example, in the array
+\key{最長増加部分列(LIS) - longest increasing subsequence}
+とは$n$個の要素を持つ配列の中で、最も長く増加する部分列を求める問題で、最長増加部分列問題と呼ばれます。
+これは，左から右へ向かう配列要素の最大長の並びで，
+並びの各要素は前の要素より大きくなります.
 
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
@@ -348,8 +343,7 @@ For example, in the array
 \node at (7.5,1.4) {$7$};
 \end{tikzpicture}
 \end{center}
-the longest increasing subsequence
-contains 4 elements:
+この配列は最も長い増加する部分列が4個の要素を含むことを意味します。
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \fill[color=lightgray] (1,0) rectangle (2,1);
@@ -382,16 +376,13 @@ contains 4 elements:
 \end{tikzpicture}
 \end{center}
 
-Let $\texttt{length}(k)$ denote
-the length of the
-longest increasing subsequence
-that ends at position $k$.
-Thus, if we calculate all values of
-$\texttt{length}(k)$ where $0 \le k \le n-1$,
-we will find out the length of the
-longest increasing subsequence.
-For example, the values of the function
-for the above array are as follows:
+$\texttt{length}(k)$ を$k$文字目まで見た時の
+LISとしましょう。
+したがって$0 \le k \le n-1$
+となる$\texttt{length}(k)$の値をすべて計算すれば，
+最も長く増加 する部分列の長さが求められます。
+例えば，上の配列に対する関数の値は 以下の通りである.
+
 \[
 \begin{array}{lcl}
 \texttt{length}(0) & = & 1 \\
@@ -405,29 +396,19 @@ for the above array are as follows:
 \end{array}
 \]
 
-For example, $\texttt{length}(6)=4$,
-because the longest increasing subsequence
-that ends at position 6 consists of 4 elements.
+例えば，$\texttt{length}(6)=4$は
+位置6で終わる最も長い増加部分配列が4要素で構成されることを示します。
 
-To calculate a value of $\texttt{length}(k)$,
-we should find a position $i<k$
-for which $\texttt{array}[i]<\texttt{array}[k]$
-and $\texttt{length}(i)$ is as large as possible.
-Then we know that
-$\texttt{length}(k)=\texttt{length}(i)+1$,
-because this is an optimal way to add
-$\texttt{array}[k]$ to a subsequence.
-However, if there is no such position $i$,
-then $\texttt{length}(k)=1$,
-which means that the subsequence only contains
-$\texttt{array}[k]$.
+$\texttt{length}(k)$の値を計算するには、
+$\texttt{array}[i]<\texttt{array}[k]$であって、
+$\texttt{length}(i)$ができるだけ大きくなる位置$i < k$を見つければよいです。
+そうすると、$\texttt{length}(k)=\texttt{length}(i)+1$となり、
+これが$\texttt{array}[k]$を部分配列に追加する最適な方法であるとわかります。
+しかし，そのような位置$i$がない場合には$\texttt{length}(k)=1$となり
+部分配列には$\texttt{array}[k]$しか含まれないことになります.
 
-Since all values of the function can be calculated
-from its smaller values,
-we can use dynamic programming.
-In the following code, the values
-of the function will be stored in an array
-$\texttt{length}$.
+関数のすべての値はその小さい値から計算できるので、
+動的計画法を使うことができる。次のコードでは、関数の値は配列$\texttt{length}$に格納されます。
 
 \begin{lstlisting}
 for (int k = 0; k < n; k++) {
@@ -440,27 +421,19 @@ for (int k = 0; k < n; k++) {
 }
 \end{lstlisting}
 
-This code works in $O(n^2)$ time,
-because it consists of two nested loops.
-However, it is also possible to implement
-the dynamic programming calculation
-more efficiently in $O(n \log n)$ time.
-Can you find a way to do this?
+このコードは2つのネストされたループで構成されているため$O(n^2)$で動作します。
+しかし、動的計画法の計算をより効率的に $O(n \log n)$時間で実装することも可能です。
+あなたはこの方法を見つけることができますか?
 
-\section{Paths in a grid}
+\section{グリッド上のパス - Paths in a grid}
 
-Our next problem is to find a path
-from the upper-left corner to
-the lower-right corner
-of an $n \times n$ grid, such that
-we only move down and right.
-Each square contains a positive integer,
-and the path should be constructed so
-that the sum of the values along
-the path is as large as possible.
+次の問題は、$n \times n$ のグリッドの左上隅から右下隅まで、
+下と右にしか移動しないような経路を見つける問題です。
+各マスには正の整数が含まれており、
+経路に沿った値の合計ができるだけ大きくなるように経路を構成したいとします。
 
-The following picture shows an optimal
-path in a grid:
+下図は、格子状の最適経路を示したものです。
+
 \begin{center}
 \begin{tikzpicture}[scale=.65]
   \begin{scope}
@@ -502,34 +475,21 @@ path in a grid:
   \end{scope}
 \end{tikzpicture}
 \end{center}
-The sum of the values on the path is 67,
-and this is the largest possible sum on a path
-from the
-upper-left corner to the lower-right corner.
+パス上の値の合計は67であり、これは左上隅から右下隅までのパスで可能な最大の合計である。
 
-Assume that the rows and columns of the
-grid are numbered from 1 to $n$,
-and $\texttt{value}[y][x]$ equals the value
-of square $(y,x)$.
-Let $\texttt{sum}(y,x)$ denote the maximum
-sum on a path from the upper-left corner
-to square $(y,x)$.
-Now $\texttt{sum}(n,n)$ tells us
-the maximum sum
-from the upper-left corner to
-the lower-right corner.
-For example, in the above grid,
-$\texttt{sum}(5,5)=67$.
+格子の行と列には1から$n$までの番号が振られ、
+$\texttt{value}[y][x]$  はマス$(y,x)$ の値に等しいとしましょう。
+$\texttt{sum}(y,x)$ は左上隅から$(y,x)$までの経路上の最大和を表すとします。
+ここで、$\texttt{sum}(n,n)$は左上隅から右下隅までの最大和を表します。
+例えば、上の格子では、$\texttt{sum}(5,5)=67$となる。
 
-We can recursively calculate the sums
-as follows:
+以下のように再帰的に総和を計算することができる。
+
 \[ \texttt{sum}(y,x) = \max(\texttt{sum}(y,x-1),\texttt{sum}(y-1,x))+\texttt{value}[y][x]\]
 
+再帰的な式は、マス $(y,x)$への道は次のように
+$(y-1,x)$か $(y,x-1)$からくるという観察に基づきます。
 
-The recursive formula is based on the observation
-that a path that ends at square $(y,x)$
-can come either from square $(y,x-1)$
-or square $(y-1,x)$:
 \begin{center}
 \begin{tikzpicture}[scale=.65]
   \begin{scope}
@@ -543,19 +503,17 @@ or square $(y-1,x)$:
 \end{tikzpicture}
 \end{center}
 
-Thus, we select the direction that maximizes
-the sum.
-We assume that $\texttt{sum}(y,x)=0$
-if $y=0$ or $x=0$ (because no such paths exist),
-so the recursive formula also works when $y=1$ or $x=1$.
+つまり、この式は和を最大化する方向を選択します。
+$y=0$ か $x=0$なら $\texttt{sum}(y,x)=0$ と仮定します(そのような経路は存在しないため)。
+$y=1$ か $x=1$の時にも再帰的に成り立ちます。
 
-Since the function \texttt{sum} has two parameters,
-the dynamic programming array also has two dimensions.
-For example, we can use an array
+関数 \texttt{sum}は 2 つのパラメータを持つので，
+動的計画法配列 も2次元になります。
+
 \begin{lstlisting}
 int sum[N][N];
 \end{lstlisting}
-and calculate the sums as follows:
+を次のように計算していきます。
 \begin{lstlisting}
 for (int y = 1; y <= n; y++) {
     for (int x = 1; x <= n; x++) {
@@ -563,26 +521,20 @@ for (int y = 1; y <= n; y++) {
     }
 }
 \end{lstlisting}
-The time complexity of the algorithm is $O(n^2)$.
 
-\section{Knapsack problems}
+これにより$O(n^2)$で計算可能です。
 
-\index{knapsack}
+\section{ナップザック問題 - Knapsack problems}
 
-The term \key{knapsack} refers to problems where
-a set of objects is given, and 
-subsets with some properties
-have to be found.
-Knapsack problems can often be solved
-using dynamic programming.
+\index{ナップザック問題 - knapsack}
 
-In this section, we focus on the following
-problem: Given a list of weights
-$[w_1,w_2,\ldots,w_n]$,
-determine all
-sums that can be constructed using the weights.
-For example, if the weights are
-$[1,3,3,5]$, the following sums are possible:
+\key{knapsack - ナップザック問題 }とは、
+集合が与えられ、ある性質を持った部分集合を見つけなければならない問題のことである。
+ナップザック問題は、多くの場合、動的計画法を用いて解くことができる。
+
+重みのリスト$[w_1,w_2,\ldots,w_n]$が与えられたとき、
+その重みを使って構成できるすべての和を決定することなどが例に挙げられます。
+例えば、重みが$[1,3,3,5]$の場合、以下の 和が可能です。
 
 \begin{center}
 \begin{tabular}{rrrrrrrrrrrrr}
@@ -592,41 +544,33 @@ $[1,3,3,5]$, the following sums are possible:
 \end{tabular}
 \end{center}
 
-In this case, all sums between $0 \ldots 12$
-are possible, except 2 and 10.
-For example, the sum 7 is possible because we
-can select the weights $[1,3,3]$.
+この場合、2 と 10 を除く$0 \ldots 12$の間のすべての和が可能である。
+例えば、和7は、重み$[1,3,3]$を選んで実現可能です。
 
-To solve the problem, we focus on subproblems
-where we only use the first $k$ weights
-to construct sums.
-Let $\texttt{possible}(x,k)=\textrm{true}$ if
-we can construct a sum $x$
-using the first $k$ weights,
-and otherwise $\texttt{possible}(x,k)=\textrm{false}$.
-The values of the function can be recursively
-calculated as follows:
+この問題を解くために、最初の$k$個の重みだけを用いて和を構成する部分問題に注目しましょう。
+最初の$k$個の重みを使って和$x$を構成できる場合は
+$\texttt{possible}(x,k)=\textrm{true}、
+そうでない場合は
+$\texttt{possible}(x,k)=\textrm{false}とします。
+この関数の値は以下のように再帰的に計算することができます。
 \[ \texttt{possible}(x,k) = \texttt{possible}(x-w_k,k-1) \lor \texttt{possible}(x,k-1) \]
-The formula is based on the fact that we can
-either use or not use the weight $w_k$ in the sum.
-If we use $w_k$, the remaining task is to
-form the sum $x-w_k$ using the first $k-1$ weights,
-and if we do not use $w_k$,
-the remaining task is to form the sum $x$
-using the first $k-1$ weights.
-As the base cases,
+この式は、和に重み$w_k$を使うか使わないかのどちらかを選ぶことができることに基づいています。
+$w_k$を使う場合、
+残りのタスクは最初の$k - 1$個の重みを使って 和$x-w_k$ を形成することであり、
+$w_k$を使わない場合、残りのタスクは最初の$k - 1$個の重みを使って和$x$を形成することになります。
+
+また、初期状態として
 \begin{equation*}
     \texttt{possible}(x,0) = \begin{cases}
                \textrm{true}    & x = 0\\
                \textrm{false}   & x \neq 0 \\
            \end{cases}
 \end{equation*}
+が与えられます。というのは、重みがない場合は、和は0にしかならないからです。
+
+次の表は、重み $[1,3,3,5]$  に対する関数のすべての値を示している(記号 ''X''は真の値を示す)。
 because if no weights are used,
 we can only form the sum 0.
-
-The following table shows all values of the function
-for the weights $[1,3,3,5]$ (the symbol ''X''
-indicates the true values):
 
 \begin{center}
 \begin{tabular}{r|rrrrrrrrrrrrr}
@@ -640,14 +584,10 @@ $k \backslash x$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 \\
 \end{tabular}
 \end{center}
 
-After calculating those values, $\texttt{possible}(x,n)$
-tells us whether we can construct a
-sum $x$ using \emph{all} weights.
+これらの値を計算した後、$\texttt{possible}(x,n)$は、
+すべての重みを使って和$x$を構 成できるかどうかを教えてくれる。
 
-Let $W$ denote the total sum of the weights.
-The following $O(nW)$ time
-dynamic programming solution
-corresponds to the recursive function:
+$W$は重みの総和を表すとする。以下の$O(nW)$ 時間の動的計画法が再帰関数に相当します。
 \begin{lstlisting}
 possible[0][0] = true;
 for (int k = 1; k <= n; k++) {
@@ -658,11 +598,10 @@ for (int k = 1; k <= n; k++) {
 }
 \end{lstlisting}
 
-However, here is a better implementation that only uses
-a one-dimensional array $\texttt{possible}[x]$
-that indicates whether we can construct a subset with sum $x$.
-The trick is to update the array from right to left for
-each new weight:
+さて、ここでは，和が$x$の部分集合を構成できるかどうかを示す1次元配列
+$\texttt{possible}[x]$のみを用いるよりよい実装を示しましょう。
+この配列は，新しい重みごとに右から左へと更新します。
+
 \begin{lstlisting}
 possible[0] = true;
 for (int k = 1; k <= n; k++) {
@@ -672,52 +611,41 @@ for (int k = 1; k <= n; k++) {
 }
 \end{lstlisting}
 
-Note that the general idea presented here can be used
-in many knapsack problems.
-For example, if we are given objects with weights and values,
-we can determine for each weight sum the maximum value
-sum of a subset.
+なお、ここで紹介した一般的な考え方は、多くのナップザック問題で利用することができ、
+例えば、重みと価値を持つオブジェクトが与えられた場合、各重み和について、
+部分集合の最大の価値を決定することができます。
 
-\section{Edit distance}
+\section{編集距離 - Edit distance}
 
-\index{edit distance}
-\index{Levenshtein distance}
+\index{編集距離 - edit distance}
+\index{レーベンシュタイン距離 - Levenshtein distance}
 
-The \key{edit distance} or \key{Levenshtein distance}\footnote{The distance
+\key{編集距離 - edit distance} あるいは \key{レーベンシュタイン距離 - Levenshtein distance}
+\footnote{The distance
 is named after V. I. Levenshtein who studied it in connection with binary codes \cite{lev66}.}
-is the minimum number of editing operations
-needed to transform a string
-into another string.
-The allowed editing operations are as follows:
+とは、ある文字列を別の文字列に変換するために必要な編集操作の最小回数のことである。
+編集操作とは以下の通りである。
+
 \begin{itemize}
-\item insert a character (e.g. \texttt{ABC} $\rightarrow$ \texttt{ABCA})
-\item remove a character (e.g. \texttt{ABC} $\rightarrow$ \texttt{AC})
-\item modify a character (e.g. \texttt{ABC} $\rightarrow$ \texttt{ADC})
+\item 挿入 (e.g. \texttt{ABC} $\rightarrow$ \texttt{ABCA})
+\item 削除 (e.g. \texttt{ABC} $\rightarrow$ \texttt{AC})
+\item 変更 (e.g. \texttt{ABC} $\rightarrow$ \texttt{ADC})
 \end{itemize}
 
-For example, the edit distance between
-\texttt{LOVE} and \texttt{MOVIE} is 2,
-because we can first perform the operation
- \texttt{LOVE} $\rightarrow$ \texttt{MOVE}
-(modify) and then the operation
-\texttt{MOVE} $\rightarrow$ \texttt{MOVIE}
-(insert).
-This is the smallest possible number of operations,
-because it is clear that only one operation is not enough.
+例えば、\texttt{LOVE} と \texttt{MOVIE} の編集距離は2です。
+これは、まず\texttt{LOVE}$\rightarrow$ \texttt{MOVE}(変更)の操作を行い、
+次に\texttt{MOVE}$\rightarrow$ \texttt{MOVIE}(挿入)の操作で一致させられる。
+これは、1つの操作だけでは不十分であることが明らかであるため、可能な限り少ない操作回数となる。
 
-Suppose that we are given a string \texttt{x}
-of length $n$ and a string \texttt{y} of length $m$,
-and we want to calculate the edit distance between
-\texttt{x} and \texttt{y}.
-To solve the problem, we define a function
-$\texttt{distance}(a,b)$ that gives the
-edit distance between prefixes
-$\texttt{x}[0 \ldots a]$ and $\texttt{y}[0 \ldots b]$.
-Thus, using this function, the edit distance
-between \texttt{x} and \texttt{y} equals $\texttt{distance}(n-1,m-1)$.
+長さ$n$の文字列\texttt{x}と長さ$m$の文字列\texttt{y} が与えられたとき、
+\texttt{x}と\texttt{y} の編集距離を計算したい。
+この問題を解決するために、接頭辞$\texttt{x}[0 \ldots a]$ と $\texttt{y}[0 \ldots b]$
+の編集距離を与える関数distance(a、b)を定義する。
+この関数を用いると，\texttt{x} と\texttt{y}  の編集距離は
+$\texttt{distance}(n-1,m-1)$に等しくなる.
 
-We can calculate values of \texttt{distance}
-as follows:
+\texttt{distance}は次のように計算することができる。
+
 \begin{equation*}
 \begin{split}
 \texttt{distance}(a,b) = \min(& \texttt{distance}(a,b-1)+1, \\
@@ -725,23 +653,21 @@ as follows:
                            & \texttt{distance}(a-1,b-1)+\texttt{cost}(a,b)).
 \end{split}
 \end{equation*}
-Here $\texttt{cost}(a,b)=0$ if $\texttt{x}[a]=\texttt{y}[b]$,
-and otherwise $\texttt{cost}(a,b)=1$.
-The formula considers the following ways to
-edit the string \texttt{x}:
-\begin{itemize}
-\item $\texttt{distance}(a,b-1)$: insert a character at the end of \texttt{x}
-\item $\texttt{distance}(a-1,b)$: remove the last character from \texttt{x}
-\item $\texttt{distance}(a-1,b-1)$: match or modify the last character of \texttt{x}
-\end{itemize}
-In the two first cases, one editing operation is needed
-(insert or remove).
-In the last case, if $\texttt{x}[a]=\texttt{y}[b]$,
-we can match the last characters without editing,
-and otherwise one editing operation is needed (modify).
+ここで、$\texttt{x}[a]=\texttt{y}[b]$ならば $\texttt{cost}(a,b)=0$、
+そうでなければ $\texttt{cost}(a,b)=1$とします。
+この式では、文字列\texttt{x}の編集方法として、次のようなものを考えている。
 
-The following table shows the values of \texttt{distance}
-in the example case:
+\begin{itemize}
+\item $\texttt{distance}(a,b-1)$: \texttt{x}の最後に文字の挿入を行う
+\item $\texttt{distance}(a-1,b)$: \texttt{x}の文字を最後を削除する
+\item $\texttt{distance}(a-1,b-1)$: \texttt{x}の最後の文字が一致あるいは変更する
+\end{itemize}
+最初の2つのケースでは、1つの編集操作(挿入または削除)が必要です。
+最後の場合、$\texttt{x}[a]=\texttt{y}[b]$であれば、
+編集なしで最後の文字をマッチングさせることができ、
+そうでなければ、1つの編集操作(modify)が必要である。
+次の表は、例の場合の\texttt{distance}の値を示したものである。
+
 \begin{center}
 \begin{tikzpicture}[scale=.65]
   \begin{scope}
@@ -793,12 +719,8 @@ in the example case:
 \end{tikzpicture}
 \end{center}
 
-The lower-right corner of the table
-tells us that the edit distance between
-\texttt{LOVE} and \texttt{MOVIE} is 2.
-The table also shows how to construct
-the shortest sequence of editing operations.
-In this case the path is as follows:
+表の右下には、\texttt{LOVE}と\texttt{MOVIE}の編集距離が2であることが示されている。
+また 、この表は、最短の編集操作の順序を構築する方法を示している。この場合、経路は次のようになる。
 
 \begin{center}
 \begin{tikzpicture}[scale=.65]
@@ -854,25 +776,19 @@ In this case the path is as follows:
 \end{tikzpicture}
 \end{center}
 
-The last characters of \texttt{LOVE} and \texttt{MOVIE}
-are equal, so the edit distance between them
-equals the edit distance between \texttt{LOV} and \texttt{MOVI}.
-We can use one editing operation to remove the
-character \texttt{I} from \texttt{MOVI}.
-Thus, the edit distance is one larger than
-the edit distance between \texttt{LOV} and \texttt{MOV}, etc.
+\texttt{LOVE} and \texttt{MOVIE}は最後の文字が等しいので、
+両者の編集距離は\texttt{LOV} と \texttt{MOVI}の編集距離と等しくなる。
+\texttt{MOVI}から\texttt{I}という文字を削除するには、
+1回の編集操作で可能である。
+したがって、編集距離は\texttt{LOV}と\texttt{MOV}の間の編集距離より1大きいなどと読み取れる。
 
-\section{Counting tilings}
+\section{タイルの数え上げ - Counting tilings}
 
-Sometimes the states of a dynamic programming solution
-are more complex than fixed combinations of numbers.
-As an example,
-consider the problem of calculating
-the number of distinct ways to
-fill an $n \times m$ grid using
-$1 \times 2$ and $2 \times 1$ size tiles.
-For example, one valid solution
-for the $4 \times 7$ grid is
+動的計画法の計算の過程は、単に固定された数の組み合わせよりも複雑な場合があります。
+例えば、$1 \times 2$ と $2 \times 1$のタイルを使って、
+$n \times m$ の格子を何通り埋めることができるかを計算する問題を考えてみよう。
+例えば、$4 \times 7$ グリッドの有効な解は以下の通りです。
+
 \begin{center}
 \begin{tikzpicture}[scale=.65]
     \draw (0,0) grid (7,4);
@@ -894,15 +810,13 @@ for the $4 \times 7$ grid is
 
 \end{tikzpicture}
 \end{center}
-and the total number of solutions is 781.
+この場合、総解答数は781となります。
 
-The problem can be solved using dynamic programming
-by going through the grid row by row.
-Each row in a solution can be represented as a
-string that contains $m$ characters from the set
-$\{\sqcap, \sqcup, \sqsubset, \sqsupset \}$.
-For example, the above solution consists of four rows
-that correspond to the following strings:
+この問題は動的計画法を用いて、グリッドの行を1つずつ調べていくことで解くことができます。
+解の各行は、集合 $\{\sqcap, \sqcup, \sqsubset, \sqsupset \}$から $m$個の
+文字を含む文字列として表すことができます。
+例えば、上の解答は4つの行からなり、それらは 以下の文字列に対応する。
+
 \begin{itemize}
 \item
 $\sqcap \sqsubset \sqsupset \sqcap \sqsubset \sqsupset \sqcap$
@@ -914,59 +828,39 @@ $\sqsubset \sqsupset \sqsubset \sqsupset \sqcup \sqcup \sqcap$
 $\sqsubset \sqsupset \sqsubset \sqsupset \sqsubset \sqsupset \sqcup$
 \end{itemize}
 
-Let $\texttt{count}(k,x)$ denote the number of ways to
-construct a solution for rows $1 \ldots k$
-of the grid such that string $x$ corresponds to row $k$.
-It is possible to use dynamic programming here,
-because the state of a row is constrained
-only by the state of the previous row.
+$\texttt{count}(k,x)$は、文字列$x$が$k$行目に対応するようなグリッド
+の$1 \ldots k$行目の解を構成する方法の数を表すとする。
+ある行の状態は前の行の状態によってのみ制約されるので、
+ここでは動的計画法を使用することができる。
 
-A solution is valid if row $1$ does not contain
-the character $\sqcup$,
-row $n$ does not contain the character $\sqcap$,
-and all consecutive rows are \emph{compatible}.
-For example, the rows
-$\sqcup \sqsubset \sqsupset \sqcup \sqcap \sqcap \sqcup$ and
-$\sqsubset \sqsupset \sqsubset \sqsupset \sqcup \sqcup \sqcap$ 
-are compatible, while the rows
-$\sqcap \sqsubset \sqsupset \sqcap \sqsubset \sqsupset \sqcap$ and
-$\sqsubset \sqsupset \sqsubset \sqsupset \sqsubset \sqsupset \sqcup$
-are not compatible.
+1行目に$\sqcup$という文字がなく、
+n行目に$\sqcap$という文字がなく、
+かつ連続するすべての行が互換性を持っていれば、
+解は成立する。例えば$\sqcup \sqsubset \sqsupset \sqcup \sqcap \sqcap \sqcup$ と
+$\sqsubset \sqsupset \sqsubset \sqsupset \sqcup \sqcup \sqcap$ の行は互換性があり、
+$\sqcap \sqsubset \sqsupset \sqcap \sqsubset \sqsupset \sqcap$ と
+$\sqsubset \sqsupset \sqsubset \sqsupset \sqsubset \sqsupset \sqcup$の行は互換性がない。
 
-Since a row consists of $m$ characters and there are
-four choices for each character, the number of distinct
-rows is at most $4^m$.
-Thus, the time complexity of the solution is
-$O(n 4^{2m})$ because we can go through the
-$O(4^m)$ possible states for each row,
-and for each state, there are $O(4^m)$
-possible states for the previous row.
-In practice, it is a good idea to rotate the grid
-so that the shorter side has length $m$,
-because the factor $4^{2m}$ dominates the time complexity.
+1行は$m$個の文字からなり、各文字には4つの選択肢があるので、異なる行の数は最大でも$4^m$です。
+したがって、各行について$O(4^m)$ 個の可能な 状態を調べ、
+それぞれの状態について、前の行について$O(4^m)$  個の可能な状態があるので、
+解法の時間計算量は$O(n 4^{2m})$となります。
+係数$4^{2m}$が時間計算量を支配するので、
+短い方の辺の長さが$m$になるようにグリッドを回転させるのがよいでしょう。
 
-It is possible to make the solution more efficient
-by using a more compact representation for the rows.
-It turns out that it is sufficient to know which
-columns of the previous row contain the upper square
-of a vertical tile.
-Thus, we can represent a row using only characters
-$\sqcap$ and $\Box$, where $\Box$ is a combination
-of characters
-$\sqcup$, $\sqsubset$ and $\sqsupset$.
-Using this representation, there are only
-$2^m$ distinct rows and the time complexity is
-$O(n 2^{2m})$.
+行をよりコンパクトに表現することで、より効率的に解を得ることができます。
+前の行のどの列が縦長のタイルの上側の正方形を含むかが分かればよいと分かったので、
+$\sqcap$ と $\Box$だけで表現ができます。
+$\Box$は、$\sqcup$, $\sqsubset$ , $\sqsupset$.の組み合わせである。
+この表現を用いると、$2^m$個の行を表現できるため、
+$O(n 2^{2m})$で良いです。
 
-As a final note, there is also a surprising direct formula
-for calculating the number of tilings\footnote{Surprisingly,
+最後に、タイリングを求めるためには驚くべき公式があります。\footnote{Surprisingly,
 this formula was discovered in 1961 by two research teams \cite{kas61,tem61}
-that worked independently.}:
+that worked independently.}
 \[ \prod_{a=1}^{\lceil n/2 \rceil} \prod_{b=1}^{\lceil m/2 \rceil} 4 \cdot (\cos^2 \frac{\pi a}{n + 1} + \cos^2 \frac{\pi b}{m+1})\]
-This formula is very efficient, because it calculates
-the number of tilings in $O(nm)$ time,
-but since the answer is a product of real numbers,
-a problem when using the formula is
-how to store the intermediate results accurately.
+この式は、タイリングの数を$O(nm)$で計算するため、
+非常に効率的です。ただし、答えが実数の積であるため、この式を使う場合は
+中間結果をいかに正確に保存するかが問題となります。
 
 
