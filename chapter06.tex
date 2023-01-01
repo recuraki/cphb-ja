@@ -437,32 +437,20 @@ character & codeword \\
 \footnote{D. A. Huffman discovered this method
 when solving a university course assignment
 and published the algorithm in 1952 \cite{huf52}.}
-is a greedy algorithm
-that constructs an optimal code for
-compressing a given string.
-The algorithm builds a binary tree
-based on the frequencies of the characters
-in the string,
-and each character's codeword can be read
-by following a path from the root to
-the corresponding node.
-A move to the left corresponds to bit 0,
-and a move to the right corresponds to bit 1.
+は、与えられた文字列を圧縮するために最適な符号を構築す る貪欲なアルゴリズムです。
+このアルゴリズムは、文字列中の文字の頻度をもとに二分木を構築し、
+根から対応するノードへのパスを辿り各文字のコードワードを読み取ります。
+左への移動はビット0に対応し、右への移動はビット1に対応します。
 
-Initially, each character of the string is
-represented by a node whose weight is the
-number of times the character occurs in the string.
-Then at each step two nodes with minimum weights
-are combined by creating
-a new node whose weight is the sum of the weights
-of the original nodes.
-The process continues until all nodes have been combined.
+初期状態では、文字列の各文字は、
+その文字が文字列中に出現する回数を重みとするノードで表現します。
+次に、各ステップで重みが最小の2つのノードが結合され、
+元のノードの重みの合計を重みとする新しいノードが作成します。
+この処理は、すべてのノードが結合されるまで続けられます。
 
-Next we will see how Huffman coding creates
-the optimal code for the string
-\texttt{AABACDACA}.
-Initially, there are four nodes that correspond
-to the characters of the string:
+実際に\texttt{AABACDACA}という文字列に対して、
+ハフマン符号化がどのように最適な符号を生成するかを見ていきましょう。
+最初に、文字列の文字に対応する4つのノードが存在します。
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -479,16 +467,11 @@ to the characters of the string:
 %\path[draw,thick,-] (4) -- (5);
 \end{tikzpicture}
 \end{center}
-The node that represents character \texttt{A}
-has weight 5 because character \texttt{A}
-appears 5 times in the string.
-The other weights have been calculated
-in the same way.
 
-The first step is to combine the nodes that
-correspond to characters \texttt{B} and \texttt{D},
-both with weight 1.
-The result is:
+文字\texttt{A}は文字列中に5回出現するので、文字\texttt{A}を表すノードの重みは5です。
+他の重みも同じように計算されている。
+
+まず、重さ1の文字\texttt{B}と文字\texttt{D}に対応するノードを結合した結果がこれです。
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (0,0) {$5$};
@@ -509,7 +492,7 @@ The result is:
 \path[draw,thick,-] (4) -- (5);
 \end{tikzpicture}
 \end{center}
-After this, the nodes with weight 2 are combined:
+この後、重み2のノードが結合されます。
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (1,0) {$5$};
@@ -535,7 +518,7 @@ After this, the nodes with weight 2 are combined:
 \path[draw,thick,-] (5) -- (6);
 \end{tikzpicture}
 \end{center}
-Finally, the two remaining nodes are combined:
+最後に、残った2つのノードを結合します。
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (2,2) {$5$};
@@ -567,8 +550,8 @@ Finally, the two remaining nodes are combined:
 \end{tikzpicture}
 \end{center}
 
-Now all nodes are in the tree, so the code is ready.
-The following codewords can be read from the tree:
+これですべてのノードがツリー上に揃ったので、コードの準備は完了です。
+次のコードワードは、ツリーから読み取ることができます。
 \begin{center}
 \begin{tabular}{rr}
 character & codeword \\
