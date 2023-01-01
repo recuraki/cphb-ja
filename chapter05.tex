@@ -641,36 +641,16 @@ $A$のすべての部分集合を生成し、その和をリスト$S_A$に格納
 それらの和が$x$になるようにできるかどうかを調べればよいです。
 これは、元のリストの数を用いて和$x$を形成する方法がある場合に、まさに有効です。
 
-例えば、リストが[2, 4, 5, 9]でx=15だとする。まず、リストをA=[2, 4]と B=[5, 9]に分割する。この後、リストSA = [0, 2, 4, 6]とSB = [0, 5, 9, 14]を作成し ます。この場合、SA には和 6 が、SB には和 9 が含まれ、6 + 9 = 15 となるので 、和 x = 15 を形成することが可能である。これは次のように対応する。 を解決することができます[2, 4, 9]。
+例えば、リストが$[2,4,5,9]$で$x=15$だとします。
+まず、リストを $A=[2,4]$ と $B=[5,9]$.に分割しましょう。
+この後、リスト$S_A=[0,2,4,6]$ と $S_B=[0,5,9,14]$
+を作成します。この場合、$S_A$ には和 $6$ が、$S_B$ には和 9 が含まれ、
+$6 + 9 = 15$ となるので、
+$x = 15$ を形成することが可能である。
+これを$[2,4,9]$に関しても解決できます。(TODO:これなに？)
 
-このアルゴリズムは、その時間計算量がO(2n/2 )となるように実装することが できる。まず、ソートされたリストSA とSB を生成する。これは、マージのよ うな技法を用いてO(2n/2 ) 時間で行うことができる。この後、リストはソート されているので、SA と SB から和 x が生成できるかどうかを O(2n/2 ) 時間で確 認することができる。
-
-The idea is to divide the list into
-two lists $A$ and $B$ such that both
-lists contain about half of the numbers.
-The first search generates all subsets
-of $A$ and stores their sums to a list $S_A$.
-Correspondingly, the second search creates
-a list $S_B$ from $B$.
-After this, it suffices to check if it is possible
-to choose one element from $S_A$ and another
-element from $S_B$ such that their sum is $x$.
-This is possible exactly when there is a way to
-form the sum $x$ using the numbers of the original list.
-
-For example, suppose that the list is $[2,4,5,9]$ and $x=15$.
-First, we divide the list into $A=[2,4]$ and $B=[5,9]$.
-After this, we create lists
-$S_A=[0,2,4,6]$ and $S_B=[0,5,9,14]$.
-In this case, the sum $x=15$ is possible to form,
-because $S_A$ contains the sum $6$,
-$S_B$ contains the sum $9$, and $6+9=15$.
-This corresponds to the solution $[2,4,9]$.
-
-We can implement the algorithm so that
-its time complexity is $O(2^{n/2})$.
-First, we generate \emph{sorted} lists $S_A$ and $S_B$,
-which can be done in $O(2^{n/2})$ time using a merge-like technique.
-After this, since the lists are sorted,
-we can check in $O(2^{n/2})$ time if
-the sum $x$ can be created from $S_A$ and $S_B$.
+このアルゴリズムは、
+時間計算量が$O(2^{n/2})$となるように実装することができます。
+まず、ソートされたリスト$S_A$と$S_B$を生成する。
+これは、マージのような技法を用いて$O(2^{n/2})$時間で可能です。
+この後、リストはソート されているので、$S_A$ と $S_B$ から和 $x$ が生成できるかどうかを $O(2^{n/2})$ 時間で確 認することができます。
