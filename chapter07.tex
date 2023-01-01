@@ -200,30 +200,21 @@ for (int x = 1; x <= n; x++) {
 }
 \end{lstlisting}
 
-In fact, most competitive programmers prefer this
-implementation, because it is shorter and has
-lower constant factors.
-From now on, we also use iterative implementations
-in our examples.
-Still, it is often easier to think about
-dynamic programming solutions
-in terms of recursive functions.
+多くの競技プログラマは、この実装の方が短く定数倍の計算量も低いので、
+好んで使っています。
+これ以降、私たちの例でも反復処理の実装を使用します。
+しかし、動的計画法の解法は、再帰的な関数で考える方が簡単な場合が多いです。
 
+\subsubsection{構築 - Constructing a solution}
 
-\subsubsection{Constructing a solution}
+しばしば、最適解の値及びどのように構成されるかの例を示すことの両方を求められることがあります。
+これを実装するために、コインの問題では各金額について，
+最適解の最初のコインを示す別の配列を宣言することができます。
 
-Sometimes we are asked both to find the value
-of an optimal solution and to give
-an example how such a solution can be constructed.
-In the coin problem, for example,
-we can declare another array
-that indicates for
-each sum of money the first coin 
-in an optimal solution:
 \begin{lstlisting}
 int first[N];
 \end{lstlisting}
-Then, we can modify the algorithm as follows:
+アルゴリズムを次のように改変しましょう。
 \begin{lstlisting}
 value[0] = 0;
 for (int x = 1; x <= n; x++) {
@@ -236,9 +227,7 @@ for (int x = 1; x <= n; x++) {
     }
 }
 \end{lstlisting}
-After this, the following code can be used to
-print the coins that appear in an optimal solution for
-the sum $n$:
+この後、以下のコードで、和$n$の最適解に現れるコインを表示させることができます。
 \begin{lstlisting}
 while (n > 0) {
     cout << first[n] << "\n";
@@ -246,14 +235,12 @@ while (n > 0) {
 }
 \end{lstlisting}
 
-\subsubsection{Counting the number of solutions}
+\subsubsection{解のカウント - Counting the number of solutions}
 
-Let us now consider another version
-of the coin problem where our task is to
-calculate the total number of ways
-to produce a sum $x$ using the coins.
-For example, if $\texttt{coins}=\{1,3,4\}$ and
-$x=5$, there are a total of 6 ways:
+ここで、コイン問題の別バージョンとして、
+コインを用いて和$x$を生み出す方法 の総数を計算する問題を考えます。
+たとえば，$\texttt{coins}=\{1,3,4\}$, $x=5$とすると
+合計6通りあることになる.
 
 \begin{multicols}{2}
 \begin{itemize}
@@ -266,11 +253,10 @@ $x=5$, there are a total of 6 ways:
 \end{itemize}
 \end{multicols}
 
-Again, we can solve the problem recursively.
-Let $\texttt{solve}(x)$ denote the number of ways
-we can form the sum $x$.
-For example, if $\texttt{coins}=\{1,3,4\}$,
-then $\texttt{solve}(5)=6$ and the recursive formula is
+ここでも、再帰的に問題を解くことができます。
+例えば、$\texttt{coins}=\{1,3,4\}$の場合、
+$\texttt{solve}(5)=6$となり、再帰的な式は次のようになる。
+
 \begin{equation*}
 \begin{split}
 \texttt{solve}(x) = & \texttt{solve}(x-1) + \\
@@ -279,7 +265,7 @@ then $\texttt{solve}(5)=6$ and the recursive formula is
 \end{split}
 \end{equation*}
 
-Then, the general recursive function is as follows:
+一般的な再帰関数は次のように示せます。
 \begin{equation*}
     \texttt{solve}(x) = \begin{cases}
                0               & x < 0\\
@@ -288,17 +274,14 @@ Then, the general recursive function is as follows:
            \end{cases}
 \end{equation*}
 
-If $x<0$, the value is 0, because there are no solutions.
-If $x=0$, the value is 1, because there is only one way
-to form an empty sum.
-Otherwise we calculate the sum of all values
-of the form $\texttt{solve}(x-c)$ where $c$ is in \texttt{coins}.
+$x < 0$の場合、解が存在しないので値は0である。
+$x = 0$の場合、値は1です。
+なぜなら、空の和を形成する方法は1つしかないからです。
+それ以外の場合は$c$をコインとして、$\texttt{solve}(x-c)$ の形のすべての値の合計を計算する。
 
-The following code constructs an array
-$\texttt{count}$ such that
-$\texttt{count}[x]$ equals
-the value of $\texttt{solve}(x)$
-for $0 \le x \le n$:
+次のコードは、$0 \le x \le n$である時の
+$\texttt{solve}(x)$の値
+$\texttt{count}$を構築します。 
 
 \begin{lstlisting}
 count[0] = 1;
@@ -311,28 +294,22 @@ for (int x = 1; x <= n; x++) {
 }
 \end{lstlisting}
 
-Often the number of solutions is so large
-that it is not required to calculate the exact number
-but it is enough to give the answer modulo $m$
-where, for example, $m=10^9+7$.
-This can be done by changing the code so that
-all calculations are done modulo $m$.
-In the above code, it suffices to add the line
+また、解の数が非常に多く、正確な数を計算する必要はないが、
+例えば $m=10^9+7$ のように、$m$ のモジュロで答えを出せば十分なことがよくあります。
+これは，すべての計算がモジュロ$m$で行われるようにコードを変更することで求められます。
+
 \begin{lstlisting}
         count[x] %= m;
 \end{lstlisting}
-after the line
+の後に次のようにします。
 \begin{lstlisting}
         count[x] += count[x-c];
 \end{lstlisting}
 
-Now we have discussed all basic
-ideas of dynamic programming.
-Since dynamic programming can be used
-in many different situations,
-we will now go through a set of problems
-that show further examples about the
-possibilities of dynamic programming.
+さて、ここまでで動的計画法の基本的な考え方はすべて説明しました。
+動的計画法はいろいろな場面で使えるので、
+これから動的計画法の可能性について、
+さらに例を示す問題を見ていきましょう。
 
 \section{Longest increasing subsequence}
 
