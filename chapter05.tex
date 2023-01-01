@@ -392,35 +392,19 @@ $y$行にクイーンを置き、
 
 
 $n \times n$ のチェス盤に $n$ 個のクイーンを配置する方法の数を $q(n)$ としましょう。
-
-上記のバックトラックアルゴリズムにより、例えば、q(8)=92となることがわかる。 nが
-大きくなると、解の数が指数関数的に増えるので、探索はすぐに遅くなってし
-まう。 例えば、 上記のアルゴリズムを使って q(16) 14772512 を計算すると、
-最近のコンピュータでは既に約 1 分かかっている1.
-
-Let $q(n)$ denote the number of ways
-to place $n$ queens on an $n \times n$ chessboard.
-The above backtracking
-algorithm tells us that, for example, $q(8)=92$.
-When $n$ increases, the search quickly becomes slow,
-because the number of solutions increases
-exponentially.
-For example, calculating $q(16)=14772512$
-using the above algorithm already takes about a minute
-on a modern computer\footnote{There is no known way to efficiently
+上記のバックトラックアルゴリズムにより、例えば、$q(8)=92$となることがわかります。
+$n$が大きくなると、解の数は指数関数的に増えるので、探索はすぐに遅くなってしまいます。
+例えば、 上記のアルゴリズムを使って$q(16)=14772512$を計算すると、
+最新のコンピュータでも1分以上かかります。\footnote{There is no known way to efficiently
 calculate larger values of $q(n)$. The current record is
 $q(27)=234907967154122528$, calculated in 2016 \cite{q27}.}.
 
-\section{Pruning the search}
+\section{枝刈り - Pruning the search}
 
-We can often optimize backtracking
-by pruning the search tree.
-The idea is to add ''intelligence'' to the algorithm
-so that it will notice as soon as possible
-if a partial solution cannot be extended
-to a complete solution.
-Such optimizations can have a tremendous
-effect on the efficiency of the search.
+バックトラックを探索木の枝刈りで最適化することができる場合が多いです。
+このアイデアは、アルゴリズムに''intelligence''を加えることで、
+部分解が完全解に拡張できない場合、できるだけ早くそれに気づきその先の探索をやめます。
+このような最適化は、探索の効率に多大な影響を与える。
 
 Let us consider the problem
 of calculating the number of paths
