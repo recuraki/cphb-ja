@@ -1,88 +1,59 @@
-\chapter{Dynamic programming}
+\chapter{動的計画法 - Dynamic programming}
 
-\index{dynamic programming}
+\index{動的計画法 - dynamic programming}
 
-\key{Dynamic programming}
-is a technique that combines the correctness
-of complete search and the efficiency
-of greedy algorithms.
-Dynamic programming can be applied if the
-problem can be divided into overlapping subproblems
-that can be solved independently.
+\key{動的計画法 - Dynamic programming}とは
+全探索の正しさと貪欲アルゴリズムの効率性を併せ持つ方法です。
+動的計画法は、問題を独立に解くことのできる重複する部分問題に分割できる場合に適用することができます。
 
-There are two uses for dynamic programming:
+動的計画法には2つの使い方がある。
 
 \begin{itemize}
 \item
-\key{Finding an optimal solution}:
-We want to find a solution that is
-as large as possible or as small as possible.
+\key{最適解を見つける}:
+できるだけ大きな解、あるいはできるだけ小さ
+な解を見つけたい。
 \item
-\key{Counting the number of solutions}:
-We want to calculate the total number of
-possible solutions.
+\key{解の数を数える}:
+可能な解の総数を計算したい。
 \end{itemize}
 
-We will first see how dynamic programming can
-be used to find an optimal solution,
-and then we will use the same idea for
-counting the solutions.
+最初に最適解を求めるために動的計画法がどのように使われるかを見て、 
+次に同じ考え方で解を数えてみる。
 
-Understanding dynamic programming is a milestone
-in every competitive programmer's career.
-While the basic idea is simple,
-the challenge is how to apply
-dynamic programming to different problems.
-This chapter introduces a set of classic problems
-that are a good starting point.
+ダイナミックプログラミングを理解することは、
+競技プログラマーのキャリアのマイルストーンもあるといえます。
+基本的な考え方は簡単ですが、様々な問題に対して動的計画法をどのように適用するかが課題となります。
+この章では、出発点となるの古典的な問題を紹介します。
 
-\section{Coin problem}
+\section{コイン問題 - Coin problem}
 
-We first focus on a problem that we
-have already seen in Chapter 6:
-Given a set of coin values $\texttt{coins} = \{c_1,c_2,\ldots,c_k\}$
-and a target sum of money $n$, our task is to
-form the sum $n$ using as few coins as possible.
+これは第6章ですでに見た問題で再度これに注目します。
+コインの値の集合$\texttt{coins} = \{c_1,c_2,\ldots,c_k\}$
+と目標金額$n$が与えられたとき、できるだけ少ないコインで合計$n$を形成することが課題です。
 
-In Chapter 6, we solved the problem using a
-greedy algorithm that always chooses the largest
-possible coin.
-The greedy algorithm works, for example,
-when the coins are the euro coins,
-but in the general case the greedy algorithm
-does not necessarily produce an optimal solution.
+第6章では、常に可能な限り大きなコインを選ぶ貪欲なアルゴリズムを使って問題を解きました。
+貪欲アルゴリズムは、コインがユーロコインの場合などは有効ですが、
+一般的な場合では必ずしも最適解が得られるとは限らないということも説明しました。
 
-Now is time to solve the problem efficiently
-using dynamic programming, so that the algorithm
-works for any coin set.
-The dynamic programming
-algorithm is based on a recursive function
-that goes through all possibilities how to
-form the sum, like a brute force algorithm.
-However, the dynamic programming
-algorithm is efficient because
-it uses \emph{memoization} and
-calculates the answer to each subproblem only once.
+ここではどんなコインセットにも対応できるように、
+動的計画法を用いて効率的に問題を解決していきます。
+動的計画法では総和を求めるために、
+全探索のアルゴリズムと同じように、
+すべての可能性を検討する再帰的な関数を用います。
+ここで動的計画法のアルゴリズムは、メモ化を使用して
+各部分問題の答えを一度だけ計算するため効率的に動作します。
 
-\subsubsection{Recursive formulation}
+\subsubsection{再帰的な式 - Recursive formulation}
 
-The idea in dynamic programming is to
-formulate the problem recursively so
-that the solution to the problem can be
-calculated from solutions to smaller
-subproblems.
-In the coin problem, a natural recursive
-problem is as follows:
-what is the smallest number of coins
-required to form a sum $x$?
+動的計画法の考え方は、問題を再帰的な式として表現し、
+より小さな部分問題の解から問題の解を計算できるようにしていきます。
+コイン問題では、次のような再帰的な問題が自然であるです。
+「和xを形成するのに必要な最小のコインの数は？」
 
-Let $\texttt{solve}(x)$
-denote the minimum
-number of coins required for a sum $x$.
-The values of the function depend on the
-values of the coins.
-For example, if $\texttt{coins} = \{1,3,4\}$,
-the first values of the function are as follows:
+$\texttt{solve}(x)$を和xに必要なコインの最小枚数とすると、
+関数の値はコインの値に依存します。
+例えば，$\texttt{coins} = \{1,3,4\}$のとき，関数の最初の値は以下の通りです。
 
 \[
 \begin{array}{lcl}
@@ -100,25 +71,18 @@ the first values of the function are as follows:
 \end{array}
 \]
 
-For example, $\texttt{solve}(10)=3$,
-because at least 3 coins are needed
-to form the sum 10.
-The optimal solution is $3+3+4=10$.
+例えば、$\texttt{solve}(10)=3$は、和が10になるためには、
+少なくとも3枚のコインが必要ということを意味します。
+最適解は$3+3+4=10$です。
 
-The essential property of $\texttt{solve}$ is
-that its values can be
-recursively calculated from its smaller values.
-The idea is to focus on the \emph{first}
-coin that we choose for the sum.
-For example, in the above scenario,
-the first coin can be either 1, 3 or 4.
-If we first choose coin 1,
-the remaining task is to form the sum 9
-using the minimum number of coins,
-which is a subproblem of the original problem.
-Of course, the same applies to coins 3 and 4.
-Thus, we can use the following recursive formula
-to calculate the minimum number of coins:
+$\texttt{solve}$の本質的な特性は、
+その値を再帰的に計算できることで、小さい値から計算していきまコインの和に注目していきます。
+例えば、上記のシナリオでは、最初のコインは1、3、4のいずれかである。
+最初にコイン1を選んだ場合、残っている課題は最小数のコインを用いて9を形成することとなります。
+これは元の問題の下位問題である。
+もちろん、コイン3、4に ついても同様です。
+したがって，最小のコインの枚数を計算するには，次のような再帰的な公式を用いることができます。
+
 \begin{equation*}
 \begin{split}
 \texttt{solve}(x) = \min( & \texttt{solve}(x-1)+1, \\
@@ -126,14 +90,14 @@ to calculate the minimum number of coins:
                            & \texttt{solve}(x-4)+1).
 \end{split}
 \end{equation*}
-The base case of the recursion is $\texttt{solve}(0)=0$,
-because no coins are needed to form an empty sum.
-For example,
+再帰の特殊な定式は$\texttt{solve}(0)=0$であり、
+これは空の和を形成するためにコインは必要ないからです。
+
 \[ \texttt{solve}(10) = \texttt{solve}(7)+1 = \texttt{solve}(4)+2 = \texttt{solve}(0)+3 = 3.\]
 
-Now we are ready to give a general recursive function
-that calculates the minimum number of
-coins needed to form a sum $x$:
+これで，和$x$を形成するのに必要なコインの最小枚数を計算する
+一般的な再帰関数を与える準備ができました。
+
 \begin{equation*}
     \texttt{solve}(x) = \begin{cases}
                \infty               & x < 0\\
@@ -142,19 +106,16 @@ coins needed to form a sum $x$:
            \end{cases}
 \end{equation*}
 
-First, if $x<0$, the value is $\infty$,
-because it is impossible to form a negative
-sum of money.
-Then, if $x=0$, the value is $0$,
-because no coins are needed to form an empty sum.
-Finally, if $x>0$, the variable $c$ goes through
-all possibilities how to choose the first coin
-of the sum.
+まず、$x<0$の場合、
+負の金額を形成することは不可能であるため、
+値は$\infty$,となる。
+次に、$x = 0$のとき、値は$0$です。
+なぜなら、負の金額を形成するために 硬貨は必要ないからである。
+最後に$x > 0$の場合，
+変数$c$は，和の最初のコインをどのように選ぶか，すべての可能性を調べます。
 
-Once a recursive function that solves the problem
-has been found,
-we can directly implement a solution in C++
-(the constant \texttt{INF} denotes infinity):
+問題を解く再帰の式が見つかれば、
+C++で直接解を実装することができる(定数\texttt{INF}は無限大です)。
 
 \begin{lstlisting}
 int solve(int x) {
@@ -168,24 +129,21 @@ int solve(int x) {
 }
 \end{lstlisting}
 
-Still, this function is not efficient,
-because there may be an exponential number of ways
-to construct the sum.
-However, next we will see how to make the
-function efficient using a technique called memoization.
+それでも、この関数は効率的とは言えません。
+なぜなら、和を構成する方法は指数関数的に増えるためです。
+そこでメモ化と呼ばれる技術を使って、この関数を効率的にする方法を探ります。
 
-\subsubsection{Using memoization}
+\subsubsection{メモ化の利用 - Using memoization}
 
-\index{memoization}
+\index{メモ化 - memoization}
 
-The idea of dynamic programming is to use
-\key{memoization} to efficiently calculate
-values of a recursive function.
-This means that the values of the function
-are stored in an array after calculating them.
-For each parameter, the value of the function
-is calculated recursively only once, and after this,
-the value can be directly retrieved from the array.
+動的計画法の考え方は、\key{メモ化 - memoization}
+を用いて再帰的な関数の値を効率的に計算することです。
+つまり、関数の値を計算した後、配列に記憶します。
+各パラメータに対して、関数の値は一度だけ再帰的に計算され、
+この後、配列から直接値を参照します。
+この問題では、配列を使用します
+
 
 In this problem, we use arrays
 \begin{lstlisting}
@@ -193,15 +151,11 @@ bool ready[N];
 int value[N];
 \end{lstlisting}
 
-where $\texttt{ready}[x]$ indicates
-whether the value of $\texttt{solve}(x)$ has been calculated,
-and if it is, $\texttt{value}[x]$
-contains this value.
-The constant $N$ has been chosen so
-that all required values fit in the arrays.
+\texttt{ready}[x]$は $\texttt{solve}(x) の値が計算されたかどうかを示し、
+計算された$\texttt{value}[x]$にその値が格納される。
+定数$N$は、必要な値がすべて配列に収まるように選ばれています。
 
-Now the function can be efficiently
-implemented as follows:
+これで、この関数は次のように効率的に実装できるようになった
 
 \begin{lstlisting}
 int solve(int x) {
@@ -218,30 +172,22 @@ int solve(int x) {
 }
 \end{lstlisting}
 
-The function handles the base cases
-$x<0$ and $x=0$ as previously.
-Then the function checks from
-$\texttt{ready}[x]$ if
-$\texttt{solve}(x)$ has already been stored
-in $\texttt{value}[x]$,
-and if it is, the function directly returns it.
-Otherwise the function calculates the value
-of $\texttt{solve}(x)$
-recursively and stores it in $\texttt{value}[x]$.
+この関数は, 前と同様に $x < 0$ と $x = 0$ の基本ケースを処理します。
+次に， $\texttt{ready}[x]$ を使って $\texttt{value}[x]$ に
+$\texttt{solve}(x)$が既に格納されているかどうかをチェックして、
+格納されていればそれを直接返します.
+そうでない場合は、$\texttt{solve}(x)$の値を再帰的に計算し$\texttt{value}[x]$に格納します.
 
-This function works efficiently,
-because the answer for each parameter $x$
-is calculated recursively only once.
-After a value of $\texttt{solve}(x)$ has been stored in $\texttt{value}[x]$,
-it can be efficiently retrieved whenever the
-function will be called again with the parameter $x$.
-The time complexity of the algorithm is $O(nk)$,
-where $n$ is the target sum and $k$ is the number of coins.
+この関数は、各パラメータ$x$に対する答えを一度だけ再帰的に計算するため、効率的に動作します。
+$\texttt{solve}(x)$の値が$\texttt{value}[x]$に格納された後は，
+$x$を指定してこの関数が再び呼ばれたときに，
+いつでも効率的に取り出すことができます.
+このアルゴリズムの時間計算量は$n$を目標和$k$をコインの枚数とすると，$O(nk)$です。
 
-Note that we can also \emph{iteratively}
-construct the array \texttt{value} using
-a loop that simply calculates all the values
-of $\texttt{solve}$ for parameters $0 \ldots n$:
+
+なお，パラメータ $0 \ldots n$に対して$\texttt{solve}$ の全値を単純に計算するループを使って，
+配列の値を反復的に構築することもできる.
+
 \begin{lstlisting}
 value[0] = 0;
 for (int x = 1; x <= n; x++) {
