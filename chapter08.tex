@@ -257,39 +257,26 @@
 \footnote{長い間、3SUM 問題を $O(n^2)$ 時間より効率的に解くことは不可能と考えられていました。し
 かし、2014 年に、そうではないことが判明した \cite{gro14} }.
 
-\section{Nearest smaller elements}
+\section{最も近い小さな要素 - Nearest smaller elements}
 
-\index{nearest smaller elements}
+\index{最も近い小さな要素 - nearest smaller elements}
 
-Amortized analysis is often used to
-estimate the number of operations
-performed on a data structure.
-The operations may be distributed unevenly so
-that most operations occur during a
-certain phase of the algorithm, but the total
-number of the operations is limited.
+データ構造に対して行われた操作の回数を推定するために、
+ならし解析がよく利用されます。演算は不均等に分布するので、アルゴリズムの特定のフェーズで演算が発生しますが、演算の総数には限りがあります。
 
-As an example, consider the problem
-of finding for each array element
-the \key{nearest smaller element}, i.e.,
-the first smaller element that precedes the element
-in the array.
-It is possible that no such element exists,
-in which case the algorithm should report this.
-Next we will see how the problem can be
-efficiently solved using a stack structure.
+ここで配列の各要素について既出の最も近い小さい要素，つまり配列内でその要素に先行する最初の小さい要素を見つける問題を考えてみます。
+そのような要素が存在しないこともあり得ますが，その場合はアルゴリズムがそのことを報告するとしましょう。
+次に、この問題をスタック構造を用いてどのように効率的に解決できるかを見ていきます。
 
-We go through the array from left to right
-and maintain a stack of array elements.
-At each array position, we remove elements from the stack
-until the top element is smaller than the
-current element, or the stack is empty.
-Then, we report that the top element is
-the nearest smaller element of the current element,
-or if the stack is empty, there is no such element.
-Finally, we add the current element to the stack.
+配列を左から右へ走査し，配列要素のスタックを維持します．
+配列の各位置で，一番上の要素が現在の要素より小さくなるか，
+スタックが空になるまで，スタックから要素を取り除いていきます．
+そして，一番上の要素が現在の要素に最も近い小さい要素であることを報告します．
+また，スタックが空であれば，そのような要素は存在しません．
+そして、現在の要素をスタックに追加するといった操作を続けます。
 
-As an example, consider the following array:
+例として、次のような配列を考えてみましょう。
+
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \draw (0,0) grid (8,1);
@@ -305,10 +292,9 @@ As an example, consider the following array:
 \end{tikzpicture}
 \end{center}
 
-First, the elements 1, 3 and 4 are added to the stack,
-because each element is larger than the previous element.
-Thus, the nearest smaller element of 4 is 3,
-and the nearest smaller element of 3 is 1.
+まず、各要素が前の要素より大きいので、1、3、4の要素がスタックに追加されます。
+したがって、4の最も近い小さい要素は3であり、3の最も近い小さい要素は1となります。
+
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \fill[color=lightgray] (2,0) rectangle (3,1);
@@ -336,11 +322,11 @@ and the nearest smaller element of 3 is 1.
 \end{tikzpicture}
 \end{center}
 
-The next element 2 is smaller than the two top
-elements in the stack.
-Thus, the elements 3 and 4 are removed from the stack,
-and then the element 2 is added to the stack.
-Its nearest smaller element is 1:
+次の要素である2は、スタックの一番上の2つの要素より小さい。
+このため、要素 3 と 4 がスタックからpopし
+次に要素 2 がスタックに追加されます。
+その最も近い小さい要素は1となります。
+
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \fill[color=lightgray] (3,0) rectangle (4,1);
@@ -365,9 +351,8 @@ Its nearest smaller element is 1:
 \end{tikzpicture}
 \end{center}
 
-Then, the element 5 is larger than the element 2,
-so it will be added to the stack, and
-its nearest smaller element is 2:
+そして、要素5は要素2より大きいのでスタックに追加され、その最も近い小さい要素は2となります。
+
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \fill[color=lightgray] (4,0) rectangle (5,1);
@@ -395,8 +380,8 @@ its nearest smaller element is 2:
 \end{tikzpicture}
 \end{center}
 
-After this, the element 5 is removed from the stack
-and the elements 3 and 4 are added to the stack:
+この後、要素5をスタックから取り除き、要素3、4をスタックに追加する。
+
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \fill[color=lightgray] (6,0) rectangle (7,1);
@@ -427,9 +412,7 @@ and the elements 3 and 4 are added to the stack:
 \end{tikzpicture}
 \end{center}
 
-Finally, all elements except 1 are removed
-from the stack and the last element 2
-is added to the stack:
+最後に、1以外のすべての要素がスタックから取り除かれ、最後の要素2がスタックに追加されます。
 
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
@@ -455,52 +438,32 @@ is added to the stack:
 \end{tikzpicture}
 \end{center}
 
-The efficiency of the algorithm depends on
-the total number of stack operations.
-If the current element is larger than
-the top element in the stack, it is directly
-added to the stack, which is efficient.
-However, sometimes the stack can contain several
-larger elements and it takes time to remove them.
-Still, each element is added \emph{exactly once} to the stack
-and removed \emph{at most once} from the stack.
-Thus, each element causes $O(1)$ stack operations,
-and the algorithm works in $O(n)$ time.
+ここで着目するのはアルゴリズムの効率は、スタックオペレーションの総数に依存します。
+現在の要素がスタックの一番上の要素より大きい場合、直接スタックに追加され効率的です。
+ところが、スタックにいくつかの大きな要素が含まれることがあり、それらを取り除くのに時間がかかることがある。
+しかし、ここで注目するのは各要素はスタックにちょうど一回追加され、スタックから最大一回削除されという点です。
+つまり、各要素は $O(1)$ スタック操作を引き起こすのでアルゴリズムは O(n) 時間で動作するという点です。
 
-\section{Sliding window minimum}
+\section{最小スライディングウィンドウ - Sliding window minimum}
 
-\index{sliding window}
-\index{sliding window minimum}
+\index{スライディングウィンドウ - sliding window}
+\index{最小スライディングウィンドウ - sliding window minimum}
 
-A \key{sliding window} is a constant-size subarray
-that moves from left to right through the array.
-At each window position,
-we want to calculate some information
-about the elements inside the window.
-In this section, we focus on the problem
-of maintaining the \key{sliding window minimum},
-which means that
-we should report the smallest value inside each window.
+\key{スライディングウィンドウ - sliding window}は、
+配列の左から右へ移動する一定サイズの部分配列のことです。
+各ウィンドウの位置で、窓の中の要素について何らかの情報を計算します。
+ここでは、\key{最小スライディングウィンドウ - sliding window minimum}を維持する問題、
+つまり、各ウィンドウ内の最小値を報告することに焦点を当てます。
 
-The sliding window minimum can be calculated
-using a similar idea that we used to calculate
-the nearest smaller elements.
-We maintain a queue
-where each element is larger than
-the previous element,
-and the first element
-always corresponds to the minimum element inside the window.
-After each window move,
-we remove elements from the end of the queue
-until the last queue element
-is smaller than the new window element,
-or the queue becomes empty.
-We also remove the first queue element
-if it is not inside the window anymore.
-Finally, we add the new window element
-to the end of the queue.
-
-As an example, consider the following array:
+スライディングウィンドウの最小値は、
+前述の最も近い小さい要素を計算するのに用いたのと同様の考え方で計算することができます。
+各要素が前の要素より大きい待ち行列を維持し、
+最初の要素は常に窓の内側の最小要素に対応するようにします。
+各ウィンドウの移動後、最後のキューの要素が新しいウィンドウの要素より小さくなるか、
+キューが空になるまで、キューの末尾から要素を削除していきます。
+また、最初の待ち行列の要素がもうウィンドウの中にない場合は、
+それを削除します。最後に、新しいウィンドウの要素を待ち行列の最後に追加します。
+例として、次のような配列を考えてみましょう。
 
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
@@ -517,8 +480,8 @@ As an example, consider the following array:
 \end{tikzpicture}
 \end{center}
 
-Suppose that the size of the sliding window is 4.
-At the first window position, the smallest value is 1:
+スライディングウィンドウの大きさを4とすると、最初のウィンドウの位置で最小の値は1です。
+
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \fill[color=lightgray] (0,0) rectangle (4,1);
@@ -546,12 +509,12 @@ At the first window position, the smallest value is 1:
 \end{tikzpicture}
 \end{center}
 
-Then the window moves one step right.
-The new element 3 is smaller than the elements
-4 and 5 in the queue, so the elements 4 and 5
-are removed from the queue
-and the element 3 is added to the queue.
-The smallest value is still 1.
+まず、ウィンドウは1ステップ右に移動します。
+新しい要素3は待ち行列の要素4と5より小さいので、
+要素4と5は待ち行列から取り除かれ、
+要素3が待ち行列に追加されます。
+最小の値はまだ1のままです。
+
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \fill[color=lightgray] (1,0) rectangle (5,1);
@@ -576,12 +539,10 @@ The smallest value is still 1.
 \end{tikzpicture}
 \end{center}
 
-After this, the window moves again,
-and the smallest element 1
-does not belong to the window anymore.
-Thus, it is removed from the queue and the smallest
-value is now 3. Also the new element 4
-is added to the queue.
+この後、再びウィンドウが移動し、最小の要素1はウィンドウに属さなくなります。
+従って、これはキューから取り除かれ、最小の値は3になります。
+そして、新しい要素4がキューに追加されます。
+
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \fill[color=lightgray] (2,0) rectangle (6,1);
@@ -606,10 +567,9 @@ is added to the queue.
 \end{tikzpicture}
 \end{center}
 
-The next new element 1 is smaller than all elements
-in the queue.
-Thus, all elements are removed from the queue
-and it will only contain the element 1:
+次の新しい要素1は、待ち行列のすべての要素より小さいです。
+このため、キューからすべての要素が削除され、要素1だけが含まれるようになります。
+
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \fill[color=lightgray] (3,0) rectangle (7,1);
@@ -630,10 +590,9 @@ and it will only contain the element 1:
 \end{tikzpicture}
 \end{center}
 
-Finally the window reaches its last position.
-The element 2 is added to the queue,
-but the smallest value inside the window
-is still 1.
+最後に、ウィンドウは最後の位置に到達します。
+要素2がキューに追加されるが、ウィンドウ内の最小値はまだ1のままです。
+
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \fill[color=lightgray] (4,0) rectangle (8,1);
@@ -658,7 +617,4 @@ is still 1.
 \end{tikzpicture}
 \end{center}
 
-Since each array element
-is added to the queue exactly once and
-removed from the queue at most once,
-the algorithm works in $O(n)$ time.
+各配列要素は正確に一度だけキューに追加され、最大一度だけキューから削除されるので、このアルゴリズムは$O(n)$時間で動作します。
