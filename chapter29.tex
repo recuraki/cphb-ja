@@ -1,17 +1,11 @@
-\chapter{Geometry}
+\chapter{幾何学 - Geometry}
 
-\index{geometry}
+\index{幾何学 - geometry}
 
-In geometric problems, it is often challenging
-to find a way to approach the problem so that
-the solution to the problem can be conveniently implemented
-and the number of special cases is small.
+幾何学問題は時に複雑で、問題の解を合理的に求め、かつ特殊なケースの数が少なくなるようにアプローチする方法を見つけることは、しばしば困難なことです。
 
-As an example, consider a problem where
-we are given the vertices of a quadrilateral
-(a polygon that has four vertices),
-and our task is to calculate its area.
-For example, a possible input for the problem is as follows:
+例えば、四辺形（4つの頂点を持つ多角形）の頂点が与えられ、その面積を計算する問題を考えてみましょう。例えば、この問題の入力として、次のようなものがあります。
+
 
 \begin{center}
 \begin{tikzpicture}[scale=0.45]
@@ -23,9 +17,9 @@ For example, a possible input for the problem is as follows:
 \draw[thick] (6,2) -- (5,6) -- (2,5) -- (1,1) -- (6,2);
 \end{tikzpicture}
 \end{center}
-One way to approach the problem is to divide
-the quadrilateral into two triangles by a straight
-line between two opposite vertices:
+
+この問題へのアプローチの１つは対向する2つの頂点間の直線で2つの三角形に分割することです。
+
 \begin{center}
 \begin{tikzpicture}[scale=0.45]
 
@@ -38,24 +32,18 @@ line between two opposite vertices:
 \draw[dashed,thick] (2,5) -- (6,2);
 \end{tikzpicture}
 \end{center}
-After this, it suffices to sum the areas
-of the triangles.
-The area of a triangle can be calculated,
-for example, using \key{Heron's formula}
+
+あとは、三角形の面積を合計すればよく、三角形の面積は、\key{Heron's formula - ヘロンの公式}で計算できます。
 %\footnote{Heron of Alexandria (c. 10--70) was a Greek mathematician.}
 \[ \sqrt{s (s-a) (s-b) (s-c)},\]
-where $a$, $b$ and $c$ are the lengths
-of the triangle's sides and
-$s=(a+b+c)/2$.
-\index{Heron's formula}
+ここで、$a$,$b$,$c$は三角形の各辺の長さで、
+$s=(a+b+c)/2$とします。
+\index{ヘロンの公式 - Heron's formula}
 
-This is a possible way to solve the problem,
-but there is one pitfall:
-how to divide the quadrilateral into triangles?
-It turns out that sometimes we cannot just pick
-two arbitrary opposite vertices.
-For example, in the following situation,
-the division line is \emph{outside} the quadrilateral:
+これはこれでよいアプローチなのですがひとつ落とし穴があります。
+四角形をどうやって三角形に分割するのか。実は任意の2つの対向する頂点を選べない場合があります。
+例えば、次のような場合、分割線は四辺形の外に出てしまいますね。
+
 \begin{center}
 \begin{tikzpicture}[scale=0.45]
 
@@ -68,7 +56,7 @@ the division line is \emph{outside} the quadrilateral:
 \draw[dashed,thick] (2,5) -- (6,2);
 \end{tikzpicture}
 \end{center}
-However, another way to draw the line works:
+ただ、もう一つの線引きの方法は有効です。
 \begin{center}
 \begin{tikzpicture}[scale=0.45]
 
@@ -81,37 +69,30 @@ However, another way to draw the line works:
 \draw[dashed,thick] (3,2) -- (1,1);
 \end{tikzpicture}
 \end{center}
-It is clear for a human which of the lines is the correct
-choice, but the situation is difficult for a computer.
-                           
-However, it turns out that we can solve the problem using
-another method that is more convenient to a programmer.
-Namely, there is a general formula
+
+これは人間にとってはどの線が正しいかは明らかなのですが、コンピュータにとっては難しい状況です。
+しかし、プログラマーにとってより便利な別の方法を用いて問題を解くことができます。
+
 \[x_1y_2-x_2y_1+x_2y_3-x_3y_2+x_3y_4-x_4y_3+x_4y_1-x_1y_4,\]
-that calculates the area of a quadrilateral
-whose vertices are
+とすることによって四角形の面積が求められます。
 $(x_1,y_1)$,
 $(x_2,y_2)$,
-$(x_3,y_3)$ and
-$(x_4,y_4)$.
-This formula is easy to implement, there are no special
-cases, and we can even generalize the formula
+$(x_3,y_3)$, 
+$(x_4,y_4)$はそれぞれ４点の$x, y$座標です。
+この公式は実装が簡単で、特別なケースはなく、加えてすべての多角形に一般化することが可能です。
 to \emph{all} polygons.
 
-\section{Complex numbers}
+\section{複素数 - Complex numbers}
 
-\index{complex number}
-\index{point}
-\index{vector}
+\index{複素数 - complex number}
+\index{点 - point}
+\index{ベクトル - vector}
 
-A \key{complex number} is a number of the form $x+y i$,
-where $i = \sqrt{-1}$ is the \key{imaginary unit}.
-A geometric interpretation of a complex number is
-that it represents a two-dimensional point $(x,y)$
-or a vector from the origin to a point $(x,y)$.
+\key{複素数 - complex number}とは、$x + yi$ の形の数で、
+$i$は$i = \sqrt{-1}$となる\key{虚数 - imaginary unit}です。
+複素数の幾何学的な解釈としては、2次元の点$(x, y$)、あるいは、原点から点$(x, y)$へのベクトルを表すとします。
 
-For example, $4+2i$ corresponds to the
-following point and vector:
+例えば、$4＋2i$は次のような点とベクトルに対応します。
 
 \begin{center}
 \begin{tikzpicture}[scale=0.45]
@@ -128,16 +109,12 @@ following point and vector:
 
 \index{complex@\texttt{complex}}
 
-The C++ complex number class \texttt{complex} is
-useful when solving geometric problems.
-Using the class we can represent points and vectors
-as complex numbers, and the class contains tools
-that are useful in geometry.
+C++の複素数クラス\texttt{complex}は、
+幾何学的な問題を解くときに便利です。
+このクラスを使って、点やベクトルを複素数として表現することができますし、幾何学で役立つツールも含まれています。
 
-In the following code, \texttt{C} is the type of
-a coordinate and \texttt{P} is the type of a point or a vector.
-In addition, the code defines macros \texttt{X} and \texttt{Y}
-that can be used to refer to x and y coordinates.
+以下のコードで、\texttt{C} は座標の型、\texttt{P} は点またはベクトルの型です。
+また、このコードでは x 座標と y 座標を参照するために使用できるマクロ \texttt{X} と \texttt{Y} を定義しています。
 
 \begin{lstlisting}
 typedef long long C;
@@ -146,16 +123,14 @@ typedef complex<C> P;
 #define Y imag()
 \end{lstlisting}
 
-For example, the following code defines a point $p=(4,2)$
-and prints its x and y coordinates:
+例えば、次のコードは、点$p = (4, 2)$を定義し、そのxとyの座標を表示するものです。
 
 \begin{lstlisting}
 P p = {4,2};
 cout << p.X << " " << p.Y << "\n"; // 4 2
 \end{lstlisting}
 
-The following code defines vectors $v=(3,1)$ and $u=(2,2)$,
-and after that calculates the sum $s=v+u$.
+次のコードは、ベクトル $v = (3, 1)$ と $u = (2, 2)$ を定義し、その後、和 $s = v + u$ を計算するものです。
 
 \begin{lstlisting}
 P v = {3,1};
@@ -163,6 +138,9 @@ P u = {2,2};
 P s = v+u;
 cout << s.X << " " << s.Y << "\n"; // 5 3
 \end{lstlisting}
+
+実際には、\texttt{long long}か\texttt{long double}（実数）が適切な座標型であることが多いでしょう。
+整数を使った計算は正確なので，可能な限り整数を使うのがよいでしょう．実数が必要な場合は、数値の比較の際に、推定誤差を考慮する必要がある。実数 a と b が等しいかどうかを確認する安全な方法は、｜a - b｜ < £ で比較することです。£ は小さな数です（たとえば £ = 10 ）
 
 In practice,
 an appropriate coordinate type is usually
