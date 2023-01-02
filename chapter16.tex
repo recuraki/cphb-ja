@@ -489,17 +489,8 @@ $\texttt{succ}(x)$ & 3 & 5 & 7 & 6 & 2 & 2 & 1 & 6 & 3 \\
 後継グラフの各ノードは一意な次のノードを持つので、
 ノード$x$から始めて$k$歩進んで到達するノードを与える
 関数$\texttt{succ}(x,k)$を定義することができます。
- たとえば，上のグラフでは $\texttt{succ}(4,6)=2$ で、これは
- ノード4から6歩歩くとノード2 に到達することを表します。
-
-
-Since each node of a successor graph has a
-unique successor, we can also define a function $\texttt{succ}(x,k)$
-that gives the node that we will reach if
-we begin at node $x$ and walk $k$ steps forward.
-For example, in the above graph $\texttt{succ}(4,6)=2$,
-because we will reach node 2 by walking 6 steps from node 4:
-
+たとえば，上のグラフでは $\texttt{succ}(4,6)=2$ で、これは
+ノード4から6歩歩くとノード2 に到達することを表します。
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (0,0) {$4$};

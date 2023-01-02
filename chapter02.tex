@@ -51,13 +51,6 @@ for (int i = 1; i <= n; i++) {
 $n+5$ 回、$\lceil n/2 \rceil$回実行されますが、
 それぞれのコードの時間複雑度は $O(n)$です。
 
-A time complexity does not tell us the exact number
-of times the code inside a loop is executed,
-but it only shows the order of magnitude.
-In the following examples, the code inside the loop
-is executed $3n$, $n+5$ and $\lceil n/2 \rceil$ times,
-but the time complexity of each code is $O(n)$.
-
 \begin{lstlisting}
 for (int i = 1; i <= 3*n; i++) {
     // code

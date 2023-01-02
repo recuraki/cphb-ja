@@ -5,9 +5,8 @@
 \key{木} は、$n$個のノードと$n - 1$個のエッジからなる連結かつ閉路を含まないグラフです。
 木から辺を1つ取り除くと2つの要素に分かれ、辺を加えると1つの閉路ができます。
 また、木の任意の2つのノード間には常に一本のパスが存在します。
-例えば、8個のノードと7個のエッジから構成されている木の例を示します。
 
-For example, the following tree consists of 8 nodes and 7 edges:
+例えば、8個のノードと7個のエッジから構成されている木の例を示します。
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (0,3) {$1$};
@@ -507,17 +506,6 @@ $\texttt{maxLength}_2(p)+1$ということができ、
 \index{pre-order}
 \index{in-order}
 \index{post-order}
-
-The nodes of a binary tree have three natural
-orderings that correspond to different ways to
-recursively traverse the tree:
-
-
-なる方法に対応している。
-• preorder:まずルートを処理し、次に左のサブツリーをトラバースし、 そして右のサブツリーをトラバースする。
-• 順序:まず左のサブツリーを走査し、次にルートを処理し、そして右の サブツリーを走査する。
-• ポストオーダー: まず左のサブツリーをトラバースし、次に右のサブツ リーをトラバースし、次にルートを処理する
-
 二分木のノードには3つの自然な走査(Traversal)があります。
 \begin{itemize}
 \item \key{pre-order}: ルートを処理してから左を処理する。次に右を処理する。
