@@ -1,19 +1,11 @@
-\chapter{Segment trees revisited}
+\chapter{発展的なセグメントツリー - Segment trees revisited}
 
-\index{segment tree}
+\index{セグメントツリー - segment tree}
 
-A segment tree is a versatile data structure
-that can be used to solve a large number of algorithm problems.
-However, there are many topics related to segment trees
-that we have not touched yet.
-Now is time to discuss some more advanced variants
-of segment trees.
-
-So far, we have implemented the operations
-of a segment tree by walking \emph{from bottom to top}
-in the tree.
-For example, we have calculated
-range sums as follows (Chapter 9.3):
+セグメントツリーは、多くのアルゴリズム問題の解決に利用できる汎用性の高いデータ構造です。
+ただしセグメントツリーには、まだ触れていないトピックがたくさんあります。
+ここでは、より高度なセグメントツリーについて説明します。
+9.3章でのセグメントツリーの演算は、木の\emph{下から上}へ歩くように実装してきました。例えば、以下のように範囲和を計算しました。
 
 \begin{lstlisting}
 int sum(int a, int b) {
@@ -28,10 +20,8 @@ int sum(int a, int b) {
 }
 \end{lstlisting}
 
-However, in more advanced segment trees,
-it is often necessary to implement the operations
-in another way, \emph{from top to bottom}.
-Using this approach, the function becomes as follows:
+しかし、より高度なセグメントツリーでは、別の方法で、\emph{上から下}へ操作を実装するケースがあります。
+こうした場合は以下のように書けます。
 \begin{lstlisting}
 int sum(int a, int b, int k, int x, int y) {
     if (b < x || a > y) return 0;
@@ -41,34 +31,22 @@ int sum(int a, int b, int k, int x, int y) {
 }
 \end{lstlisting}
 
-Now we can calculate any value of $\texttt{sum}_q(a,b)$
-(the sum of array values in range $[a,b]$) as follows:
+これで、$[a,b]$の和を求める$\texttt{sum}_q(a,b)$は次のように書けます。
 \begin{lstlisting}
 int s = sum(a, b, 1, 0, n-1);
 \end{lstlisting}
 
-The parameter $k$ indicates the current position
-in \texttt{tree}.
-Initially $k$ equals 1, because we begin
-at the root of the tree.
-The range $[x,y]$ corresponds to $k$
-and is initially $[0,n-1]$.
-When calculating the sum,
-if $[x,y]$ is outside $[a,b]$,
-the sum is 0,
-and if $[x,y]$ is completely inside $[a,b]$,
-the sum can be found in \texttt{tree}.
-If $[x,y]$ is partially inside $[a,b]$,
-the search continues recursively to the
-left and right half of $[x,y]$.
-The left half is $[x,d]$
-and the right half is $[d+1,y]$
-where $d=\lfloor \frac{x+y}{2} \rfloor$.
+パラメータ$k$は、木における現在の位置です。
+最初は木の根から始まるので、$k$は1に等しいです。
+$[x,y]$の範囲は$k$に対応し、初期値は$[0, n - 1]$である。
+和を計算するとき、$[x, y]$が$[a, b]$の外にあれば和は0であり、$[x, y]$が完全に$[a, b]$の中にあれば和は自分の木の配下に包含されています。
+もし$[x, y]$が$[a, b]$の部分的な内側にいる時、
+$[x, y$]の左右半分への再帰的に探索を行います。
+左半分を$[x, d]$、右半分を$[d + 1, y]$として、
+$d=\lfloor \frac{x+y}{2} \rfloor$とします。
 
-The following picture shows how the search proceeds
-when calculating the value of $\texttt{sum}_q(a,b)$.
-The gray nodes indicate nodes where the recursion
-stops and the sum can be found in \texttt{tree}.
+$\texttt{sum}_q(a,b)$を求めるときの検索の進め方を下図に示します。
+灰色のノードは、再帰が停止し、treeでsumを見つけることができるノードを示しています。
 
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
@@ -163,22 +141,25 @@ stops and the sum can be found in \texttt{tree}.
 \end{tikzpicture}
 \end{center}
 
-Also in this implementation,
-operations take $O(\log n)$ time,
-because the total number of visited nodes is $O(\log n)$.
+この実装では訪問ノード数が $O(\log n)$であるため、
+計算量は$O(\log n)$です。
 
-\section{Lazy propagation}
+\section{遅延伝搬 - Lazy propagation}
 
-\index{lazy propagation}
-\index{lazy segment tree}
+\index{遅延伝搬 - lazy propagation}
+\index{遅延セグメントツリー - lazy segment tree}
 
-Using \key{lazy propagation}, we can build
-a segment tree that supports \emph{both} range updates
-and range queries in $O(\log n)$ time.
-The idea is to perform updates and queries
-from top to bottom and perform updates
-\emph{lazily} so that they are propagated
-down the tree only when it is necessary.
+\key{遅延伝搬 - lazy propagation}を使用すると、
+範囲のクエリと更新の両方を$O(\log n)$でサポートするセグメントツリーが出来ます。
+このアイデアは、更新とクエリを上から下に向かって実行し、必要なときだけツリーの下に伝搬されるように、更新を\emph{遅延}させて実行することです。
+
+遅延セグメントツリーでは、ノードには2種類の情報が含まれます。
+通常のセグメントツリーと同様に、各ノードには、対応するサブアレイに関連する合計値やその他の値が格納されます。
+さらに、そのノードの子には伝搬されていない、遅延更新に関連する情報が含みます。
+
+範囲更新には2種類あり、
+全てのノードの値を\emph{増加}させたいか、全てのノードの値に代入を行いたいかです。
+どちらの操作も似たような考え方で実装でき、両方の操作を同時にサポートするツリーを構成することも可能です。
 
 In a lazy segment tree, nodes contain two types of
 information.
