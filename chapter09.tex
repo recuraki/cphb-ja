@@ -765,18 +765,14 @@ but this is more complicated than to use a segment tree.}。
 \end{tikzpicture}
 \end{center}
 
-Each internal tree node
-corresponds to an array range
-whose size is a power of two.
-In the above tree, the value of each internal
-node is the sum of the corresponding array values,
-and it can be calculated as the sum of
-the values of its left and right child node.
 
-It turns out that any range $[a,b]$
-can be divided into $O(\log n)$ ranges
-whose values are stored in tree nodes.
-For example, consider the range [2,7]:
+内部のツリーの各ノードは、
+サイズが2のべき乗である配列の範囲に対応しています。
+上記のツリーでは，各内部ノードの値は対応する配列の値の合計で、
+その左右の子ノードの値の合計として計算されていきます。
+
+任意の範囲$[a, b]$は、その値が木のノードに格納される$O(\log n)$ 個の範囲に分割できることは明らかです。
+例えば、範囲$[2,7]$を考えてみよう。
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \fill[color=gray!50] (2,0) rectangle (8,1);
@@ -802,9 +798,8 @@ For example, consider the range [2,7]:
 \node at (7.5,1.4) {$7$};
 \end{tikzpicture}
 \end{center}
-Here $\texttt{sum}_q(2,7)=6+3+2+7+2+6=26$.
-In this case, the following two tree nodes
-correspond to the range:
+$\texttt{sum}_q(2,7)=6+3+2+7+2+6=26$.
+となrますが、ここで以下のノードに注目します。
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \draw (0,0) grid (8,1);
@@ -843,24 +838,15 @@ correspond to the range:
 \path[draw,thick,-] (m) -- (j);
 \end{tikzpicture}
 \end{center}
-Thus, another way to calculate the sum is $9+17=26$.
+これを利用すると$9+17=26$と求めることができます。
 
-When the sum is calculated using nodes
-located as high as possible in the tree,
-at most two nodes on each level
-of the tree are needed.
-Hence, the total number of nodes
-is $O(\log n)$.
+木のできるだけ高い位置にあるノードを用いて和を計算すると、各レベルに必要なノードは最大で2つです。
+従って、処理する最大のノードの総数は$O(\log n)$です。
 
-After an array update,
-we should update all nodes
-whose value depends on the updated value.
-This can be done by traversing the path
-from the updated array element to the top node
-and updating the nodes along the path.
+ここで更新の処理を考えましょう。配列の更新後、更新された値に値が依存するすべてのノードを更新する必要があります。
+これは，更新された配列の要素から根のノードまでの経路をたどり，その経路に沿ったノードを更新すればよいです。
 
-The following picture shows which tree nodes
-change if the array value 7 changes:
+次の図は、配列の値7が変化した場合に、どのツリーノードが変化するかを 示しています。
 
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
@@ -902,25 +888,23 @@ change if the array value 7 changes:
 \end{tikzpicture}
 \end{center}
 
-The path from bottom to top
-always consists of $O(\log n)$ nodes,
-so each update changes $O(\log n)$ nodes in the tree.
+根から葉へは$O(\log n)$のノードで構成されるので、
+更新に必要な処理は$O(\log n)$ であることがわかります。
 
-\subsubsection{Implementation}
+\subsubsection{実装 - Implementation}
 
-We store a segment tree as an array
-of $2n$ elements where $n$ is the size of
-the original array and a power of two.
-The tree nodes are stored from top to bottom:
-$\texttt{tree}[1]$ is the top node,
-$\texttt{tree}[2]$ and $\texttt{tree}[3]$
-are its children, and so on.
-Finally, the values from $\texttt{tree}[n]$
-to $\texttt{tree}[2n-1]$ correspond to
-the values of the original array
-on the bottom level of the tree.
+セグメントツリーは，$2n$個の要素からなる配列として格納されます。
+ここで ，$n$は元の配列のサイズであり、2の累乗とします。.
+ツリーのノードは、上から下に向 かって格納されます。
 
-For example, the segment tree
+
+$\texttt{tree}[1]$ は根となるノード。
+$\texttt{tree}[2]$ と $\texttt{tree}[3]$
+はその子、というようにしましょう。
+すると、$\texttt{tree}[n]$
+から$\texttt{tree}[2n-1]$が元の値を表す最下段のノードとなります。
+
+例えば、
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \draw (0,0) grid (8,1);
@@ -959,7 +943,7 @@ For example, the segment tree
 \path[draw,thick,-] (m) -- (j);
 \end{tikzpicture}
 \end{center}
-is stored as follows:
+というセグメントツリーは次のような配列に格納ができます。
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \draw (0,0) grid (15,1);
@@ -998,16 +982,14 @@ is stored as follows:
 \node at (14.5,1.4) {$15$};
 \end{tikzpicture}
 \end{center}
-Using this representation,
-the parent of $\texttt{tree}[k]$
-is $\texttt{tree}[\lfloor k/2 \rfloor]$,
-and its children are $\texttt{tree}[2k]$
-and $\texttt{tree}[2k+1]$.
-Note that this implies that the position of a node
-is even if it is a left child and odd if it is a right child.
+この表現を用いると、$\texttt{tree}[k]$の親は 
+$\texttt{tree}[\lfloor k/2 \rfloor]$であり、
+その子は$\texttt{tree}[2k]$
+と$\texttt{tree}[2k+1]$.
+になります。
+これはノードの位置が左の子であれば偶数、右の子であれば奇数であることを意味することを意味します。
 
-The following function
-calculates the value of $\texttt{sum}_q(a,b)$:
+次の関数は$\texttt{sum}_q(a,b)$を計算します。
 \begin{lstlisting}
 int sum(int a, int b) {
     a += n; b += n;
@@ -1020,15 +1002,11 @@ int sum(int a, int b) {
     return s;
 }
 \end{lstlisting}
-The function maintains a range
-that is initially $[a+n,b+n]$.
-Then, at each step, the range is moved
-one level higher in the tree,
-and before that, the values of the nodes that do not
-belong to the higher range are added to the sum.
+この関数は、初期値として$[a+n,b+n]$の範囲を設定します。
+書くステップではその範囲は木で1レベル上に移動し，その前に，より高い範囲に属さないノードの値が合計に追加されます.
 
-The following function increases the array value
-at position $k$ by $x$:
+そして、更新の作業をみます。
+次の関数は，位置 $k$ の配列値を $x$ だけ増加させます.
 \begin{lstlisting}
 void add(int k, int x) {
     k += n;
@@ -1038,31 +1016,22 @@ void add(int k, int x) {
     }
 }
 \end{lstlisting}
-First the function updates the value
-at the bottom level of the tree.
-After this, the function updates the values of all
-internal tree nodes, until it reaches
-the top node of the tree.
+この関数はツリーの最下層の値を更新します。
+その後，この関数は，木の根に到達するまで，すべての内部ノードの値を更新していきます。
 
-Both the above functions work
-in $O(\log n)$ time, because a segment tree
-of $n$ elements consists of $O(\log n)$ levels,
-and the functions move one level higher
-in the tree at each step.
+この関数は$O(\log n)$で動作します。
+$n$個の要素を持つセグメントツリーは$O(\log n)$ 個のレベルから構成され，
+この関数は各ステップでツリーの1レベル上を移動するためです。
 
-\subsubsection{Other queries}
+\subsubsection{和以外のクエリ - Other queries}
 
-Segment trees can support all range queries
-where it is possible to divide a range into two parts,
-calculate the answer separately for both parts
-and then efficiently combine the answers.
-Examples of such queries are
-minimum and maximum, greatest common divisor,
-and bit operations and, or and xor.
+セグメントツリーは、
+範囲を2つに分割し、それぞれについて別々に計算し、
+その答えを効率的に組み合わせることが可能な、
+色々な範囲クエリをサポートすることができます。
+このようなクエリの例としては、最小値と最大値、 最大公約数、ビット演算のand、or、xorなどが可能です。
 
-For example, the following segment tree
-supports minimum queries:
-
+たとえば、次のセグメントツリーは最小限のクエリーをサポートします。
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \draw (0,0) grid (8,1);
@@ -1102,23 +1071,18 @@ supports minimum queries:
 \end{tikzpicture}
 \end{center}
 
-In this case, every tree node contains
-the smallest value in the corresponding
-array range.
-The top node of the tree contains the smallest
-value in the whole array.
-The operations can be implemented like previously,
-but instead of sums, minima are calculated.
+この場合，すべてのツリーノードには，
+対応する配列の範囲内で最小の値が含まれます.
+根のノードには，配列全体の中で最小の値が格納されることになります.
+この演算は前述と同様に実装できますが，和の代わりに最小値を計算します。
 
-The structure of a segment tree also allows us
-to use binary search for locating array elements.
-For example, if the tree supports minimum queries,
-we can find the position of an element
-with the smallest value in $O(\log n)$ time.
+また、セグメントツリーの構造から、
+配列要素の位置決めにバイナリサーチを使用することができます。
+例えば、最小クエリをサポートするツリーであれば、
+最小値を持つ要素の位置を$O(\log n)$時間で見つけることができます。
 
-For example, in the above tree, an
-element with the smallest value 1 can be found
-by traversing a path downwards from the top node:
+例えば、上の木では、一番上のノードから下に向かってパスをたどること
+で、最小の値1を持つ要素を見つけることができます。
 
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
@@ -1163,39 +1127,28 @@ by traversing a path downwards from the top node:
 \end{tikzpicture}
 \end{center}
 
-\section{Additional techniques}
+\section{さらなるテクニック - Additional techniques}
 
-\subsubsection{Index compression}
+\subsubsection{座標圧縮 - Index compression}
 
-A limitation in data structures that
-are built upon an array is that
-the elements are indexed using
-consecutive integers.
-Difficulties arise when large indices
-are needed.
-For example, if we wish to use the index $10^9$,
-the array should contain $10^9$
-elements which would require too much memory.
+配列の上に構築されるデータ構造には留意すべき点があります。
+要素が連続した整数イン デックス付けされることである。
+大きなインデックスが必要な場合は工夫が必要です。
+例えば、インデックス$10^9$を使いたい場合、
+配列には$10^9$の要素が必要となるため、メモリが不足します。
 
-\index{index compression}
+\index{座標圧縮 - index compression}
 
-However, we can often bypass this limitation
-by using \key{index compression},
-where the original indices are replaced
-with indices $1,2,3,$ etc.
-This can be done if we know all the indices
-needed during the algorithm beforehand.
+そこで、元のインデックスをインデックス1、2、3などに置き換える\key{座標圧縮 - index compression}を利用することで、
+この制限を回避できます。
+これは、アルゴリズムに必要なすべてのインデックスを事前に知っていれば可能です。
 
-The idea is to replace each original index $x$
-with $c(x)$ where $c$ is a function that
-compresses the indices.
-We require that the order of the indices
-does not change, so if $a<b$, then $c(a)<c(b)$.
-This allows us to conveniently perform queries
-even if the indices are compressed.
+このアイデアは、元のインデックス$x$を$c(x)$で置き換えるというもので、
+$c$は インデックス番号を圧縮する関数す。
+この関数にはインデックスの順序が変わらないことを要求します。
+これにより、インデックスが圧縮されていても、簡単に問い合わせを行うことができる。
 
-For example, if the original indices are
-$555$, $10^9$ and $8$, the new indices are:
+例えば、元のインデックスが$555$, $10^9$ and $8$の場合、新しいインデックスは次のようになります。
 
 \[
 \begin{array}{lcl}
@@ -1205,29 +1158,19 @@ c(10^9) & = & 3 \\
 \end{array}
 \]
 
-\subsubsection{Range updates}
+\subsubsection{区間更新 - Range updates}
 
-So far, we have implemented data structures
-that support range queries and updates
-of single values.
-Let us now consider an opposite situation,
-where we should update ranges and
-retrieve single values.
-We focus on an operation that increases all
-elements in a range $[a,b]$ by $x$.
+これまで、区間クエリと単一の値の更新が可能なデータ構造を実装してきました。
+ここで、範囲の更新と単一の値の取得を行うことはできるでしょうか？
+ここでは、範囲$[a, b]$に含まれるすべての要素を$x$だけ増加させる操作を考えています。
 
-\index{difference array}
+\index{差分配列 - difference array}
 
-Surprisingly, we can use the data structures
-presented in this chapter also in this situation.
-To do this, we build a \key{difference array}
-whose values indicate
-the differences between consecutive values
-in the original array.
-Thus, the original array is the
-prefix sum array of the
-difference array.
-For example, consider the following array:
+実はこの章で紹介したデータ構造は、このような状況でも使うことができるのです。
+そのために、元の配列の連続した値の差分を示す
+\key{差分配列 - difference array}を作成します。
+つまり、元の配列は差分配列の累積和の配列ということになります。
+たとえば、次のような配列を考えてみましょう。
 
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
@@ -1255,7 +1198,7 @@ For example, consider the following array:
 \end{tikzpicture}
 \end{center}
 
-The difference array for the above array is as follows:
+この差分配列を考えます。
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \draw (0,0) grid (8,1);
@@ -1282,21 +1225,15 @@ The difference array for the above array is as follows:
 \end{tikzpicture}
 \end{center}
 
-For example, the value 2 at position 6 in the original array
-corresponds to the sum $3-2+4-3=2$ in the difference array.
+例えば，元の配列の6の位置の値2は，差分配列の和 $3-2+4-3=2$に対応します。
 
-The advantage of the difference array is
-that we can update a range
-in the original array by changing just
-two elements in the difference array.
-For example, if we want to 
-increase the original array 
-values between positions 1 and 4 by 5,
-it suffices to increase the
-difference array value at position 1 by 5
-and decrease the value at position 5 by 5.
-The result is as follows:
+差分配列の利点は、範囲を更新する際に 差分配列の2つの要素を変更するだけで、
+元の配列が完成します。例えば、元の
+配列の1から4までの値を5つ増やしたい場合は、
+差分配列の1の値を5増やし、
+5位の値を5減らせばよいです。
 
+この結果、以下のように示せます。
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \draw (0,0) grid (8,1);
@@ -1322,17 +1259,9 @@ The result is as follows:
 \end{tikzpicture}
 \end{center}
 
-More generally, to increase the values
-in range $[a,b]$ by $x$,
-we increase the value at position $a$ by $x$
-and decrease the value at position $b+1$ by $x$.
-Thus, it is only needed to update single values
-and process sum queries,
-so we can use a binary indexed tree or a segment tree.
+より一般的には、範囲$[a, b]$の値を$x$だけ増やすには、
+位置$a$の値を$x$だけ増やし、位置$b + 1$の値を$x$だけ減らせばよいです。
+したがって、単一の値の更新と和クエリの処理だけが必要なので、BITやセグメント木を使用して実装できます。
 
-A more difficult problem is to support both
-range queries and range updates.
-In Chapter 28 we will see that even this is possible.
-
-
-
+より困難な問題は、区間クエリ可能な区間更新です。
+これについては第28章で取り上げます。
