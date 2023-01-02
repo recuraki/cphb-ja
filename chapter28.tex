@@ -163,20 +163,12 @@ $\texttt{sum}_q(a,b)$を求めるときの検索の進め方を下図に示し�
 
 \subsubsection{遅延セグメントツリー - Lazy segment trees}
 
-Let us consider an example where our goal is to
-construct a segment tree that supports
-two operations: increasing each value in
-$[a,b]$ by a constant and calculating the sum of
-values in $[a,b]$.
+例えば、$[a, b]$の区間更新(増加)と区間クエリ(和)の
+2つの操作をサポートするセグメントツリーを構築することを目標とする場合を考えていきます。
 
-We will construct a tree where each node
-has two values $s/z$:
-$s$ denotes the sum of values in the range,
-and $z$ denotes the value of a lazy update,
-which means that all values in the range
-should be increased by $z$.
-In the following tree, $z=0$ in all nodes,
-so there are no ongoing lazy updates.
+各ノードが2つの値$s/z$を持つ木を構成します。
+$s$は範囲内の値の合計を表し、$z$は範囲内のすべての値を$z$だけ増やすべきという遅延更新の値です。
+以下の木では、すべてのノードで$z=0$なので、進行中の遅延更新は存在していない状態です。
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \draw (0,0) grid (16,1);
@@ -249,19 +241,12 @@ so there are no ongoing lazy updates.
 \end{tikzpicture}
 \end{center}
 
-When the elements in $[a,b]$ are increased by $u$,
-we walk from the root towards the leaves
-and modify the nodes of the tree as follows:
-If the range $[x,y]$ of a node is
-completely inside $[a,b]$,
-we increase the $z$ value of the node by $u$ and stop.
-If $[x,y]$ only partially belongs to $[a,b]$,
-we increase the $s$ value of the node by $hu$,
-where $h$ is the size of the intersection of $[a,b]$
-and $[x,y]$, and continue our walk recursively in the tree.
-
-For example, the following picture shows the tree after
-increasing the elements in $[a,b]$ by 2:
+$[a, b]$の要素が$u$だけ増やしたいとき、根から葉に向かって次のように木のノードを修正していきます。
+あるノードの範囲 $[x, y]$ が完全に $[a, b]$ の内部にある場合、
+そのノードの $z$ 値を $u$ だけ増加させ停止する。
+$[x, y]$が部分的にしか$[a, b]$に属さない場合には
+ノードの$s$値を$hu$（hは[a, b]と[x, y]の交点のサイズ）だけ増やし、木の中で再帰的に歩行を続ける。
+例えば、下図は$[a,b]$の要素を$2$増やした後のツリーです。
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \fill[color=gray!50] (5,0) rectangle (6,1);
@@ -353,26 +338,17 @@ increasing the elements in $[a,b]$ by 2:
 \end{tikzpicture}
 \end{center}
 
-We also calculate the sum of elements in a range $[a,b]$
-by walking in the tree from top to bottom.
-If the range $[x,y]$ of a node completely belongs
-to $[a,b]$, we add the $s$ value of the node to the sum.
-Otherwise, we continue the search recursively
-downwards in the tree.
+この遅延の状態を持った木へのクエリ(和)を考えます。
+範囲$[a, b]$の範囲を木の上から下へ歩いて計算します。
+あるノードの範囲 $[x, y]$ が完全に $[a, b]$ に属する場合、そのノードの $s$ 値を総和に加える。
+そうでなければ、木の下方に向かって再帰的に探索を続ける。ということを繰り返します。
 
-Both in updates and queries,
-the value of a lazy update is always propagated
-to the children of the node
-before processing the node.
-The idea is that updates will be propagated
-downwards only when it is necessary,
-which guarantees that the operations are always efficient.
+遅延を用いる時、更新とクエリの両方で、遅延更新の値は常にノードを処理する前にその子ノードに伝搬します。
+これは、更新した内容は必要なときだけ下方に伝搬されるという考え方で、これによって効率的な運用が保証されます。
 
-The following picture shows how the tree changes
-when we calculate the value of $\texttt{sum}_a(a,b)$.
-The rectangle shows the nodes whose values change,
-because a lazy update is propagated downwards.
-
+次の図は、$\texttt{sum}_a(a,b)$の値を計算したときに、
+ツリーがどのように変化するかを示したものである。
+矩形は値が変化するノードを示します。これは、遅延更新が下方に伝搬されるためである。
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \draw (0,0) grid (16,1);
@@ -460,67 +436,51 @@ because a lazy update is propagated downwards.
 \end{tikzpicture}
 \end{center}
 
-Note that sometimes it is needed to combine lazy updates.
-This happens when a node that already has a lazy update
-is assigned another lazy update.
-When calculating sums, it is easy to combine lazy updates,
-because the combination of updates $z_1$ and $z_2$
-corresponds to an update $z_1+z_2$.
+ここで、遅延更新の値はマージすることがあることに注意してください。
+すでに遅延更新を持つノードに別の遅延更新が割り当てられた場合の計算です。
+クエリが和である場合は更新 $z_1$ と $z_2$ の組み合わせは、$z_1 + z_2 $ に対応するので、遅延更新を組み合わせるのは簡単です。
 
-\subsubsection{Polynomial updates}
 
-Lazy updates can be generalized so that it is
-possible to update ranges using polynomials of the form
+\subsubsection{多項式の更新 - Polynomial updates}
+
+遅延更新は一般化でき、以下の形式の多項式を使用して範囲を更新することが可能です。
 \[p(u) = t_k u^k + t_{k-1} u^{k-1} + \cdots + t_0.\]
 
-In this case, the update for a value
-at position $i$ in $[a,b]$ is $p(i-a)$.
-For example, adding the polynomial $p(u)=u+1$
-to $[a,b]$ means that the value at position $a$
-increases by 1, the value at position $a+1$
-increases by 2, and so on.
+この場合、$[a, b]$の$i$の位置の値の更新は$p(i - a)$です。
+例えば、多項式 $p(u) = u + 1$ を $[a, b]$ に追加すると、
+位置 $a$ の値は 1 増加し、位置 $a + 1$ の値は 2 増加し、などと処理されます。
 
-To support polynomial updates,
-each node is assigned $k+2$ values,
-where $k$ equals the degree of the polynomial.
-The value $s$ is the sum of the elements in the range,
-and the values $z_0,z_1,\ldots,z_k$ are the coefficients
-of a polynomial that corresponds to a lazy update.
+多項式更新をサポートするためには各ノードに$k + 2$個の値が割り当てられます。
+ここで、$k$は多項式の次数に等しい。値$s$は範囲内の要素の和であり、
+値$z_0,z_1,\ldots,z_k$は遅延更新に対応する多項式の係数である。
 
-Now, the sum of values in a range $[x,y]$ equals
+ここで、範囲$[x, y]$の値の合計は、次の通りになります。
 \[s+\sum_{u=0}^{y-x} z_k u^k + z_{k-1} u^{k-1} + \cdots + z_0.\]
 
-The value of such a sum
-can be efficiently calculated using sum formulas.
-For example, the term $z_0$ corresponds to the sum
-$(y-x+1)z_0$, and the term $z_1 u$ corresponds to the sum
+このような和の値は、
+和の公式を使って効率的に計算することができます。
+例えば、$z_0$ という項は、
+和$(y-x+1)z_0$に対応し、$z_1 u$という項は、
+次に対応します。
 \[z_1(0+1+\cdots+y-x) = z_1 \frac{(y-x)(y-x+1)}{2} .\]
 
-When propagating an update in the tree,
-the indices of $p(u)$ change,
-because in each range $[x,y]$,
-the values are
-calculated for $u=0,1,\ldots,y-x$.
-However, this is not a problem, because
-$p'(u)=p(u+h)$ is a polynomial
-of equal degree as $p(u)$.
-For example, if $p(u)=t_2 u^2+t_1 u-t_0$, then
+更新を木に伝播する際、
+各範囲 $[x, y]$ において $u=0,1,\ldots,y-x$ の値を計算するため、
+$p(u)$ のインデックスが変わりますが、
+$p'(u)=p(u+h)$ は $p(u)$ と同次の多項式であるので問題にはなりません。
+例えば、$p(u)=t_2 u^2+t_1 u-t_0$ とすれば、以下のようになります。
 \[p'(u)=t_2(u+h)^2+t_1(u+h)-t_0=t_2 u^2 + (2ht_2+t_1)u+t_2h^2+t_1h-t_0.\]
 
-\section{Dynamic trees}
+\section{動的セグメントツリー - Dynamic trees}
 
-\index{dynamic segment tree}
+\index{動的セグメントツリー - dynamic segment tree}
 
-An ordinary segment tree is static,
-which means that each node has a fixed position
-in the array and the tree requires
-a fixed amount of memory.
-In a \key{dynamic segment tree},
-memory is allocated only for nodes that
-are actually accessed during the algorithm,
-which can save a large amount of memory.
+通常のセグメントツリーは静的に配列を確保するので、
+各ノードの配列内での位置が固定され、ツリーには一定量のメモリが必要です。
+\key{動的セグメントツリー - dynamic segment tree}では、
+アルゴリズム中に実際にアクセスされるノードに対してのみメモリを割り当て、大量のメモリを節約することができる。
 
-The nodes of a dynamic tree can be represented as structs:
+これは構造体として表現します。
 \begin{lstlisting}
 struct node {
     int value;
@@ -529,12 +489,10 @@ struct node {
     node(int v, int x, int y) : value(v), x(x), y(y) {}
 };
 \end{lstlisting}
-Here \texttt{value} is the value of the node,
-$[\texttt{x},\texttt{y}]$ is the corresponding range,
-and \texttt{left} and \texttt{right} point to the left
-and right subtree.
+ここで，\texttt{value}はノードの値，$[x, y]$は対応する範囲，
+\texttt{left} と \texttt{right}はその子のツリーを指します。
 
-After this, nodes can be created as follows:
+これを用いて次のようにノードを作成できます。
 \begin{lstlisting}
 // create new node
 node *x = new node(0, 0, 15);
@@ -542,27 +500,22 @@ node *x = new node(0, 0, 15);
 x->value = 5;
 \end{lstlisting}
 
-\subsubsection{Sparse segment trees}
+\subsubsection{スパースなセグメントツリー - Sparse segment trees}
 
-\index{sparse segment tree}
+\index{スパースなセグメントツリー - sparse segment tree}
 
-A dynamic segment tree is useful when
-the underlying array is \emph{sparse},
-i.e., the range $[0,n-1]$
-of allowed indices is large,
-but most array values are zeros.
-While an ordinary segment tree uses $O(n)$ memory,
-a dynamic segment tree only uses $O(k \log n)$ memory,
-where $k$ is the number of operations performed.
+動的セグメントツリーは、
+ベースとなる配列が疎である場合、
+つまり、許容されるインデックスの範囲 $[0,n-1]$ は大きいが、ほとんどの配列値が 0 である場合に有効です。
+通常のセグメントツリーでは $O(n)$ のメモリを使用しますが、
+動的セグメントツリーでは $O(k \log n)$ のメモリしか使用しません（$k$ は実行される操作の数）。
 
-A \key{sparse segment tree} initially has
-only one node $[0,n-1]$ whose value is zero,
-which means that every array value is zero.
-After updates, new nodes are dynamically added
-to the tree.
-For example, if $n=16$ and the elements
-in positions 3 and 10 have been modified,
-the tree contains the following nodes:
+\key{スパースなセグメントツリー - sparse segment tree}は、
+最初は値がゼロのノード $[0, n - 1]$ を1つだけ持ちます。
+これは、すべての配列の値がゼロであることを意味します。
+更新で必要があれば、新しいノードが動的にツリーに追加されます。
+たとえば、$n = 16$ で、位置 3 と 10 の要素が変更された場合、
+ツリーには次のノードが含まれます。
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \scriptsize
@@ -588,44 +541,29 @@ the tree contains the following nodes:
 \end{tikzpicture}
 \end{center}
 
-Any path from the root node to a leaf contains
-$O(\log n)$ nodes,
-so each operation adds at most $O(\log n)$
-new nodes to the tree.
-Thus, after $k$ operations, the tree contains
-at most $O(k \log n)$ nodes.
+ルートノードからリーフへのどのパスも$O(\log n)$個のノードを含むので、
+各操作でツリーに追加される新しいノードは最大$O(\log n)$個です。
+したがって、$k$回の操作の後、木は最大$O(k log n)$個のノードを含むことになります。
 
-Note that if we know all elements to be updated
-at the beginning of the algorithm,
-a dynamic segment tree is not necessary,
-because we can use an ordinary segment tree with
-index compression (Chapter 9.4).
-However, this is not possible when the indices
-are generated during the algorithm.
+アルゴリズムの開始時に更新される要素がすべてわかっている場合は、
+動的なセグメントツリーは必要ありません。
+なぜなら、座標圧縮を行った通常のセグメントツリーを使用できるからです（9.4章）。
+しかし、アルゴリズムの途中でインデックスが生成される場合は、座標圧縮はできません。
 
-\subsubsection{Persistent segment trees}
+\subsubsection{永続セグメントツリー - Persistent segment trees}
 
-\index{persistent segment tree}
+\index{永続セグメントツリー - persistent segment tree}
 
-Using a dynamic implementation,
-it is also possible to create a
-\key{persistent segment tree} that stores
-the \emph{modification history} of the tree.
-In such an implementation, we can
-efficiently access
-all versions of the tree that have
-existed during the algorithm.
+動的な実装を用いることで、
+ツリーの\emph{変更履歴 - modification history}を
+保存する\key{永続セグメントツリー - persistent segment tree}を作成することもできます。
+この実装では、すべてのバージョンのツリーに効率的にアクセスすることができます。
 
-When the modification history is available,
-we can perform queries in any previous tree
-like in an ordinary segment tree, because the
-full structure of each tree is stored.
-We can also create new trees based on previous
-trees and modify them independently.
+修正履歴がある場合、各ツリーの完全な構造が保存されているため、通常のセグメントツリーのように、
+以前のツリーに対して問い合わせを行うことができます。
+また、以前の木を元に新しい木を作成し、独立して修正することもできます。
 
-Consider the following sequence of updates,
-where red nodes change
-and other nodes remain the same:
+以下のような一連の更新を考える。赤色のノードが変更され、その他のノードはそのままだとしましょう。
 
 \begin{center}
 \begin{tikzpicture}[scale=0.8]
@@ -676,13 +614,9 @@ and other nodes remain the same:
 \node at (3+10,-3) {step 3};
 \end{tikzpicture}
 \end{center}
-After each update, most nodes of the tree
-remain the same,
-so an efficient way to store the modification history
-is to represent each tree in the history as a combination
-of new nodes and subtrees of previous trees.
-In this example, the modification history can be
-stored as follows:
+各更新の後、木のほとんどのノードは同じままであるため、修正履歴を保存する効率的な方法は、
+履歴の各木を新しいノードと以前のツリーのサブツリーの組み合わせて作ることです。
+この例では、修正履歴は以下のように保存できます。
 \begin{center}
 \begin{tikzpicture}[scale=0.8]
 \path[use as bounding box] (0, 1) rectangle (16, -3.5);
@@ -729,29 +663,20 @@ stored as follows:
 \end{tikzpicture}
 \end{center}
 
-The structure of each previous tree can be
-reconstructed by following the pointers
-starting at the corresponding root node.
-Since each operation
-adds only $O(\log n)$ new nodes to the tree,
-it is possible to store the full modification history of the tree.
+対応するルートノードから始まるポインタを辿ることで、
+以前の各木の構造を再構築することができます。
+各操作が木に追加する新しいノードは $O(\log n)$ だけなので、
+ツリーの全修正履歴 を保存することが可能です。
 
-\section{Data structures}
+\section{データ構造 - Data structures}
 
-Instead of single values, nodes in a segment tree
-can also contain \emph{data structures} that maintain information
-about the corresponding ranges.
-In such a tree, the operations take
-$O(f(n) \log n)$ time, where $f(n)$ is
-the time needed for processing a single node during an operation.
+セグメントツリーのノードには、単一の値の代わりに、対応する範囲に関する情報を保持する\emph{データ構造 - data structures}を含めることもできます。
+このようなツリーでは、操作は $O(f(n) \log n)$ 時間を要します。ここで、$f(n)$は操作で 1 つのノードを処理するのに必要な時間です。
 
-As an example, consider a segment tree that
-supports queries of the form
-''how many times does an element $x$ appear
-in the range $[a,b]$?''
-For example, the element 1 appears three times
-in the following range:
-
+例として、
+''ある要素 x が [a, b] の範囲に何回出現するか?''
+というクエリをサポートするセグメントツリーを考えてみます。
+例えば、要素 1 が次の範囲に 3 回現れるとします。
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \fill[lightgray] (1,0) rectangle (6,1);
@@ -768,17 +693,13 @@ in the following range:
 \end{tikzpicture}
 \end{center}
 
-To support such queries, we build a segment tree
-where each node is assigned a data structure
-that can be asked how many times any element $x$
-appears in the corresponding range.
-Using this tree,
-the answer to a query can be calculated
-by combining the results from the nodes
-that belong to the range.
+このような問い合わせをサポートするために、
+各ノードにデータ構造を割り当てたセグメントツリーを構築して、
+任意の要素$x$が対応する範囲に何回現れるかをクエリできます。
+この木を用いて、範囲に属するノードからの結果をマージすることで、
+問い合わせに対する答えが分かります。
 
-For example, the following segment tree
-corresponds to the above array:
+例えば、以下のセグメントツリーは、上記の配列に対応します。
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 
@@ -922,29 +843,22 @@ corresponds to the above array:
 \end{tikzpicture}
 \end{center}
 
-We can build the tree so
-that each node contains a \texttt{map} structure.
-In this case, the time needed for processing each
-node is $O(\log n)$, so the total time complexity
-of a query is $O(\log^2 n)$.
-The tree uses $O(n \log n)$ memory,
-because there are $O(\log n)$ levels
-and each level contains
-$O(n)$ elements.
+各ノードがマップ構造を含むようにツリーを構築すればよいです。
+この場合、各ノードの処理に必要な時間は$O(\log n)$なので、
+クエリの総時間複雑度は$O(\log^2 n)$となります。
+木は$O(\log n)$のレベルがあり、
+各レベルは$O(n)$個の要素を含むので、
+$O(\log n)$のメモリ使用量となります。
 
-\section{Two-dimensionality}
+\section{2次元セグメントツリー - Two-dimensionality}
 
-\index{two-dimensional segment tree}
+\index{2次元セグメントツリー - two-dimensional segment tree}
 
-A \key{two-dimensional segment tree} supports
-queries related to rectangular subarrays
-of a two-dimensional array.
-Such a tree can be implemented as
-nested segment trees: a big tree corresponds to the
-rows of the array, and each node contains a small tree
-that corresponds to a column.
+\key{2次元セグメントツリー - two-dimensional segment tree} 
+は、2次元配列の矩形部分配列に関する問い合わせをサポートします。
+大きな木が配列の行に対応し、
+各ノードには列に対応する小さな木が含むような構造です。
 
-For example, in the array
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \draw (0,0) grid (4,4);
@@ -970,9 +884,9 @@ For example, in the array
 \node[anchor=center] at (3.5, 3.5) {6};
 \end{tikzpicture}
 \end{center}
-the sum of any subarray
-can be calculated
-from the following segment tree:
+このような2次元の配列があったとき、任意のサブアレイの和は、
+以下のセグメントツリーから計算することができます。
+
 \begin{center}
 \begin{tikzpicture}[scale=0.4]
 \footnotesize
@@ -1118,8 +1032,6 @@ from the following segment tree:
 \end{tikzpicture}
 \end{center}
 
-The operations of a two-dimensional segment tree
-take $O(\log^2 n)$ time, because the big tree
-and each small tree consist of $O(\log n)$ levels.
-The tree requires $O(n^2)$ memory, because each
-small tree contains $O(n)$ values.
+2次元のセグメント木の演算には、$O(\log^2 n)$の時間がかかります。
+これは、大きな木とそれぞれの小さな木が$O(\log n)$のレベルで構成されているためです。
+各小さな木は $O(n)$ 個の値を含むので、木は $O(n^2)$ のメモリを必要とします。
