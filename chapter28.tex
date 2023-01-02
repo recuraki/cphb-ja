@@ -158,27 +158,10 @@ $\texttt{sum}_q(a,b)$を求めるときの検索の進め方を下図に示し�
 さらに、そのノードの子には伝搬されていない、遅延更新に関連する情報が含みます。
 
 範囲更新には2種類あり、
-全てのノードの値を\emph{増加}させたいか、全てのノードの値に代入を行いたいかです。
+全てのノードの値を\emph{増加}させたいか、全てのノードの値に\emph{代入}を行いたいかです。
 どちらの操作も似たような考え方で実装でき、両方の操作を同時にサポートするツリーを構成することも可能です。
 
-In a lazy segment tree, nodes contain two types of
-information.
-Like in an ordinary segment tree,
-each node contains the sum or some other value
-related to the corresponding subarray.
-In addition, the node may contain information
-related to lazy updates, which has not been
-propagated to its children.
-
-There are two types of range updates:
-each array value in the range is either
-\emph{increased} by some value
-or \emph{assigned} some value.
-Both operations can be implemented using
-similar ideas, and it is even possible to construct
-a tree that supports both operations at the same time.
-
-\subsubsection{Lazy segment trees}
+\subsubsection{遅延セグメントツリー - Lazy segment trees}
 
 Let us consider an example where our goal is to
 construct a segment tree that supports
