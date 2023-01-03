@@ -516,13 +516,13 @@ $|S|$は集合に含まれる要素の数を示し、先ほどの例なら$|X|=3
 \begin{itemize}
 \item \key{集合積 - intersection} $A \cap B$ は$A$, $B$両方に含まれている要素の集合です。
 $A=\{1,2,5\}$ , $B=\{2,4\}$のとき、 $A \cap B = \{2\}$.
-\item The \key{集合和 - union} $A \cup B$ は $A$, $B$いずれかに含まれている要素の集合です。
+\item \key{集合和 - union} $A \cup B$ は $A$, $B$いずれかに含まれている要素の集合です。
 $A=\{3,7\}$ , $B=\{2,3,8\}$ のとき、$A \cup B = \{2,3,7,8\}$.
-\item The \key{補集合 - complement} $\bar A$ は $A$に含まれていない要素です。
+\item \key{補集合 - complement} $\bar A$ は $A$に含まれていない要素です。
 補集合はこの集合を考える際の\key{全体集合 - universal set}に
 依存します。例えば、$A=\{1,2,5,7\}$ であるときに全体の集合が
 $\{1,2,\ldots,10\}$なのであれば $\bar A = \{3,4,6,8,9,10\}$となります。
-\item The \key{差集合 - difference} $A \setminus B = A \cap \bar B$
+\item \key{差集合 - difference} $A \setminus B = A \cap \bar B$
 は$A$ に含まれているが $B$に含まれていないものです.
 ここで、$B$には$A$に含まれていない要素が含まれることもあります。
 $A=\{2,3,7,8\}$ で $B=\{3,5,8\}$とするとき、
@@ -530,28 +530,28 @@ $A \setminus B = \{2,7\}$です。
 \end{itemize}
 \end{samepage}
 
-$A$の各要素が$S$にも属する場合、AはSの\key{部分集合 - subset}であると呼べて、
+$A$の全ての要素が$S$にも属する場合、AはSの\key{部分集合 - subset}と呼び、
 $A \subset S$と表記します。
 集合$S$は常に、空集合を含む$2^{|S|}$ 個の部分集合を持ちます。
 例えば、集合 $\{2,4,7\}$の部分集合は次の通りになります。
 \begin{center}
 $\emptyset$,
-$\{2\}$, $\{4\}$, $\{7\}$, $\{2,4\}$, $\{2,7\}$, $\{4,7\}$ and $\{2,4,7\}$.
+$\{2\}$, $\{4\}$, $\{7\}$, $\{2,4\}$, $\{2,7\}$, $\{4,7\}$, $\{2,4,7\}$.
 \end{center}
 
 よく、次のような集合が使われます。
 $\mathbb{N}$ (自然数 - natural numbers),
 $\mathbb{Z}$ (整数 - integers),
-$\mathbb{Q}$ (有理数 - rational numbers) and
+$\mathbb{Q}$ (有理数 - rational numbers), 
 $\mathbb{R}$ (実数 - real numbers).
 このうち$\mathbb{N}$は0を含むかは問題によって異なり、
 $\mathbb{N}=\{0,1,2,\ldots\}$である場合もあれば、
 $\mathbb{N}=\{1,2,3,...\}$となる場合もあることに注意します。
 
-次のような集合を定義しても良いです。
+次のように集合を定義することもできます。
 \[\{f(n) : n \in S\},\]
-$f(n)$はなんらかの関数です。
-これは、$S$に含まれる要素$n$を入力とした関数$f(n)$の結果全ての要素を含みます。
+$f(n)$は任意の関数です。
+これは、集合$S$に含まれる要素$n$を入力とした関数$f(n)$の結果全ての要素を含みます。
 \[X=\{2n : n \in \mathbb{Z}\}\]
 は全ての偶数を含むことになります。
 
@@ -566,7 +566,7 @@ $f(n)$はなんらかの関数です。
 \index{equivalence}
 
 論理式の値は
-\key{true} (1) か \key{false} (0)で表されます(訳注: 日本語では真と偽ともいいます)。
+\key{真 - true} (1) か \key{偽 - false} (0)であらわされます。
 代表的な論理式の記号を示します。
 $\lnot$ (\key{negation}),
 $\land$ (\key{conjunction}),
@@ -586,15 +586,14 @@ $A$ & $B$ & $\lnot A$ & $\lnot B$ & $A \land B$ & $A \lor B$ & $A \Rightarrow B$
 \end{center}
 
 $\lnot A$ は$A$と反対の値です。
-$A \land B$ は$A$ ,  $B$が真なら真です。
+$A \land B$ は$A$ ,  $B$の両方が真なら真です。
 $A \lor B$ は $A$ ,  $B$のどちらか(両方を含む)が真なら真です。
 $A \Rightarrow B$ は、$A$が真のとき$B$が真であるとき真で、$A$が偽なら$B$はどちらでも良いです。
 $A \Leftrightarrow B$ は$A$, $B$が両方同じ値のとき真です。
 
 \index{論理述語 - predicate}
 
-\key{論理述語 - predicate}とは、
-そのパラメータによって真または偽を返す式です。
+\key{論理述語 - predicate}は引数によって真または偽を返す式です。
 述語は通常、大文字で表記します。
 例えば、$x$が素数のときだけ真になる述語$P(x)$が考えられます。
 この定義によれば、$P(7)$は真だが、$P(8)$は偽を返します。
@@ -604,17 +603,16 @@ $A \Leftrightarrow B$ は$A$, $B$が両方同じ値のとき真です。
 \key{量化子 - quantifier}
 は論理式と集合の要素を結びつけるものです。
 最も重要な量詞は
-$\forall$ (\key{すべての - for all}) and $\exists$ (ある - \key{there is}).
+$\forall$ (\key{すべての - for all}) and $\exists$ (\key{ある - there is}).
 です。例えば
 \[\forall x (\exists y (y < x))\]
 は，集合の各要素 $x$ に対して，$y$ が $x$ よりも小さいような要素 $y$ が集合に存在する、を表現できます。
 
 このような表記法を用いると、
 さまざまな論理命題を表現することができます。
-
 \[\forall x ((x>1 \land \lnot P(x)) \Rightarrow (\exists a (\exists b (a > 1 \land b > 1 \land x = ab))))\]
 というのは、ある数$x$が1より大きくて素数でないなら、
-1より大きくてその積が$x$である数$a$と$b$が存在する、という命題を表現できるのです。
+1より大きくてその積が$x$である数$a$と$b$が存在するを表現できます。
 
 \subsubsection{関数 - Functions}
 
@@ -650,7 +648,7 @@ f(1) & = & 1 \\
 f(n) & = & f(n-1)+f(n-2) \\
 \end{array}
 \]
-これらの数列は次のようになります。
+この数列は次のようになります。
 \[0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, \ldots\]
 フィボナッチ数は閉形式が存在します。
 これは\index{ビネの公式 - Binet's formula} \key{ビネの公式 - Binet's formula}
@@ -667,14 +665,14 @@ $k$は底と呼ばれます。
 定義は$\log_k(x)=a$のとき、$k^a=x$です。
 
 対数の便利な性質は、$\log_k(x)$というのが、
-$x$を$k$で1にを切らないまでの回数を表すことです。
+$x$を$k$で1にを切らないまで割れる回数を表すことです。
 例えば、$\log_2(32)=5$は、2で5回割ることが出来ます。
 \[32 \rightarrow 16 \rightarrow 8 \rightarrow 4 \rightarrow 2 \rightarrow 1 \]
 
 アルゴリズムの解析には対数がよく使われます。
 多くの効率的なアルゴリズムは、
 各ステップで何かを半分にするためです。
-したがって、対数を用いてそのようなアルゴリズムの効率を推定することができます。
+そのため、対数を用いてそのようなアルゴリズムの効率を推定することができます。
 
 対数の公式を見ていきます。
 \[\log_k(ab) = \log_k(a)+\log_k(b),\]
@@ -691,17 +689,9 @@ $e \approx 2.71828$を底とする対数です。
 
 対数のもう一つの性質は、
 底が$b$の整数$x$の桁数は$\lfloor \log_b(x)+1 \rfloor$であることです
-(訳注: $b$進数、と考えてよいです)
-。
+(訳注: $b$進数、と考えてよいです)。
 例えば、$123$を底$2$で表すと1111011となり、
 $\lfloor \log_2(123)+1 \rfloor = 7$となります。
-
-Another property of logarithms is that
-the number of digits of an integer $x$ in base $b$ is
-$\lfloor \log_b(x)+1 \rfloor$.
-For example, the representation of
-$123$ in base $2$ is 1111011 and
-$\lfloor \log_2(123)+1 \rfloor = 7$.
 
 \section{コンテストや各種情報 - Contests and resources}
 
@@ -716,16 +706,14 @@ IOIは5時間に及ぶ2つのコンテストで構成されています。
 タスクはサブタスクに分けられ、それぞれにスコアが設定されています。
 また，チームに分かれてはいますが個人ごとに競うことになります。
 
-
 IOIのシラバス\cite{iois}は、IOIタスクに登場する可能性のあるトピックを掲載されており、
 この本ではこのうちのほとんどのトピックを掲載しています。
 
 IOIへの参加者は、国内コンテストを通じて選出されます。IOIの前には、
- Baltic Olympiad in Informatics (BOI)、
- the Central European Olympiad in Informatics (CEOI)、
- the Asia-Pacific Informatics Olympiad (APIO)などが開催されています。
-
- Croatian Open Competition in Informatics \cite{coci}
+Baltic Olympiad in Informatics (BOI)、
+the Central European Olympiad in Informatics (CEOI)、
+the Asia-Pacific Informatics Olympiad (APIO)などが開催されています。
+Croatian Open Competition in Informatics \cite{coci}
 や、the USA Computing Olympiad \cite{usaco}.
 など、将来のIOI参加者のためにオンラインコンテストを開催している国もあります。
 さらに、ポーランドのコンテストで出された問題の大規模な
@@ -739,7 +727,7 @@ IOIへの参加者は、国内コンテストを通じて選出されます。IO
 IOIとは異なり各チームに1台しかないコンピュータを使い競います。
 
 ICPCはいくつかのステージで構成され、
-勝ち進んだなチームがワールドファイナルに招待されます。
+勝ち進んだチームがワールドファイナルに招待されます。
 コンテストの参加者は数万人ですが、決勝の枠は限られています
 \footnote{The exact number of final
 slots varies from year to year; in 2017, there were 133 final slots.}。
