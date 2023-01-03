@@ -497,17 +497,15 @@ $k$ は項の比です。
 \key{調和級数 - harmonic sum} は次のような式のことです。
 \[ \sum_{x=1}^n \frac{1}{x} = 1+\frac{1}{2}+\frac{1}{3}+\ldots+\frac{1}{n}.\]
 
-An upper bound for a harmonic sum is $\log_2(n)+1$.
-Namely, we can
-modify each term $1/k$ so that $k$ becomes
-the nearest power of two that does not exceed $k$.
-For example, when $n=6$, we can estimate
-the sum as follows:
+調和和の上限は$\log_2(n)+1$です。
+すなわち、$k$が$k$を超えないような最も近い2の累乗になるように各項$1/k$を調整すればよいです。
+例えば、$n = 6$のとき、次のように見積もれます。
+
 \[ 1+\frac{1}{2}+\frac{1}{3}+\frac{1}{4}+\frac{1}{5}+\frac{1}{6} \le
 1+\frac{1}{2}+\frac{1}{2}+\frac{1}{4}+\frac{1}{4}+\frac{1}{4}.\]
-This upper bound consists of $\log_2(n)+1$ parts
-($1$, $2 \cdot 1/2$, $4 \cdot 1/4$, etc.),
-and the value of each part is at most 1.
+
+この時の上限は$\log_2(n)+1$($1$, $2 \cdot 1/2$, $4 \cdot 1/4$, など)
+であり、それぞれは最大で1です。
 
 \subsubsection{集合論 - Set theory}
 
@@ -612,59 +610,46 @@ $A \lor B$ は $A$ ,  $B$のどちらか(両方を含む)が真なら真です�
 $A \Rightarrow B$ は、$A$が真のとき$B$が真であるとき真で、$A$が偽なら$B$はどちらでも良いです。
 $A \Leftrightarrow B$ は$A$, $B$が両方同じ値のとき真です。
 
-\index{predicate}
+\index{論理述語 - predicate}
 
-A \key{predicate} is an expression that is true or false
-depending on its parameters.
-Predicates are usually denoted by capital letters.
-For example, we can define a predicate $P(x)$
-that is true exactly when $x$ is a prime number.
-Using this definition, $P(7)$ is true but $P(8)$ is false.
+\key{論理述語 - predicate}とは、
+そのパラメータによって真または偽を返す式です。
+述語は通常、大文字で表記します。
+例えば、$x$が素数のときだけ真になる述語$P(x)$が考えられます。
+この定義によれば、$P(7)$は真だが、$P(8)$は偽を返します。
 
-\index{quantifier}
+\index{量化子 - quantifier}
 
-A \key{quantifier} connects a logical expression
-to the elements of a set.
-The most important quantifiers are
-$\forall$ (\key{for all}) and $\exists$ (\key{there is}).
-For example,
+\key{量化子 - quantifier}
+は論理式と集合の要素を結びつけるものです。
+最も重要な量詞は
+$\forall$ (\key{すべての - for all}) and $\exists$ (ある - \key{there is}).
+です。例えば
 \[\forall x (\exists y (y < x))\]
-means that for each element $x$ in the set,
-there is an element $y$ in the set
-such that $y$ is smaller than $x$.
-This is true in the set of integers,
-but false in the set of natural numbers.
+は，集合の各要素 $x$ に対して，$y$ が $x$ よりも小さいような要素 $y$ が集合に存在する、を表現できます。
 
-Using the notation described above,
-we can express many kinds of logical propositions.
-For example,
+このような表記法を用いると、
+さまざまな論理命題を表現することができます。
+
 \[\forall x ((x>1 \land \lnot P(x)) \Rightarrow (\exists a (\exists b (a > 1 \land b > 1 \land x = ab))))\]
-means that if a number $x$ is larger than 1
-and not a prime number,
-then there are numbers $a$ and $b$
-that are larger than $1$ and whose product is $x$.
-This proposition is true in the set of integers.
+というのは、ある数$x$が1より大きくて素数でないなら、
+1より大きくてその積が$x$である数$a$と$b$が存在する、という命題を表現できるのです。
 
-\subsubsection{Functions}
+\subsubsection{関数 - Functions}
 
-The function $\lfloor x \rfloor$ rounds the number $x$
-down to an integer, and the function
-$\lceil x \rceil$ rounds the number $x$
-up to an integer. For example,
+$\lfloor x \rfloor$は$x$を切り捨てる関数で、
+$\lceil x \rceil$は$x$を切り上げる関数です。
 \[ \lfloor 3/2 \rfloor = 1 \hspace{10px} \textrm{and} \hspace{10px} \lceil 3/2 \rceil = 2.\]
 
-The functions $\min(x_1,x_2,\ldots,x_n)$
-and $\max(x_1,x_2,\ldots,x_n)$
-give the smallest and largest of values
-$x_1,x_2,\ldots,x_n$.
-For example,
+$\min(x_1,x_2,\ldots,x_n)$と、$\max(x_1,x_2,\ldots,x_n)$
+はそれぞれ$x_1,x_2,\ldots,x_n$の最大値と最小値を返す関数です。
 \[ \min(1,2,3)=1 \hspace{10px} \textrm{and} \hspace{10px} \max(1,2,3)=3.\]
 
-\index{factorial}
+\index{階乗 - factorial}
 
-The \key{factorial} $n!$ can be defined
+\key{階乗 - factorial} である $n!$は次のことです。
 \[\prod_{x=1}^n x = 1 \cdot 2 \cdot 3 \cdot \ldots \cdot n\]
-or recursively
+次のように再帰で表現しても良いです。
 \[
 \begin{array}{lcl}
 0! & = & 1 \\
@@ -672,12 +657,11 @@ n! & = & n \cdot (n-1)! \\
 \end{array}
 \]
 
-\index{Fibonacci number}
+\index{フィボナッチ数 - Fibonacci number}
 
-The \key{Fibonacci numbers}
+\key{フィボナッチ数 - Fibonacci numbers}
 %\footnote{Fibonacci (c. 1175--1250) was an Italian mathematician.}
-arise in many situations.
-They can be defined recursively as follows:
+は色々なところで登場する関数で次のように定義されます。
 \[
 \begin{array}{lcl}
 f(0) & = & 0 \\
@@ -685,54 +669,52 @@ f(1) & = & 1 \\
 f(n) & = & f(n-1)+f(n-2) \\
 \end{array}
 \]
-The first Fibonacci numbers are
+これらの数列は次のようになります。
 \[0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, \ldots\]
-There is also a closed-form formula
-for calculating Fibonacci numbers, which is sometimes called
-\index{Binet's formula} \key{Binet's formula}:
+フィボナッチ数は閉形式が存在します。
+これは\index{ビネの公式 - Binet's formula} \key{ビネの公式 - Binet's formula}
+と呼ばれています。
 \[f(n)=\frac{(1 + \sqrt{5})^n - (1-\sqrt{5})^n}{2^n \sqrt{5}}.\]
 
-\subsubsection{Logarithms}
+\subsubsection{対数 - Logarithms}
 
-\index{logarithm}
+\index{対数 - logarithm}
 
-The \key{logarithm} of a number $x$
-is denoted $\log_k(x)$, where $k$ is the base
-of the logarithm.
-According to the definition,
-$\log_k(x)=a$ exactly when $k^a=x$.
+\key{対数 - logarithm}とはある$x$を考えて
+$\log_k(x)$で示されるもので、
+$k$は底と呼ばれます。
+定義は$\log_k(x)=a$のとき、$k^a=x$です。
 
-A useful property of logarithms is
-that $\log_k(x)$ equals the number of times
-we have to divide $x$ by $k$ before we reach
-the number 1.
-For example, $\log_2(32)=5$
-because 5 divisions by 2 are needed:
-
+対数の便利な性質は、$\log_k(x)$というのが、
+$x$を$k$で1にを切らないまでの回数を表すことです。
+例えば、$\log_2(32)=5$は、2で5回割ることが出来ます。
 \[32 \rightarrow 16 \rightarrow 8 \rightarrow 4 \rightarrow 2 \rightarrow 1 \]
 
-Logarithms are often used in the analysis of
-algorithms, because many efficient algorithms
-halve something at each step.
-Hence, we can estimate the efficiency of such algorithms
-using logarithms.
+アルゴリズムの解析には対数がよく使われます。
+多くの効率的なアルゴリズムは、
+各ステップで何かを半分にするためです。
+したがって、対数を用いてそのようなアルゴリズムの効率を推定することができます。
 
-The logarithm of a product is
+対数の公式を見ていきます。
 \[\log_k(ab) = \log_k(a)+\log_k(b),\]
-and consequently,
 \[\log_k(x^n) = n \cdot \log_k(x).\]
-In addition, the logarithm of a quotient is
 \[\log_k\Big(\frac{a}{b}\Big) = \log_k(a)-\log_k(b).\]
-Another useful formula is
 \[\log_u(x) = \frac{\log_k(x)}{\log_k(u)},\]
-and using this, it is possible to calculate
-logarithms to any base if there is a way to
-calculate logarithms to some fixed base.
+最後の式は任意の底への対数を計算することが可能にします。
 
-\index{natural logarithm}
 
-The \key{natural logarithm} $\ln(x)$ of a number $x$
-is a logarithm whose base is $e \approx 2.71828$.
+\index{自然対数 - natural logarithm}
+
+\key{自然対数 - natural logarithm} $\ln(x)$ とは、
+$e \approx 2.71828$を底とする対数です。
+
+対数のもう一つの性質は、
+底が$b$の整数$x$の桁数は$\lfloor \log_b(x)+1 \rfloor$であることです
+(訳注: $b$進数、と考えてよいです)
+。
+例えば、$123$を底$2$で表すと1111011となり、
+$\lfloor \log_2(123)+1 \rfloor = 7$となります。
+
 Another property of logarithms is that
 the number of digits of an integer $x$ in base $b$ is
 $\lfloor \log_b(x)+1 \rfloor$.
@@ -740,7 +722,7 @@ For example, the representation of
 $123$ in base $2$ is 1111011 and
 $\lfloor \log_2(123)+1 \rfloor = 7$.
 
-\section{Contests and resources}
+\section{コンテストや各種情報 - Contests and resources}
 
 \subsubsection{IOI}
 
