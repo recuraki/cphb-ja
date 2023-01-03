@@ -240,19 +240,14 @@ for (int x = 2; x <= n; x++) {
 }
 \end{lstlisting}
 
-このアルゴリズムは、数$x$が素数の場合にのみ内側ループが実行されるのでより効率的に動作します。
 内側のループの計算量は$x$を回す際には$n/x$となります。
 このアルゴリズムの実行時間は以下の通りで$ O(n \log n)$に非常に近い時間計算量であることが示されます。
 \[\sum_{x=2}^n n/x = n/2 + n/3 + n/4 + \cdots + n/n = O(n \log n).\]
 
 \index{harmonic sum}
 
-In fact, the algorithm is more efficient,
-because the inner loop will be executed only if
-the number $x$ is prime.
-It can be shown that the running time of the
-algorithm is only $O(n \log \log n)$,
-a complexity very near to $O(n)$.
+このアルゴリズムは、数$x$が素数の場合にのみ内側ループが実行されるのでより効率的に動作します。
+このアルゴリズムの実行時間は$O(n \log \log n)$で、$O(n)$に近い動作をします。
 
 \subsubsection{ユークリッドの互除法 - Euclid's algorithm}
 
