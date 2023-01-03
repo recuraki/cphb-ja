@@ -999,23 +999,18 @@ algorithm was published by R. E. Tarjan in 1979 \cite{tar79}.}もあります。
 このアルゴリズムはunion-findデータ構造(第15.2章参照)に基づいており、
 先ほどに説明したアルゴリズムよりも簡単に実装できます。
 
-このアルゴリズムは、入力としてノードのペアのセットが与えられ両ノードの最小公倍数の祖先を決定します。
-まず、深さ優先の木探索によりノードの不連続な集合を保持します。
+このアルゴリズムは、入力としてノードのペアのセットが与えられ両ノードのLCAを決定します。
+まず、各ノードが別の集合に属する木を作り、深さ優先の木探索を行います。
 初期状態では、各ノードは別々の集合に属している。
-また、各集合に対して、その集合に属する木における最も深さが高い（根に近い）ノードを保存しておきます。
+また、各集合に対して、その集合に属する木における最も高さが高い（根に近い）ノードを保存しておきます。
 
-TODO: ここの文章確認。x, yに対してy?
+このアルゴリズムでは、$x$を訪問した時に、
+$y$が既に訪問されているなら、
+$y$の属する最も高いノードがLCAであると判断します。
+そして、ノード$x$を処理した後、アルゴリズムは$x$とその親の集合を結合します。
 
-When the algorithm visits a node $x$,
-it goes through all nodes $y$ such that
-the lowest common ancestor of $x$ and $y$
-has to be found.
-If $y$ has already been visited,
-the algorithm reports that the
-lowest common ancestor of $x$ and $y$
-is the highest node in the set of $y$.
-Then, after processing node $x$,
-the algorithm joins the sets of $x$ and its parent.
+(訳注: このアルゴリズムはオイラーツアーを行い、戻りの処理の際に親の集合との結合を行います。
+そして、子側の集合の親は結合先の最も浅いノードだと情報を更新します。これはUnion-FindのLeaderに関して情報を持っておけば実装できます)
 
 今、２つのクエリ $(5,8)$, $(2,7)$ を受けこのLCAを求めたいとします。
 \begin{center}
