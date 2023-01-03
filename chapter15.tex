@@ -445,33 +445,31 @@ $O(\log n)$ の時間で動作します。
 小さい集合を大きい集合に接続することで
 、各木の長さが最長で $O(\log n)$ であることを保証できます。
 
-\section{Prim's algorithm}
+\section{プリムのアルゴリズム - Prim's algorithm}
 
-\index{Prim's algorithm}
+\index{プリムのアルゴリズム - Prim's algorithm}
 
-\key{Prim's algorithm}\footnote{The algorithm is
+\key{プリムのアルゴリズム - Prim's algorithm}\footnote{The algorithm is
 named after R. C. Prim who published it in 1957 \cite{pri57}.
 However, the same algorithm was discovered already in 1930
-by V. Jarník.} is an alternative method
-for finding a minimum spanning tree.
-The algorithm first adds an arbitrary node
-to the tree.
-After this, the algorithm always chooses
-a minimum-weight edge that
-adds a new node to the tree.
-Finally, all nodes have been added to the tree
-and a minimum spanning tree has been found.
+by V. Jarník.} 
+は最小全域木を求めるための手法です。
+このアルゴリズムでは、
+まず、各ノードを独立した木に追加します。
+その後， 常に最小コストの辺を選択し，
+新しいノードを木に追加します。
+最後に、すべてのノードが一つの木に追加され、
+最小全域木が発見されます。
 
-Prim's algorithm resembles Dijkstra's algorithm.
-The difference is that Dijkstra's algorithm always
-selects an edge whose distance from the starting
-node is minimum, but Prim's algorithm simply selects
-the minimum weight edge that adds a new node to the tree.
+プリムのアルゴリズムはダイクストラのアルゴリズムに似ています。
+違いは、ダイクストラのアルゴリズムは、
+常に開始ノードからの距離が最小となるエッジを選択しますが、
+プリムのアルゴリズムは、
+単に新しいノードを木に追加する最小コストの辺を選んでいきます。
 
-\subsubsection{Example}
+\subsubsection{例 - Example}
 
-Let us consider how Prim's algorithm works
-in the following graph:
+動作を図で見ていきましょう。
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -493,7 +491,7 @@ in the following graph:
 %\path[draw=red,thick,-,line width=2pt] (5) -- (6);
 \end{tikzpicture}
 \end{center}
-Initially, there are no edges between the nodes:
+最初は全てのノードは独立しています。
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (1.5,2) {$1$};
@@ -512,10 +510,8 @@ Initially, there are no edges between the nodes:
 %\path[draw,thick,-] (3) -- node[font=\small,label=left:3] {} (6);
 \end{tikzpicture}
 \end{center}
-An arbitrary node can be the starting node,
-so let us choose node 1.
-First, we add node 2 that is connected by
-an edge of weight 3:
+任意のノードを開始ノードとしてよいのでノード1を選択したとします。
+まず、重み3のエッジで結ばれているノード2を追加しましょう。
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (1.5,2) {$1$};
@@ -535,9 +531,10 @@ an edge of weight 3:
 \end{tikzpicture}
 \end{center}
 
-After this, there are two edges with weight 5,
-so we can add either node 3 or node 5 to the tree.
-Let us add node 3 first:
+この後、重み5を持つ辺は2本あるので、
+ノード3かノード5のどちらかを木に追加できます。
+ノード3を追加します。
+
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (1.5,2) {$1$};
@@ -558,7 +555,7 @@ Let us add node 3 first:
 \end{center}
 
 \begin{samepage}
-The process continues until all nodes have been included in the tree:
+これを繰り返します。
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (1.5,2) {$1$};
@@ -579,19 +576,15 @@ The process continues until all nodes have been included in the tree:
 \end{center}
 \end{samepage}
 
-\subsubsection{Implementation}
+\subsubsection{実装 - Implementation}
 
-Like Dijkstra's algorithm, Prim's algorithm can be
-efficiently implemented using a priority queue.
-The priority queue should contain all nodes
-that can be connected to the current component using
-a single edge, in increasing order of the weights
-of the corresponding edges.
+ダイクストラのアルゴリズムと同様に、
+プリムのアルゴリズムも優先度付きキューを用いて効率的に実装できます。
+優先度付きキューには、1本のエッジを使って現在のコンポーネントに接続できるすべてのノードと
+そのエッジの重みの昇順に格納しておきます。
 
-The time complexity of Prim's algorithm is
-$O(n + m \log m)$ that equals the time complexity
-of Dijkstra's algorithm.
-In practice, Prim's and Kruskal's algorithms
-are both efficient, and the choice of the algorithm
-is a matter of taste.
-Still, most competitive programmers use Kruskal's algorithm.
+プリムのアルゴリズムの時間計算量は$O(n + m \log m)$で、
+ダイクストラのアルゴリズムの時間計算量と同じです。
+実際には、プリムのアルゴリズムとクラシカルのアルゴリズムはどちらも効率的で、
+アルゴリズムの選択は好みの問題です。
+ただし、クラシカル法が用いられることが多いです。
