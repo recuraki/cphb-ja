@@ -1,28 +1,25 @@
 \chapter{はじめに - Introduction}
 
-競技プログラミングとは次の二つのトピックからなっている。
-アルゴリズムの設計とアルゴリズムの実装である。
-%Competitive programming combines two topics:
-%(1) the design of algorithms and (2) the implementation of algorithms.
-
+競技プログラミングとは大きく２つの段階に分かれます。
+アルゴリズムの設計アルゴリズムの実装です。
 
 \key{アルゴリズムの設計} は問題解決と数学的思考です。
-問題を分析し、想像的に解決することが求められます。
-そのアルゴリズムは正確で効率的であることが求められ、多くの問題でポイントとなるのは効率的なアルゴリズムの考察です。
+問題を分析し、想像力を活用して解決することが求められます。
+そのアルゴリズムは正確で効率的であることが求められ、
+多くの問題でポイントでは効率的なアルゴリズムの考察が重要となります。
 
 アルゴリズムの理論的な知識は、競技プログラミングに取り組むにあたり重要な要素です。
-一般的な問題は、よく知られたテクニックと新しい考察の組み合わせからなります。
-また、競技プログラミングに登場するテクニックは、アルゴリズムの科学的研究の基礎でもあります。
+一般的な問題は、よく知られたテクニックと新しい考察の組み合わせが必要です。
+また、競技プログラミングに登場するテクニックは、アルゴリズムの科学的な研究の基礎でもあります。
 
-The \key{アルゴリズムの実装} にはプログラミングスキルが大切になります。
-競技プログラミングでは、実装したアルゴリズムはテストケースでテストすることで採点されます。
-このため、アルゴリズムの考察に加えて、その実装も正しくなければなりません。
-
+\key{アルゴリズムの実装} にはプログラミングスキルが重要です。
+競技プログラミングでは、実装したアルゴリズムはテストケースでテストすることで採点されるため、
+アルゴリズムの考察だけではなく、その実装も正しくなければなりません。
 
 コンテストでの良いコーディングスタイルとはシンプルで簡潔なものです。
 コンテストの時間は限られるため、プログラムは素早く書かなければなりません。
-通常のソフトウェア開発とは異なり、プログラムは短いですし（どんなに長くても数百行程度）、
-コンテスト後にメンテナンスする必要はありません。
+通常のソフトウェア開発とは異なり、プログラムは短く（どんなに長くても数百行程度）、
+コンテスト後にメンテナンスする必要はもありません。
 
 \section{プログラミング言語}
 
@@ -35,26 +32,21 @@ Google Code Jam 2017の上位3000人をみてみると、
 8 \% が Java を使用しています\cite{goo17}.
 また、複数の言語を使い分けている参加者もいます。
 
-C++が競技プログラミングに最適と考える人は多く、C++はほぼどのコンテストでも利用できます。
-C++を使う利点は次の通りです。非常に効率的な言語であり
-標準ライブラリには データ構造やアルゴリズムが豊富に揃っていること。
+C++が競技プログラミングに最適と考える人は多く、C++はどのコンテストでも利用できます。
+C++を使う利点は非常に効率的な言語であり
+標準ライブラリにはデータ構造やアルゴリズムが豊富に揃っていることです。
 
-一方で複数の言語を使いこなし、それぞれの強みを理解するのも良いアプローチです。
+一方で、複数の言語を使いこなしてそれぞれの強みを理解するのも良いアプローチです。
 例えば、問題に(64bitや128bitを超える)大きな整数が必要な場合、
 Pythonは標準で大きな整数を扱えるため良い選択肢になります。
-とはいえ、コンテストの多くではあるプログラミング言語を選択したことで
+ただし、コンテストの問題多くではあるプログラミング言語を選択したことで
 アンフェアにならないようにされています。
 
-All example programs in this book are written in C++,
-and the standard library's
-data structures and algorithms are often used.
-The programs follow the C++11 standard,
-which can be used in most contests nowadays.
-If you cannot program in C++ yet,
-now is a good time to start learning.
-本書で紹介するプログラムはC++11で書かれており、多くのプログラミングコンテストで使うことができます(訳註：2018年はC++17対応のコンテストサイトは少なかった)。
-標準ライブラリのデータ構造やアルゴリズムが多く使用されています。
-C++でプログラミングができない人は、今が勉強を始める良い機会です！
+本書で紹介するプログラムはC++11に準拠しています。
+これは、多くのプログラミングコンテストで使うことができます
+(訳註：2018年はC++17対応のコンテストサイトは少なかった)。
+C++には標準ライブラリのデータ構造やアルゴリズムが多く揃っており、
+あなたがC++でプログラミングをしたことがなかったとしても、今が勉強を始める良い機会です！
 
 \subsubsection{C++のテンプレート}
 
@@ -71,16 +63,16 @@ int main() {
 \end{lstlisting}
 
 最初の\texttt{\#include}は\texttt{g++}の機能で標準ライブラリを一括で読み込むことができます。
-つまり、よく使う\texttt{iostream},
+多くのコードでよく使う\texttt{iostream},
 \texttt{vector}や\texttt{algorithm},
-などが使えるようになります。
+を個別にインクルードせずに使えるようになります。
 
-\texttt{using}行は標準ライブラリの機能を一括で使えるようにします。
+\texttt{using}行は標準ライブラリの機能を使えるようにします。
 \texttt{using}がない場合は
-\texttt{std::cout}と書かないと行けませんが、これがあることで
+\texttt{std::cout}と書かないといけませんが、これがあることで
 \texttt{cout}だけで十分になります。
 
-そして、このコードは以下のようにコンパイルします。
+このコードは以下のようにコンパイルします。
 
 \begin{lstlisting}
 g++ -std=c++11 -O2 -Wall test.cpp -o test
@@ -90,7 +82,7 @@ g++ -std=c++11 -O2 -Wall test.cpp -o test
 \texttt{test}という実行形式のバイナリを作成します。
 (\texttt{-std=c++11})はC++11としてコンパイルすることを、
 (\texttt{-O2})は最適化を行うことを、
-(\texttt{-Wall})は全てのWarningを出すことを示します。
+(\texttt{-Wall})は全てのWarningを出力することを意味します。
 
 \section{入出力}
 
@@ -100,19 +92,18 @@ g++ -std=c++11 -O2 -Wall test.cpp -o test
 
 C++では標準入出力には、
 入力に\texttt{cin}が使われ、出力に\texttt{cout}が使われます。
-さらにCの関数である
+Cの関数である
 \texttt{scanf}と\texttt{printf}も利用できます。
 
 通常、入力はスペースと改行で区切られた数字と文字列で構成されており、
 これらは以下のように
-\texttt{cin}でストリームから読み込むことができます。
+\texttt{cin}で入力ストリームから読み込むことができます。
 
 \begin{lstlisting}
 int a, b;
 string x;
 cin >> a >> b >> x;
 \end{lstlisting}
-
 
 cinは各要素の間に少なくとも1つのスペースか改行があることを前提に動作します。
 つまり、このコードは次の両方の入力を読み取ることができます。
@@ -141,30 +132,30 @@ cin.tie(0);
 
 \texttt{"\textbackslash n"}用いると
 \texttt{endl}よりも高速です。
-なぜなら、\texttt{endl} は毎回flushを行うからです。
+なぜなら、\texttt{endl}は毎回、出力のflushを行うからです。
 
 cinとcoutに代わり、C言語では\texttt{scanf}と\texttt{printf}が存在します。
-通常、これらの関数は少し速いに動作しますが、使用するのが少し複雑になります。。
+通常、これらの関数は少し高速に動作しますが、使用するのが少し複雑になります。
 次のコードは入力から2つの整数を読み取ります。
 \begin{lstlisting}
 int a, b;
 scanf("%d %d", &a, &b);
 \end{lstlisting}
-また、次の通り出力します。
+また、次の通り出力することができます。
 \begin{lstlisting}
 int a = 123, b = 456;
 printf("%d %d\n", a, b);
 \end{lstlisting}
 
-文字列の読み込みでは空白ごと読み込みたいことがあり、
-これは\texttt{getline}関数を使います。
+問題によっては、文字列を空白ごと読み込みたいことがあり、
+これは\texttt{getline}関数が利用できます。
 
 \begin{lstlisting}
 string s;
 getline(cin, s);
 \end{lstlisting}
 
-また、読み込みたい文字列の数がわからない場合は次のように処理します。
+入力の文字列の数がわからない場合は次のように処理することもできます。
 \begin{lstlisting}
 while (cin >> x) {
     // code
@@ -172,18 +163,14 @@ while (cin >> x) {
 \end{lstlisting}
 こうすることで入力に利用可能なデータがなくなるまで、入力から次々と要素を読み込みます。
 
-In some contest systems, files are used for
-input and output.
-An easy solution for this is to write
-the code as usual using standard streams,
-but add the following lines to the beginning of the code:
+いくつかのシステムではファイルの入出力を行う必要があります。
+この場合、以下のように書くことで標準入出力と同じように操作をすることができます。
 \begin{lstlisting}
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 \end{lstlisting}
-After this, the program reads the input from the file
-''input.txt'' and writes the output to the file
-''output.txt''.
+この後、入力は''input.txt''から行われ、
+出力は''output.txt''に対して行われます。
 
 \section{数字を扱う - Working with numbers}
 
@@ -191,25 +178,25 @@ After this, the program reads the input from the file
 
 \subsubsection{整数 - Integers}
 
-競技プログラミングで最もよく使われる整数型は\texttt{int}という32ビットの型す。
-値の範囲は$-2^{31} \ldots 2^{31}-1$、競技プログラミングでは
+最もよく使われる整数型は\texttt{int}という32ビットの整数型です。
+値の範囲は$-2^{31} \ldots 2^{31}-1$です。競技プログラミングでは
 $-2 \cdot 10^9 \ldots 2 \cdot 10^9$と考えても良いでしょう。
-\texttt{int} 型では不十分な場合は， 64ビット型の\texttt{long long}
-を使用することができます.この型の値域は
+\texttt{int} 型では不十分な場合は， 
+64ビット型の\texttt{long long}を使用することができます.この型の値域は
 $-2^{63} \ldots 2^{63}-1$で、
-同様におおよそ、$-9 \cdot 10^{18} \ldots 9 \cdot 10^{18}$です。
+同様におおよそ、$-9 \cdot 10^{18} \ldots 9 \cdot 10^{18}$として考えられます。
 
-次のコードでは、long long変数を定義しています。
+次のコードでは\texttt{long long}変数を定義しています。
 
 \texttt{long long} variable:
 \begin{lstlisting}
 long long x = 123456789123456789LL;
 \end{lstlisting}
-数字の後の\texttt{LL}はこの数字が
+数字の後の\texttt{LL}はこの数字は
 \texttt{long long}であるということです。
 
-\texttt{long long}を使う時によくある過ちは
-\texttt{int} との演算をしてしまうケースです。
+\texttt{long long}を使う時の注意は
+\texttt{int} との演算です。
 次の計算はうまくいきません。
 
 \begin{lstlisting}
@@ -218,16 +205,17 @@ long long b = a*a;
 cout << b << "\n"; // -1757895751
 \end{lstlisting}
 
-変数\texttt{b}は\texttt{long long}ですが、
-\texttt{a*a}は\texttt{int}同士の掛け算で、この結果は\texttt{int}となります。
-そして、(intで表現できる範囲を超えてしまうので)誤った結果となります。
+変数\texttt{b}は\texttt{long long}なのですが、
+\texttt{a*a}は\texttt{int}同士の掛け算で、この結果は\texttt{int}として計算されてから、
+\texttt{long long}に格納されます。
+このため、\texttt{int}で表現できる範囲を超えてしまうので、誤った結果が格納されます。
 この例では\texttt{a} を \texttt{long long} に変更するか、
-\texttt{(long long)a*a}というように結果をキャストすることで正しく動作します。
+\texttt{(long long)a*a}というように結果をキャストするコードにすることで正しく動作します。
 
-通常、コンテストの問題は、\texttt{long long}型で十分なように設定されています。
-時折、\texttt{g++}コンパイラが128ビットの \texttt{\_\_int128\_t}型も提供していることを知っておくと，
-値域が$-2^{127} \ldots 2^{127}-1$、つまり、 $-10^{38} \ldots 10^{38}$の範囲を扱えます。
-しかし，この型は、すべてのコンテストで利用できるわけではありません。（訳註:また多少低速になることもあります）
+多くのコンテストの問題は、\texttt{long long}型で十分なように設定されています。
+時折\texttt{g++}コンパイラが128ビットの \texttt{\_\_int128\_t}型も提供していることを知っておくと，
+値域が$-2^{127} \ldots 2^{127}-1$、つまり、 $-10^{38} \ldots 10^{38}$の範囲を扱えて便利です。
+ただし、この型がすべてのコンテストで利用できるわけではありません。（訳註:また多少低速になることもあります）
 
 \subsubsection{モジュロ演算 - Modular arithmetic}
 
@@ -235,18 +223,16 @@ cout << b << "\n"; // -1757895751
 \index{モジュロ演算 - modular arithmetic}
 
 $x \bmod m$というのは
- $x$を$m$で割った時のあまりです。
-例えば、$17 \bmod 5 = 2$です。
-なぜなら、$17 = 3 \cdot 5 + 2$であるため。
+$x$を$m$で割った時のあまりといえます。
+例えば、$17 \bmod 5 = 2$で、$17 = 3 \cdot 5 + 2$と表せるためです。
 
-答えの数が非常に大きくなる問題では、
-時々「$m$で割った数を答えよ」と指示されます。
+答えの数が非常に大きくなる問題では「$m$で割った数を答えよ」といった問題がよく出ます。
 例えば、$10^9+7$などがあります。
 これにより答えが非常に大きくても
-\texttt{int} や \texttt{long long}の値域で十分になります。
+\texttt{int} や \texttt{long long}の値域で十分に扱えます。
 
-余りの重要な性質は、足し算、引き算、掛け算において、演算の前に余りを取ることができることです。
-
+ここで重要な性質は足し算・引き算・掛け算において、
+演算の前に余りを取ることができることです。
 \[
 \begin{array}{rcr}
 (a+b) \bmod m & = & (a \bmod m + b \bmod m) \bmod m \\
@@ -254,10 +240,9 @@ $x \bmod m$というのは
 (a \cdot b) \bmod m & = & (a \bmod m \cdot b \bmod m) \bmod m
 \end{array}
 \]
+つまり、演算のたびに余りを取れば数字がオーバーフローするほど大きくなりすぎることがありません。
 
-つまり、演算のたびに余りを取れば、数字が大きくなりすぎることがありません。
-
-$n$までの階乗である$n!$をmod $m$で求めます。
+$n$までの階乗である$n!$をmod $m$で求めてみましょう。
 \begin{lstlisting}
 long long x = 1;
 for (int i = 2; i <= n; i++) {
@@ -266,70 +251,69 @@ for (int i = 2; i <= n; i++) {
 cout << x%m << "\n";
 \end{lstlisting}
 
-通常の余りは$0\ldots m-1$で表現されます。
-しかし、C++やいくつかの言語ではマイナスの数に対する余りは
-負の数になってしまいます。
+通常の余りで$0\ldots m-1$で表現されます。
+ところが、C++やいくつかの言語ではマイナスの数に対する余りは
+負の数になってしまうため工夫が必要です。
 
-これを解決するにはまずあまりを求め、
-マイナスであった場合は$m$を加算することです。
+これは、あまりを求め、マイナスであった場合は$m$を加算することで解決できます。
 \begin{lstlisting}
 x = x%m;
 if (x < 0) x += m;
 \end{lstlisting}
-これはあくまで負の可能性となることがある場合にのみ必要になります。
+これはあくまで負の可能性となることがある場合にのみ必要です。
 
 \subsubsection{浮動小数点数 - Floating point numbers}
 
 \index{浮動小数点数 - floating point number}
 
 競技プログラミングで多く用いられるのは
-64-bitの浮動小数点型\texttt{double}で、
-\texttt{g++}の拡張である
-80-bit 浮動小数点型の\texttt{long double}もあります。
+64-bitの浮動小数点型\texttt{double}です。
+\texttt{g++}の拡張では
+80-bit 浮動小数点型の\texttt{long double}を用いることができます。
 ほとんどのケースでは\texttt{double}で十分ですが、
-\texttt{long double} の方がより正確です。
+\texttt{long double} の方がより正確な値を表現できます。
 
-答えに必要な精度は、通常、問題文の中で示されています。
-答えを出力する簡単な方法は，\texttt{printf}関数を使い，
-書式文字列で小数点以下の桁数を与える方法です。
+答えに必要な精度は、問題文の中で示されています。
+桁を制限して答えを出力する簡単な方法は，\texttt{printf}関数を使い，
+書式文字列で小数点以下の桁数を与える方法でしょう。
+
 例えば，次のコードは，$x$の値を小数点以下9桁で表示します.
-
 \begin{lstlisting}
 printf("%.9f\n", x);
 \end{lstlisting}
 
 浮動小数点数を使う際の留意点は
 浮動小数点数として正確に表現できない数値があって丸め誤差が発生することです。
-例えば、次のようなコードの結果は驚くべきものでしょう。
 
+例えば、次のようなコードの結果は意外に思えるでしょう。
 \begin{lstlisting}
 double x = 0.3*3+0.1;
 printf("%.20f\n", x); // 0.99999999999999988898
 \end{lstlisting}
 
-正しい値は1ですが、丸め誤差のために$x$の値が1より少し小さくなっています。
-このまま\texttt{==}演算子で浮動小数点数を比較すると、
+この回答は1ですが、丸め誤差のために$x$の値が1より少し小さくなってしまいました。
+この状態で\texttt{==}演算子で浮動小数点数を比較すると、
 精度誤差のために本来等しいはずの値が等しくなくなる可能性があります。
+
 浮動小数点数の比較に適した方法は、
 2つの数値の差が$\varepsilon$($\varepsilon$は小さな数)より小さければ等しいと仮定することです。
 
-実際には、次のように数値を比較することができます($\varepsilon=10^{-9}$)。
-
+実際には、次のように数値を比較することができます($\varepsilon=10^{-9}$とした場合)。
 \begin{lstlisting}
 if (abs(a-b) < 1e-9) {
     // a and b are equal
 }
 \end{lstlisting}
 
-なお、ある程度までの整数は正確に表現できます。
+尚、ある程度までの整数は正確に表現でき、
 \texttt{double}の場合は$2^{53}$までの整数は正しく表現できます。
 
 \section{短く書く - Shortening code}
 
 競技プログラミングでは、
-速くプログラムを書くことが求められるので、短いコードが理想的です。
-そのため、競技志向のプログラマは、
-データ型などのコードに短い名前を定義することが多くなります。
+限られた時間で素早くプログラムを書くことが求められるので、短いコードが理想的です。
+そのため、競技プログラマは、
+データ型などのコードに短い名前を定義することがよくあります。
 
 \subsubsection{型の名前 - Type names}
 \index{tuppdef@\texttt{typedef}}
@@ -347,7 +331,7 @@ long long a = 123456789;
 long long b = 987654321;
 cout << a*b << "\n";
 \end{lstlisting}
-となっていたコードが以下のようにかけます。
+というコードを次のように書けます。
 \begin{lstlisting}
 ll a = 123456789;
 ll b = 987654321;
@@ -356,7 +340,6 @@ cout << a*b << "\n";
 
 \texttt{typedef}はもう少し複雑な型も表現できます。
 例えば次のように、整数のvectorや、整数のpairを宣言できます。
-
 \begin{lstlisting}
 typedef vector<int> vi;
 typedef pair<int,int> pi;
@@ -370,13 +353,13 @@ typedef pair<int,int> pi;
 C++ では、マクロは\texttt{\#define} キーワードを使って定義します。
 
 例えば、次のようなマクロを定義することができます。
-
 \begin{lstlisting}
 #define F first
 #define S second
 #define PB push_back
 #define MP make_pair
 \end{lstlisting}
+
 これによって次のようなコードが、
 \begin{lstlisting}
 v.push_back(make_pair(y1,x1));
@@ -401,7 +384,7 @@ for (int i = 1; i <= n; i++) {
     search(i);
 }
 \end{lstlisting}
-この記述が以下のようにかけます。
+この記述が以下のように記載できます。
 \begin{lstlisting}
 REP(i,1,n) {
     search(i);
@@ -409,14 +392,15 @@ REP(i,1,n) {
 \end{lstlisting}
 
 ただ、マクロは時折デバッグを難しくすることがあるので注意してください。
+よくある例は次の者です。
 \begin{lstlisting}
 #define SQ(a) a*a
 \end{lstlisting}
-このような平方根を求めるものがあり、
+このような平方根を求めるマクロを書いたとします。
 \begin{lstlisting}
 cout << SQ(3+3) << "\n";
 \end{lstlisting}
-こうしたとすると、次のように展開されます。
+次のように展開されます。
 \begin{lstlisting}
 cout << 3+3*3+3 << "\n"; // 15
 \end{lstlisting}
@@ -425,11 +409,11 @@ cout << 3+3*3+3 << "\n"; // 15
 \begin{lstlisting}
 #define SQ(a) (a)*(a)
 \end{lstlisting}
-この時、
+すると
 \begin{lstlisting}
 cout << SQ(3+3) << "\n";
 \end{lstlisting}
-この処理は次のように動作し、予想した通りに動きますね。
+この処理は次のように展開されるので予想した通りに動きますね。
 \begin{lstlisting}
 cout << (3+3)*(3+3) << "\n"; // 36
 \end{lstlisting}
@@ -438,15 +422,15 @@ cout << (3+3)*(3+3) << "\n"; // 36
 \section{数学 - Mathematics}
 
 競技プログラミングで数学は重要な役割を担っており、
-数学の能力がなければ競技用プログラマとして成功することはできません。
+数学の能力がなければ競技用プログラマとして成功することは困難でしょう。
 この本の後半で必要となる重要な数学的概念と公式について説明します。
 
 \subsubsection{加算に関する公式 - Sum formulas}
 
 まず基本的な式を紹介します。
 \[\sum_{x=1}^n x^k = 1^k+2^k+3^k+\ldots+n^k,\]
-ここで、$k$は正の整数であり、次数$k + 1$の多項式となる閉形式を持っている。
-例えば\footnote{\index{Faulhaber's formula}
+ここで、$k$は正の整数であり、次数$k + 1$の多項式となる閉形式を持ちます。
+他にも以下のようなものがあります。\footnote{\index{Faulhaber's formula}
 There is even a general formula for such sums, called \key{Faulhaber's formula},
 but it is too complex to be presented here.},
 \[\sum_{x=1}^n x = 1+2+3+\ldots+n = \frac{n(n+1)}{2}\]
@@ -458,38 +442,35 @@ but it is too complex to be presented here.},
 
 \key{等差数列 - arithmetic progression}は隣り合う２つの要素の差が一定であるものです。
 \[3, 7, 11, 15\]
-この場合、差は常に4です。
-等差数列の和は次の式で表されます。
+この場合、差は常に4です。等差数列の和は次の式で表されます。
 \[\underbrace{a + \cdots + b}_{n \,\, \textrm{numbers}} = \frac{n(a+b)}{2}\]
 $a$ は初項、
 $b$ は最後の項、
 $n$ は項の数です.
 例えば次のようになります。
 \[3+7+11+15=\frac{4 \cdot (3+15)}{2} = 36.\]
-この式は、和が$n$個の数からなり、
+これは、和が$n$個の数からなり、
 各数の値が平均して$(a+b)/2$であることから算出されます。
 
 \index{等比数列 - geometric progression}
 \key{等比数列 - geometric progression}
 は隣り合う２つの値が決まった比により求められるものです。
 \[3,6,12,24\]
-というのは常に2倍になっています。
-この話は次のように求められます。
+というのは常に2倍になっています。これは次のように求められます。
 \[a + ak + ak^2 + \cdots + b = \frac{bk-a}{k-1}\]
 $a$ は初項、
 $b$ は最後の項、
 $k$ は項の比です。
 \[3+6+12+24=\frac{24 \cdot 2 - 3}{2-1} = 45.\]
 
-これは次のように求められます。
+どのように求められるかをみていきます。
 \[ S = a + ak + ak^2 + \cdots + b .\]
 両辺に$k$をかけます。
 \[ kS = ak + ak^2 + ak^3 + \cdots + bk,\]
-これを整理して
+これを整理して以下のように明らかです。
 \[ kS-S = bk-a\]
-を餅挽きます。
 
-また、特殊なケースで以下の公式が成り立ちます。
+特殊なケースでは以下の公式が成り立ちます。
 \[1+2+4+8+\ldots+2^{n-1}=2^n-1.\]
 
 \index{調和級数 - harmonic sum}
@@ -515,11 +496,11 @@ $k$ は項の比です。
 \index{集合積 - union}
 \index{集合差 - difference}
 \index{部分集合 - subset}
-\index{universal set}
-\index{complement}
+\index{全体集合 - universal set}
+\index{補集合 - complement}
 
-\key{set} とは要素のコレクションのことです。
-例えばsetである
+\key{集合 - set}は要素のコレクションのことです。
+例えば集合である
 \[X=\{2,4,7\}\]
 は 2, 4, 7を要素として持ちます。
 特殊なシンボル$\emptyset$は空集合を意味します。
@@ -531,7 +512,7 @@ $|S|$は集合に含まれる要素の数を示し、先ほどの例なら$|X|=3
 \[4 \in X \hspace{10px}\textrm{and}\hspace{10px} 5 \notin X.\]
 
 \begin{samepage}
-集合への演算により新しい集合を得ることができます。
+集合の演算により新しい集合を得ることができます。
 \begin{itemize}
 \item \key{集合積 - intersection} $A \cap B$ は$A$, $B$両方に含まれている要素の集合です。
 $A=\{1,2,5\}$ , $B=\{2,4\}$のとき、 $A \cap B = \{2\}$.
@@ -565,7 +546,7 @@ $\mathbb{Q}$ (有理数 - rational numbers) and
 $\mathbb{R}$ (実数 - real numbers).
 このうち$\mathbb{N}$は0を含むかは問題によって異なり、
 $\mathbb{N}=\{0,1,2,\ldots\}$である場合もあれば、
-$\mathbb{N}=\{1,2,3,...\}$となる場合もあります。
+$\mathbb{N}=\{1,2,3,...\}$となる場合もあることに注意します。
 
 次のような集合を定義しても良いです。
 \[\{f(n) : n \in S\},\]
