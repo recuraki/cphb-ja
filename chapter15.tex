@@ -375,33 +375,32 @@ Union-findでは各集合の1つの要素がその集合の代表として存在
 \end{tikzpicture}
 \end{center}
 
-結果、$\{1,2,3,4,6,7,8\}$の要素が集合に含まれ、要素2がそれらの集合全体の代表となり、もともと代表要素4であった要素2を指すようになります。
-Union-find構造の計算量は、集合をどのように結合するかに依存します。
-集合のサイズは小さい方の集合代表をと大きい方の集合の代表につなげばよいのである(同じ大きさの集合であれば、任意に選択することも可能である)。
-この方法を用いると、どのパスの長さも$O(log n)$となり、対応する鎖をたどることで任意の要素の代表を効率的に求めることができます。
+結果、$\{1,2,3,4,6,7,8\}$の要素が集合に含まれ、要素2がそれらの集合全体の代表となり、
+もともと代表要素4であった要素2を指すようになります。
+Union-findの操作の計算量は、集合をどのように結合するかに依存します。
+工夫は小さい集合をと大きい集合の代表要素に繋ぎます(同じ大きさの集合の場合どちらを大きい方とみなしてもよいです)。
+この方法を用いると、
+どのパスの長さも$O( \log n)$となるので
+対応する辺を辿る中で任意の要素の代表を効率的に求めることができます。
 
-\subsubsection{Implementation}
+\subsubsection{実装 - Implementation}
 
-The union-find structure can be implemented
-using arrays.
-In the following implementation,
-the array \texttt{link} contains for each element
-the next element
-in the chain or the element itself if it is
-a representative,
-and the array \texttt{size} indicates for each representative
-the size of the corresponding set.
+union-findは、
+配列を使用して実装できます。
+以下の実装では ，配列 \texttt{link} は各要素について，
+親となる要素(代表であればその要素自身)を含み，
+配列 \texttt{size} は
+各代表について，対応する集合の大きさを保持します。
 
-Initially, each element belongs to a separate set:
+初期状態では、各要素は別々の集合に属しています。
 \begin{lstlisting}
 for (int i = 1; i <= n; i++) link[i] = i;
 for (int i = 1; i <= n; i++) size[i] = 1;
 \end{lstlisting}
 
-The function \texttt{find} returns
-the representative for an element $x$.
-The representative can be found by following
-the chain that begins at $x$.
+関数\texttt{find}は，
+ある要素$x$の代表を返します。
+代表は$x$から始まる鎖をたどって見つけることができます。
 
 \begin{lstlisting}
 int find(int x) {
@@ -410,10 +409,8 @@ int find(int x) {
 }
 \end{lstlisting}
 
-The function \texttt{same} checks
-whether elements $a$ and $b$ belong to the same set.
-This can easily be done by using the
-function \texttt{find}:
+関数\texttt{same} は要素$a$,$b$が同じ集合に属するかどうかをチェックする関数で、
+関数\texttt{find}を使うことで簡単に実現できます。
 
 \begin{lstlisting}
 bool same(int a, int b) {
@@ -422,12 +419,11 @@ bool same(int a, int b) {
 \end{lstlisting}
 
 \begin{samepage}
-The function \texttt{unite} joins the sets
-that contain elements $a$ and $b$
-(the elements have to be in different sets).
-The function first finds the representatives
-of the sets and then connects the smaller
-set to the larger set.
+関数 \texttt{unite}  は，
+要素 $a$ と $b$ を含む集合を結合する関数です。
+この時、要素は異なる集合に存 在しなければなりません。
+この関数は，まず集合の代表を求め，
+次に小さい方の集合を大きい方の集合に接続します.
 
 \begin{lstlisting}
 void unite(int a, int b) {
@@ -440,14 +436,14 @@ void unite(int a, int b) {
 \end{lstlisting}
 \end{samepage}
 
-The time complexity of the function \texttt{find}
-is $O(\log n)$ assuming that the length of each
-chain is $O(\log n)$.
-In this case, the functions \texttt{same} and \texttt{unite}
-also work in $O(\log n)$ time.
-The function \texttt{unite} makes sure that the
-length of each chain is $O(\log n)$ by connecting
-the smaller set to the larger set.
+関数\texttt{find}の時間計算量は、
+各鎖の長さが$O(\log n)$ であると仮定すると、
+$O(\log n)$ で動作します。
+この場合、関数\texttt{same} と \texttt{unite}も
+$O(\log n)$ の時間で動作します。
+関数 \texttt{unite} は、
+小さい集合を大きい集合に接続することで
+、各木の長さが最長で $O(\log n)$ であることを保証できます。
 
 \section{Prim's algorithm}
 
