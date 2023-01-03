@@ -242,27 +242,15 @@ $[10, 12, 5]$の状態を考えてみましょう。
 つまり、最後のスティックを取ったプレイヤーがゲームに負けます。
 misere nim gameは標準のnimとほぼ同じ様に考えられます。
 
-最初は標準的なゲームのようを行うが、ゲームの終盤に戦略を変えます。
-戦略を帰るのは、次の手の後に各山が最大でも1本の棒を含むような状況で導入されることになる。標準的なゲームでは、1本の
-棒を持つヒープが偶数個になるような手を選ぶべきである。
+最初は標準的なnimゲームのようを行うが、ゲームの終盤に戦略を変えます。
+戦略を変えるのは、次の手の後に各山が最大で1本の棒を含むような状況で導入されることになる。
 
-The idea is to first play the misère game
-like the standard game, but change the strategy
-at the end of the game.
-The new strategy will be introduced in a situation
-where each heap would contain at most one stick
-after the next move.
+オリジナルのゲームでは、1本の棒を持つヒープが偶数個になるような手を選ぶべきです。
+しかし、misèreゲームでは、1本の棒で奇数個の山ができるようにします。
 
-In the standard game, we should choose a move
-after which there is an even number of heaps with one stick.
-However, in the misère game, we choose a move so that
-there is an odd number of heaps with one stick.
-
-This strategy works because a state where the
-strategy changes always appears in the game,
-and this state is a winning state, because
-it contains exactly one heap that has more than one stick
-so the nim sum is not 0.
+まず、この戦略が変化する状態が必ずゲームに現れます。
+この状態になったとき、ちょうど複数のスティックを持つ山が一つ含まれているので、
+ニムサムは0ではないので、勝利が確定します。
 
 \section{Sprague–Grundy theorem}
 
