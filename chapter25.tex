@@ -252,47 +252,38 @@ misere nim gameは標準のnimとほぼ同じ様に考えられます。
 この状態になったとき、ちょうど複数のスティックを持つ山が一つ含まれているので、
 ニムサムは0ではないので、勝利が確定します。
 
-\section{Sprague–Grundy theorem}
+\section{スプレイグ・グランディの定理 - Sprague–Grundy theorem}
 
-\index{Sprague–Grundy theorem}
+\index{スプレイグ・グランディの定理 - Sprague–Grundy theorem}
 
-The \key{Sprague–Grundy theorem}\footnote{The theorem was
-independently discovered by R. Sprague \cite{spr35} and P. M. Grundy \cite{gru39}.} generalizes the
-strategy used in nim to all games that fulfil
-the following requirements:
+\key{スプレイグ・グランディの定理 - Sprague–Grundy theorem}\footnote{The theorem was
+independently discovered by R. Sprague \cite{spr35} and P. M. Grundy \cite{gru39}.}
+により、nimで用いられている戦略は、以下の要件を満たすべてのゲームに一般化できます。
 
 \begin{itemize}[noitemsep]
-\item There are two players who move alternately.
-\item The game consists of states, and the possible moves
-in a state do not depend on whose turn it is.
-\item The game ends when a player cannot make a move.
-\item The game surely ends sooner or later.
-\item The players have complete information about
-the states and allowed moves, and there is no randomness in the game.
+\item 2人のプレイヤーが交互にプレイする
+\item ゲームは状態から構成される。ある状態において可能な手は誰の手番であるかには依存しないこと。
+\item プレイヤーが手を出せなくなるとゲーム終了となる
+\item ゲームは遅かれ早かれ必ず終わります。
+\item プレイヤーは状態と許容される手について完全な情報を持っており、ゲームにランダム性はない。
 \end{itemize}
-The idea is to calculate for each game state
-a Grundy number that corresponds to the number of
-sticks in a nim heap.
-When we know the Grundy numbers of all states,
-we can play the game like the nim game.
+このアイデアは、各ゲーム状態のグランディ数をnim山に紐づけて管理することにあります。
+すべての状態のグランディ数が分かれば、nimゲームのようにプレイができます。
 
-\subsubsection{Grundy numbers}
+\subsubsection{Grundy数 - Grundy numbers}
 
-\index{Grundy number}
-\index{mex function}
+\index{Grundy数 - Grundy number}
+\index{MEX - mex function}
 
-The \key{Grundy number} of a game state is
+ゲームの状態の\key{Grundy数 - Grundy number}とは次のように示されます。
 \[\textrm{mex}(\{g_1,g_2,\ldots,g_n\}),\]
-where $g_1,g_2,\ldots,g_n$ are the Grundy numbers of the
-states to which we can move,
-and the mex function gives the smallest
-nonnegative number that is not in the set.
-For example, $\textrm{mex}(\{0,1,3\})=2$.
-If there are no possible moves in a state,
-its Grundy number is 0, because
-$\textrm{mex}(\emptyset)=0$.
+ここで、$g_1,g_2,\ldots,g_n$
+は移動可能な状態のGrundy数で、mex関数はその集合に含まれない最小の非負の数のことです。
+例えば、$\textrm{mex}(\{0,1,3\})=2$です。
+ある状態で移動可能なものがない場合、$\textrm{mex}(\emptyset)=0$.
+なので、そのグランディ数は0とします。
 
-For example, in the state graph
+例えば、以下を考えます。
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (0,0) {\phantom{0}};
@@ -312,7 +303,7 @@ For example, in the state graph
 \path[draw,thick,->,>=latex] (6) -- (2);
 \end{tikzpicture}
 \end{center}
-the Grundy numbers are as follows:
+このGrundy数は以下の通りです。
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (0,0) {0};
@@ -332,31 +323,18 @@ the Grundy numbers are as follows:
 \path[draw,thick,->,>=latex] (6) -- (2);
 \end{tikzpicture}
 \end{center}
-The Grundy number of a losing state is 0,
-and the Grundy number of a winning state is
-a positive number.
+負けた状態のGrundy数は0で勝った状態のGrundy数は正の数です。
 
-The Grundy number of a state corresponds to
-the number of sticks in a nim heap.
-If the Grundy number is 0, we can only move to
-states whose Grundy numbers are positive,
-and if the Grundy number is $x>0$, we can move
-to states whose Grundy numbers include all numbers
-$0,1,\ldots,x-1$.
+ある状態のGrundy数とは、nimの山のスティックの本数に相当します。
+Grundy数が0であれば、グランディ数が正である状態にのみ移動でき、
+Grundy数が$x > 0$であれば、Grundy数が$0,1,\ldots,x-1$のすべての数を含む状態に移動することが可能になります。
 
-As an example, consider a game where
-the players move a figure in a maze.
-Each square in the maze is either floor or wall.
-On each turn, the player has to move
-the figure some number
-of steps left or up.
-The winner of the game is the player who
-makes the last move.
+例として、迷路の中で図形を動かすゲームを考えます。
+迷路の各マスは、床か壁のどちらかです。
+手番で、プレイヤーは図形を左か上に何歩か移動させなければならないとします。
+最後に動かしたプレイヤーが勝者です。
 
-The following picture shows a possible initial state
-of the game, where @ denotes the figure and *
-denotes a square where it can move.
-
+次の図は、ゲームの初期状態の例です。@は図形、*は移動可能なマスを表します。
 \begin{center}
 \begin{tikzpicture}[scale=.65]
   \begin{scope}
@@ -380,10 +358,9 @@ denotes a square where it can move.
 \end{tikzpicture}
 \end{center}
 
-The states of the game are all floor squares
-of the maze.
-In the above maze, the Grundy numbers
-are as follows:
+ゲームの状態は、迷路のすべての床のマス目で表現できます。
+上の迷路では、Grundy数は以下の通りです。
+
 
 \begin{center}
 \begin{tikzpicture}[scale=.65]
@@ -429,43 +406,31 @@ are as follows:
 \end{tikzpicture}
 \end{center}
 
-Thus, each state of the maze game
-corresponds to a heap in the nim game.
-For example, the Grundy number for
-the lower-right square is 2,
-so it is a winning state.
-We can reach a losing state and
-win the game by moving
-either four steps left or
-two steps up.
+したがって、
+迷路ゲームの各状態は、nimゲームの山に対応する。
+例えば、右下のマスのGrundy数は2なので、
+勝利状態です。
+4歩左に移動するか、2歩上に移動するかで負け状態に遷移できるので、ゲームに勝つことができます。
 
-Note that unlike in the original nim game,
-it may be possible to move to a state whose
-Grundy number is larger than the Grundy number
-of the current state.
-However, the opponent can always choose a move
-that cancels such a move, so it is not possible
-to escape from a losing state.
+なお、本来のnimゲームとは異なり、現在の状態のGrundy数よりも大きなGrundy数を持つ状態に移動も可能です。
+ただし、相手はそれを打ち消す手を常に選べるので、負け状態から脱出することはできません。
 
-\subsubsection{Subgames}
+\subsubsection{サブゲーム - Subgames}
 
-Next we will assume that our game consists
-of subgames, and on each turn, the player
-first chooses a subgame and then a move in the subgame.
-The game ends when it is not possible to make any move
-in any subgame.
+次に、このゲームがサブゲームから構成されていると仮定します。
+各ターンにおいて、プレイヤーはまずサブゲームを選択し、
+次にサブゲームにおける一手を選択するものとしましょう。
+ゲームは、どのサブゲームでも手を打つことができなくなったときに終了します。
 
-In this case, the Grundy number of a game
-is the nim sum of the Grundy numbers of the subgames.
-The game can be played like a nim game by calculating
-all Grundy numbers for subgames and then their nim sum.
+この場合、複数のサブゲームから構成されるあるゲームのGrundy数は、
+サブゲームのGrundy数のNim和となります。
 
-As an example, consider a game that consists
-of three mazes.
-In this game, on each turn, the player chooses one
-of the mazes and then moves the figure in the maze.
-Assume that the initial state of the game is as follows:
+サブゲームのGrundy数をすべて計算し、そのNim和を計算することで、
+Nimゲームのようにプレイすることができます。
 
+例として、3つの迷路のサブゲームで構成されるゲームを考えてみましょう。
+このゲームでは、プレイヤーは手番ごとに迷路の一つを選び、その迷路の中で図形を移動させられるとします。
+ゲームの初期状態を次のように仮定しましょう。
 \begin{center}
 \begin{tabular}{ccc}
 \begin{tikzpicture}[scale=.55]
@@ -508,7 +473,7 @@ Assume that the initial state of the game is as follows:
 \end{tabular}
 \end{center}
 
-The Grundy numbers for the mazes are as follows:
+各迷路に置けるGrundy数は以下の通りになります。
 
 \begin{center}
 \begin{tabular}{ccc}
@@ -634,49 +599,35 @@ The Grundy numbers for the mazes are as follows:
 \end{tabular}
 \end{center}
 
-In the initial state, the nim sum of the Grundy numbers
-is $2 \oplus 3 \oplus 3 = 2$, so
-the first player can win the game.
-One optimal move is to move two steps up
-in the first maze, which produces the nim sum
-$0 \oplus 3 \oplus 3 = 0$.
+初期状態が$2 \oplus 3 \oplus 3 = 2$
+であるため、先攻が勝利します。
+例えば、最初の1手で２マス上に進めば、$0 \oplus 3 \oplus 3 = 0$を生成して相手に渡せます。
 
-\subsubsection{Grundy's game}
+\subsubsection{Grundyゲーム - Grundy's game}
 
-Sometimes a move in a game divides the game
-into subgames that are independent of each other.
-In this case, the Grundy number of the game is
-
+ある対局の一手が、
+その対局を互いに独立した下位の対局に分割するとみなせることがあります。
+この場合、そのゲームのGrundy数は
 \[\textrm{mex}(\{g_1, g_2, \ldots, g_n \}),\]
-where $n$ is the number of possible moves and
+となり、$n$はゲームの可能な手の数です。
 \[g_k = a_{k,1} \oplus a_{k,2} \oplus \ldots \oplus a_{k,m},\]
-where move $k$ generates subgames with
-Grundy numbers $a_{k,1},a_{k,2},\ldots,a_{k,m}$.
+$k$の手順は$a_{k,1},a_{k,2},\ldots,a_{k,m}$のサブゲームを生成するとします。
 
-\index{Grundy's game}
+\index{Grundyゲーム - Grundy's game}
 
-An example of such a game is \key{Grundy's game}.
-Initially, there is a single heap that contains $n$ sticks.
-On each turn, the player chooses a heap and divides
-it into two nonempty heaps such that the heaps
-are of different size.
-The player who makes the last move wins the game.
+\key{Grundyゲーム - Grundy's game}はこのようなゲームの例です。
+初期状態では、$n$本の棒を含む一つの山があります。
+手番ごとに，プレイヤーは山を選び，それを空でない二つの山に分割し，
+その山の大きさが異なるようにしなければなりません。最後に手を打ったプレイヤーがゲームに勝ちます。
 
-Let $f(n)$ be the Grundy number of a heap
-that contains $n$ sticks.
-The Grundy number can be calculated by going
-through all ways to divide the heap into
-two heaps.
-For example, when $n=8$, the possibilities
-are $1+7$, $2+6$ and $3+5$, so
+$n$本の棒を含むヒープのGrundy数を$f (n)$としましょう。
+Grundy数は、
+山を2つの山に分割する方法をすべて調べれば計算できます。
+例えば，$n = 8$のとき$1+7$, $2+6$ , $3+5$の可能性があるので以下のようになります。
 \[f(8)=\textrm{mex}(\{f(1) \oplus f(7), f(2) \oplus f(6), f(3) \oplus f(5)\}).\]
 
-In this game, the value of $f(n)$ is based on the values
-of $f(1),\ldots,f(n-1)$.
-The base cases are $f(1)=f(2)=0$,
-because it is not possible to divide the heaps
-of 1 and 2 sticks.
-The first Grundy numbers are:
+このゲームでは，$f (n)$ の値は，$f(1),\ldots,f(n-1)$の値に基づいて決定されます。
+1本と2本の棒の山を分割することはできないので$f(1)=f(2)=0$であることに注意します。
 \[
 \begin{array}{lcl}
 f(1) & = & 0 \\
@@ -689,7 +640,5 @@ f(7) & = & 0 \\
 f(8) & = & 2 \\
 \end{array}
 \]
-The Grundy number for $n=8$ is 2,
-so it is possible to win the game.
-The winning move is to create heaps
-$1+7$, because $f(1) \oplus f(7) = 0$.
+$n=8$のときのグランディ数は2なので、ゲームに勝つことは可能です。
+$f(1) \oplus f(7) = 0$なので、勝ち手はヒープ$1+7$を作ることです。
