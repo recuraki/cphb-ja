@@ -506,22 +506,18 @@ $A \cup B$の面積を計算することができます。
 集合が３つの場合は次のようになります。
 \[ |A \cap B \cap C| = |A| + |B| + |C| - |A \cup B|  - |A \cup C|  - |B \cup C| + |A \cup B \cup C| .\]
 
-\subsubsection{Derangements}
+\subsubsection{完全順列 - Derangements}
 
-\index{derangement}
+\index{完全順列 - derangement}
 
-TODO: 全体的に。
-As an example, let us count the number of \key{derangements}
-of elements $\{1,2,\ldots,n\}$, i.e., permutations
-where no element remains in its original place.
-For example, when $n=3$, there are
-two derangements: $(2,3,1)$ and $(3,1,2)$.
+\key{完全順列 - derangements}とは、
+$n$個の要素$\{1,2,\ldots,n\}$の並び替えのうち、
+元の位置と一致する要素がないような順列のことです。
+$n=3$とすると、２つの完全順列があり: $(2,3,1)$ と $(3,1,2)$です。
 
-One approach for solving the problem is to use
-inclusion-exclusion.
-Let $X_k$ be the set of permutations
-that contain the element $k$ at position $k$.
-For example, when $n=3$, the sets are as follows:
+これを求める一つのアプローチとして、包除原理を用いることができます。
+$X_k$ を位置 $k$ に要素 $k$ を含む並べ換えの集合としましょう。
+例えば、$n = 3$ のとき、 集合は次のようになります。
 \[
 \begin{array}{lcl}
 X_1 & = & \{(1,2,3),(1,3,2)\} \\
@@ -529,14 +525,12 @@ X_2 & = & \{(1,2,3),(3,2,1)\} \\
 X_3 & = & \{(1,2,3),(2,1,3)\} \\
 \end{array}
 \]
-Using these sets, the number of derangements equals
+これらを用いると、完全順列は以下に等しくなります。
 \[ n! - |X_1 \cup X_2 \cup \cdots \cup X_n|, \]
-so it suffices to calculate the size of the union.
-Using inclusion-exclusion, this reduces to
-calculating sizes of intersections which can be
-done efficiently.
-For example, when $n=3$, the size of
-$|X_1 \cup X_2 \cup X_3|$ is
+この集合和の大きさを計算すれば十分になります。
+包除原理を用いると、これは交点の大きさを計算すればよく、効率的に計算できます。
+例えば、 $n=3$
+$|X_1 \cup X_2 \cup X_3|$ のサイズは以下のようになります。
 \[
 \begin{array}{lcl}
  & & |X_1| + |X_2| + |X_3| - |X_1 \cap X_2|  - |X_1 \cap X_3|  - |X_2 \cap X_3| + |X_1 \cap X_2 \cap X_3| \\
@@ -544,14 +538,11 @@ $|X_1 \cup X_2 \cup X_3|$ is
  & = & 4, \\
 \end{array}
 \]
-so the number of solutions is $3!-4=2$.
+$3!-4=2$.とわかりました。
 
-It turns out that the problem can also be solved
-without using inclusion-exclusion.
-Let $f(n)$ denote the number of derangements
-for $\{1,2,\ldots,n\}$. We can use the following
-recursive formula:
-
+尚、この問題は包除原理を使わずに解けることがわかっています。
+$f(n)$を$\{1,2,\ldots,n\}$に対応する完全順列の数とします。
+この時、以下のように示せます。
 \begin{equation*}
     f(n) = \begin{cases}
                0               & n = 1\\
@@ -560,49 +551,34 @@ recursive formula:
            \end{cases}
 \end{equation*}
 
-The formula can be derived by considering
-the possibilities how the element 1 changes
-in the derangement.
-There are $n-1$ ways to choose an element $x$
-that replaces the element 1.
-In each such choice, there are two options:
 
-\textit{Option 1:} We also replace the element $x$
-with the element 1.
-After this, the remaining task is to construct
-a derangement of $n-2$ elements.
+この式は、完全順列の中で要素1がどのように変化するかのパターンを考えることで導き出すことができます。
+要素1に代わる要素$x$の選び方は$n - 1$通りです。
+それぞれの選択において、2つの選択肢がある。
 
-\textit{Option 2:} We replace the element $x$
-with some other element than 1.
-Now we have to construct a derangement
-of $n-1$ element, because we cannot replace
-the element $x$ with the element $1$, and all other
-elements must be changed.
+\textit{Option 1:} 要素$x$を要素1に置き換える。この後、残る課題は、$n - 2$個
+の要素からなる完全順列を構成することである。
 
-\section{Burnside's lemma}
+\textit{Option 2:} 要素xを1以外の要素に置き換える。 
+要素$x$を要素1に置き換えることはしないため、$n - 1$個の要素の完全順列を構成しなければならず、
+他の要素もすべて変更しなければならなりません。
 
-\index{Burnside's lemma}
+\section{バーンサイドの補題 - Burnside's lemma}
 
-\key{Burnside's lemma}
+\index{バーンサイドの補題 - Burnside's lemma}
+
+\key{バーンサイドの補題 - Burnside's lemma}
 %\footnote{Actually, Burnside did not discover this lemma; he only mentioned it in his book \cite{bur97}.}
-can be used to count
-the number of combinations so that
-only one representative is counted
-for each group of symmetric combinations.
-Burnside's lemma states that the number of
-combinations is
+は、
+対称的な組み合わせのグループごとに重複がないように組み合わせの数を数えるために利用します。
+バーンサイドの補題は組み合わせの数が、
 \[\sum_{k=1}^n \frac{c(k)}{n},\]
-where there are $n$ ways to change the
-position of a combination,
-and there are $c(k)$ combinations that
-remain unchanged when the $k$th way is applied.
+で示され、組み合わせの位置を変える方法が$n$通りあり、
+そこに$k$ 番目の方法を適用しても変化しない$c(k)$ の組み合わせがあるとします。
 
-As an example, let us calculate the number of
-necklaces of $n$ pearls,
-where each pearl has $m$ possible colors.
-Two necklaces are symmetric if they are
-similar after rotating them.
-For example, the necklace
+例えば、真珠の色が$m$色あるとして、$n$個の真珠を使ったネックレスの組み合わせ数を計算してみましょう。
+2つのネックレスが回転して似ている場合、対称（ここでは同一）であると言えます。
+
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \draw[fill=white] (0,0) circle (1);
@@ -612,7 +588,7 @@ For example, the necklace
 \draw[fill=green] (-1,0) circle (0.3);
 \end{tikzpicture}
 \end{center}
-has the following symmetric necklaces:
+に対して、以下のネックレスは同一であるとしましょう。
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \draw[fill=white] (0,0) circle (1);
@@ -640,51 +616,34 @@ has the following symmetric necklaces:
 \draw[fill=red] (12+-1,0) circle (0.3);
 \end{tikzpicture}
 \end{center}
-There are $n$ ways to change the position
-of a necklace,
-because we can rotate it
-$0,1,\ldots,n-1$ steps clockwise.
-If the number of steps is 0,
-all $m^n$ necklaces remain the same,
-and if the number of steps is 1,
-only the $m$ necklaces where each
-pearl has the same color remain the same.
+まず、ネックレスを時計回りに$0,1,\ldots,n-1$ ステップ回転させることができるので、 
+ネックレスの位置を変える方法は$n$通りあります。
+ステップ数が0の場合、$m^n$ のネックレスはすべて同じで、
+ステップ数が1の場合、各真珠の色が同じである$m$個のネックレスだけが同じままである。
 
-More generally, when the number of steps is $k$,
-a total of
+より一般的には、ステップ数を$k$としたとき、合計で
 \[m^{\textrm{gcd}(k,n)}\]
-necklaces remain the same,
-where $\textrm{gcd}(k,n)$ is the greatest common
-divisor of $k$ and $n$.
-The reason for this is that blocks
-of pearls of size $\textrm{gcd}(k,n)$
-will replace each other.
-Thus, according to Burnside's lemma,
-the number of necklaces is
+のネックレスが同じになります。
+$\textrm{gcd}(k,n)$は$k$と$n$の最大公約数です。
+この理由は、$\textrm{gcd}(k,n)$の大きさの真珠のブロックは互いに置き換えられるためです。
+したがって、バーンサイドの補題によれば、首飾りの個数は
 \[\sum_{i=0}^{n-1} \frac{m^{\textrm{gcd}(i,n)}}{n}. \]
-For example, the number of necklaces of length 4
-with 3 colors is
+で示され、長さ4, 色が3なら、以下の通りとなります。
 \[\frac{3^4+3+3^2+3}{4} = 24. \]
 
-\section{Cayley's formula}
+\section{ケイリーの公式 - Cayley's formula}
 
-\index{Cayley's formula}
+\index{ケイリーの公式 - Cayley's formula}
 
-\key{Cayley's formula}
+\key{ケイリーの公式 - Cayley's formula}
 % \footnote{While the formula is named after A. Cayley,
 % who studied it in 1889, it was discovered earlier by C. W. Borchardt in 1860.}
-states that
-there are $n^{n-2}$ labeled trees
-that contain $n$ nodes.
-The nodes are labeled $1,2,\ldots,n$,
-and two trees are different
-if either their structure or
-labeling is different.
+は、$n$個のノードを含む$n^{n-2}$のラベル付き木が存在することを述べている。
+ノードは$1,2,\ldots,n$とラベル付けされ、
+2つの木はその構造かラベルが異なれば異なる木としましょう。
 
 \begin{samepage}
-For example, when $n=4$, the number of labeled
-trees is $4^{4-2}=16$:
-
+例えば、$n = 4$のとき、ラベル付き木の本数は$4^{4-2}=16$となる。
 \begin{center}
 \begin{tikzpicture}[scale=0.8]
 \footnotesize
@@ -729,24 +688,20 @@ trees is $4^{4-2}=16$:
 \end{center}
 \end{samepage}
 
-Next we will see how Cayley's formula can
-be derived using Prüfer codes.
+次に、プリュファーコードを使ってケイリーの公式がどのように導かれるのかを見ていきます。
 
-\subsubsection{Prüfer code}
+\subsubsection{プリューファー列 - Prüfer code}
 
-\index{Prüfer code}
+\index{プリューファー列 - Prüfer code}
 
-A \key{Prüfer code}
+A \key{プリューファー列 - Prüfer code}
 %\footnote{In 1918, H. Prüfer proved Cayley's theorem using Prüfer codes \cite{pru18}.}
-is a sequence of
-$n-2$ numbers that describes a labeled tree.
-The code is constructed by following a process
-that removes $n-2$ leaves from the tree.
-At each step, the leaf with the smallest label is removed,
-and the label of its only neighbor is added to the code.
+ラベル付きツリーを記述する$n - 2$個の数列です。
+この数列は木から$n - 2$枚の葉を除去する過程を経て構成されます。
+各ステップで、最も小さいラベルを持つ葉が取り除かれ、
+その唯一の隣接葉のラベルをコードに追加します。
 
-For example, let us calculate the Prüfer code
-of the following graph:
+例えば、次のようなグラフのプルーファーコードを計算してみましょう。
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (2,3) {$1$};
@@ -762,7 +717,7 @@ of the following graph:
 \end{tikzpicture}
 \end{center}
 
-First we remove node 1 and add node 4 to the code:
+まず、ノード1を削除し、ノード4をコードに追加します。
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 %\node[draw, circle] (1) at (2,3) {$1$};
@@ -778,7 +733,7 @@ First we remove node 1 and add node 4 to the code:
 \end{tikzpicture}
 \end{center}
 
-Then we remove node 3 and add node 4 to the code:
+そして、ノード3を削除し、ノード4を追加するコードになります。
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 %\node[draw, circle] (1) at (2,3) {$1$};
@@ -794,7 +749,7 @@ Then we remove node 3 and add node 4 to the code:
 \end{tikzpicture}
 \end{center}
 
-Finally we remove node 4 and add node 2 to the code:
+最後にノード4を削除し、ノード2をコードに追加します。
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 %\node[draw, circle] (1) at (2,3) {$1$};
@@ -810,13 +765,9 @@ Finally we remove node 4 and add node 2 to the code:
 \end{tikzpicture}
 \end{center}
 
-Thus, the Prüfer code of the graph is $[4,4,2]$.
+このグラフのプリューファー列は$[4,4,2]$です。
 
-We can construct a Prüfer code for any tree,
-and more importantly,
-the original tree can be reconstructed
-from a Prüfer code.
-Hence, the number of labeled trees
-of $n$ nodes equals
-$n^{n-2}$, the number of Prüfer codes
-of size $n$.
+どのような木に対してもプリューファー列を構成することができます。
+さらに重要なことは、プリューファー列から元の木を再構成することができることです。
+したがって、ノード数$n$のラベル付き木の数は、
+サイズ$n$ のプリュファー列の数 $n^{n-2}$に等しくなります。
