@@ -7,7 +7,7 @@
 
 \section{深さ優先探索 - Depth-first search}
 
-\index{depth-first search}
+\index{深さ優先探索 - depth-first search}
 
 \key{深さ優先探索(Depth-first search)} (DFS)は直線的なグラフ探索技法です。
 開始ノードからエッジを使用して到達可能な他のすべてのノードに進みます。
@@ -129,7 +129,7 @@ void dfs(int s) {
 
 \section{幅優先探索 - Breadth-first search}
 
-\index{breadth-first search}
+\index{幅優先探索 - breadth-first search}
 
 \key{幅優先探索 - Breadth-first search} （BFS）は、開始ノードからの距離順が小さい順にノードを訪問していきます。
 つまり、BFSを用いると始点ノードから他のすべてのノードまでの距離を計算することができます(訳註: これはDFSでも可能です)。
@@ -302,7 +302,7 @@ while (!q.empty()) {
 
 \subsubsection{連結性チェック - Connectivity check}
 
-\index{connected graph}
+\index{連結グラフ - connected graph}
 
 グラフの任意の2つのノード間にパスが存在するとき、グラフは連結していると言えます。
 つまり任意のノードから出発して、他のすべてのノードに到達できるかどうかを調べれば、グラフが連結されているかどうかを調べることができます。
@@ -349,7 +349,7 @@ DFSをノード1から実行します。
 
 \subsubsection{閉路の検出 - Finding cycles}
 
-\index{cycle}
+\index{閉路 - cycle}
 
 あるノードの探索中に、（現在のパスの前のノード以外の）その隣接ノードがすでに訪問されている場合、グラフはサイクルを含んでいることになります。
 
@@ -408,7 +408,7 @@ c個以上の辺があれば、この連結成分には必ず閉路が含まれ�
 
 \subsubsection{二部グラフチェック - Bipartiteness check}
 
-\index{bipartite graph}
+\index{二部グラフ - bipartite graph}
 
 グラフを同じ色のノードが隣接しないようにノードが2色で着色できる場合二部グラフと呼ばれます。
 グラフの探索アルゴリズムを用いて二部グラフかどうかを調べるのは非常に簡単です。

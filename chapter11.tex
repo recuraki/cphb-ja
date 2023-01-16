@@ -9,9 +9,9 @@
 
 \section{グラフの用語 - Graph terminolog}
 
-\index{Graph}
-\index{node}
-\index{edge}
+\index{グラフ - Graph}
+\index{ノード - node}
+\index{辺 - edge}
 
 \key{グラフ - graph}は\key{ノード - node}と\key{辺 - edge}から構成されます。
 本書では以降、変数$n$はグラフのノード数、変数$m$は辺の数を表します。
@@ -37,7 +37,7 @@
 \end{tikzpicture}
 \end{center}
 
-\index{path}
+\index{経路 - path}
 
 ノード$a$からノード$b$まで、グラフの辺を通る経路(パス - path)があります。
 パスの長さは、その中に含まれる辺の数とします。
@@ -67,7 +67,7 @@
 \end{tikzpicture}
 \end{center}
 
-\index{cycle}
+\index{閉路 - cycle}
 
 最初と最後のノードが同じものは\texttt{閉路(サイクル, Cycle)}と呼ばれます。
 例えば、 上のグラフは
@@ -88,7 +88,7 @@ $1 \rightarrow 3 \rightarrow 4 \rightarrow 1$.
 
 \subsubsection{連結 - Connectivity}
 
-\index{connected graph}
+\index{連結グラフ - connected graph}
 
 グラフは、ある任意の2つのノード間にパスが存在する場合、\key{連結}といいます。
 例えば 、次のようなグラフは連結と呼ばれます。
@@ -122,7 +122,7 @@ $1 \rightarrow 3 \rightarrow 4 \rightarrow 1$.
 \end{tikzpicture}
 \end{center}
 
-\index{component}
+\index{成分 - component}
 
 グラフの各連結な部分を\key{成分(components)}を成分と呼びます。
 例えば、次のグラフは3つの成分を含
@@ -154,9 +154,9 @@ $\{8\}$です。
 \end{tikzpicture}
 \end{center}
 
-\index{tree}
+\index{木 - tree}
 
-\key{木(tree})は、$n$個のノードと$n - 1$個の辺からなる連結グラフのことです。
+\key{木 - tree}は、$n$個のノードと$n - 1$個の辺からなる連結グラフのことです。
 木の任意の2つのノード間にはちょうど一本のパスが存在します。
 例えば、次のグラフは木である。
 
@@ -179,7 +179,7 @@ $\{8\}$です。
 
 \subsubsection{有向と無向 - Edge directions}
 
-\index{directed graph}
+\index{有向グラフ - directed graph}
 
 グラフの辺が決まった方向にしか移動できない場合、\key{有向(directed)}と呼ばれます。
 例えば、次のようなグラフは有向です。
@@ -207,9 +207,9 @@ $3 \rightarrow 1 \rightarrow 2 \rightarrow 5$
 
 \subsubsection{辺の重み - Edge weights}
 
-\index{weighted graph}
+\index{重み付きグラフ - weighted graph}
 
-\key{重み付きグラフ}では、各辺に\key{重み}が割り当てられています。
+\key{重み付きグラフ - weighted graph}では、各辺に\key{重み}が割り当てられています。
 重みは辺の長さのようなものです。
 重み付きグラフの例を次に示します。
 
@@ -236,8 +236,8 @@ $1 \rightarrow 3 \rightarrow 4 \rightarrow 5$のパスの長さは$11$です。
 
 \subsubsection{隣接ノードと次数 - Neighbors and degrees}
 
-\index{neighbor}
-\index{degree}
+\index{隣接 - neighbor}
+\index{次数 - degree}
 
 
 2つのノードは、その間にエッジがある場合、\key{隣接(neighbors, adjacent)}であるといいます。
@@ -266,15 +266,15 @@ $1 \rightarrow 3 \rightarrow 4 \rightarrow 5$のパスの長さは$11$です。
 なぜなら、各辺はちょうど2つのノードの度数を1つずつ増加させるからです。
 このため、次数の和は常に偶数となります。
 
-\index{regular graph}
-\index{complete graph}
+\index{正則グラフ - regular graph}
+\index{完全グラフ - complete graph}
 
 グラフは、すべてのノードの次数が同じ(例えば定数$d$)であれば\key{正則(regular)}グラフです。
 すべてのノードの次数が$n - 1$であれば、すなわちグラフがノード間の可能なすべての辺を含んでいれば、
 \key{完全(complete)}グラフです。
 
-\index{indegree}
-\index{outdegree}
+\index{入次数 - indegree}
+\index{出次数 - outdegree}
 
 
 有向グラフでにおいて各ノードには入次数と出次数があります。
@@ -301,10 +301,10 @@ $1 \rightarrow 3 \rightarrow 4 \rightarrow 5$のパスの長さは$11$です。
 
 \subsubsection{グラフの着色 - Colorings}
 
-\index{coloring}
-\index{bipartite graph}
+\index{彩色 - coloring}
+\index{二部グラフ - bipartite graph}
 
-グラフの\key{色付け(coloring)}は、隣接するノードが同じ色にならないように、各ノードに色を割り当てることをいいます。
+グラフの\key{彩色(coloring)}は、隣接するノードが同じ色にならないように、各ノードに色を割り当てることをいいます。
 グラフを2色で色付けできる場合、\key{二部グラフ(bipartite graph)} であるといいます。
 なお、二部グラフである条件として奇数本の辺で構成される閉路が存在しないグラフに限られることが分かっています。
 
@@ -386,7 +386,7 @@ $1 \rightarrow 3 \rightarrow 4 \rightarrow 5$のパスの長さは$11$です。
 
 \subsubsection{単純グラフ - Simplicity}
 
-\index{simple graph}
+\index{単純グラフ - simple graph}
 
 始点と終点が同じノードの辺がなく、
 ある2つのノード間に複数の辺が存在しない場合、グラフは\key{単純グラフ(simple graph)}と呼ばれます。
@@ -424,7 +424,7 @@ $1 \rightarrow 3 \rightarrow 4 \rightarrow 5$のパスの長さは$11$です。
 
 \subsubsection{隣接リスト形式 - Adjacency list representation}
 
-\index{adjacency list}
+\index{隣接リスト - adjacency list}
 
 隣接リストでは、グラフの各ノード$x$に、$x$から張られている辺の先をリストで持ちます。
 これは非常に一般的な表現手法で、ほとんどのアルゴリズムはこれを用いて効率的に実装できます。
@@ -507,7 +507,7 @@ for (auto u : adj[s]) {
 
 \subsubsection{隣接行列形式 - Adjacency matrix representation}
 
-\index{adjacency matrix}
+\index{隣接行列 - adjacency matrix}
 
 \key{隣接行列}は、
 辺を2次元の配列で表現します。
@@ -622,7 +622,7 @@ $adj[a][b]$の値としてエッジの重みが含まれるようにします。
 
 \subsubsection{エッジリスト形式 - Edge list representation}
 
-\index{edge list}
+\index{エッジリスト - edge list}
 
 \key{エッジリスト}形式は、全ての辺を順序通りに保管したものです。
 アルゴリズムがグラフのすべてのエッジを処理する必要に便利です。
